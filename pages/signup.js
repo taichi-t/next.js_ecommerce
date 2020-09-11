@@ -10,6 +10,7 @@ const INITIAL_USER = {
   name: '',
   email: '',
   password: '',
+  invitationCode: '',
 };
 
 function Signup() {
@@ -85,6 +86,17 @@ function Signup() {
             name="password"
             type="password"
             value={user.password}
+            onChange={handleChange}
+          />
+          <Form.Input
+            fluid
+            icon="users"
+            iconPosition="left"
+            label="invitationCode"
+            placeholder="invitationCode"
+            name="invitationCode"
+            type="invitationCode"
+            value={user.invitationCode}
             onChange={handleChange}
           />
           <Button
