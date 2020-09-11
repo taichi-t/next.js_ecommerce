@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-const { String } = mongoose.Schema.Types;
+const { String, Boolean } = mongoose.Schema.Types;
 
 const UserSchema = new mongoose.Schema(
   {
@@ -22,6 +22,11 @@ const UserSchema = new mongoose.Schema(
       required: true,
       default: 'user',
       enum: ['user', 'admin', 'root'],
+    },
+    invitationCodeVerified: {
+      type: Boolean,
+      required: true,
+      default: false,
     },
   },
   {
