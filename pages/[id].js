@@ -1,6 +1,7 @@
 import axios from 'axios';
 import ProductSummary from '../components/Product/ProductSummary';
 import ProductAttributes from '../components/Product/ProductAttributes';
+
 import baseUrl from '../utils/baseUrl';
 
 function Product({ product, user }) {
@@ -12,11 +13,25 @@ function Product({ product, user }) {
   );
 }
 
-Product.getInitialProps = async ({ query: { _id } }) => {
+export const getStaticPaths = async () => {
+  const url = `${baseUrl}/api/productPaths`;
+  const response = await axios.get(url);
+  return {
+    paths: response.data,
+    fallback: true,
+  };
+};
+
+export const getStaticProps = async ({ params: { id } }) => {
   const url = `${baseUrl}/api/product`;
-  const payload = { params: { _id } };
+  const payload = { params: { id } };
   const response = await axios.get(url, payload);
-  return { product: response.data };
+  const product = response.data;
+  return {
+    props: {
+      product,
+    },
+  };
 };
 
 export default Product;
