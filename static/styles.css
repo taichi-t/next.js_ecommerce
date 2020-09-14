@@ -30,3 +30,9 @@ body {
   right: 0;
   font-size: 1.5rem !important;
 }
+
+.ui.modal {
+  transform-origin: 50% 50%;
+  transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+}

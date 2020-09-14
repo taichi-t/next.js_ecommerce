@@ -12,6 +12,9 @@ export default async (req, res) => {
     case 'PUT':
       await handlePutRequest(req, res);
       break;
+    case 'POST':
+      await handlePostRequest(req, res);
+      break;
     default:
       res.status(405).send(`Method ${req.method} not allowed`);
       break;
@@ -41,5 +44,18 @@ async function handleGetRequest(req, res) {
 async function handlePutRequest(req, res) {
   const { _id, role } = req.body;
   await User.findOneAndUpdate({ _id }, { role });
+  res.status(203).send('User updated');
+}
+
+async function handlePostRequest(req, res) {
+  if (!('authorization' in req.headers)) {
+    return res.status(401).send('No authorization token');
+  }
+  const { userId } = jwt.verify(
+    req.headers.authorization,
+    process.env.JWT_SECRET
+  );
+  const { mediaUrl } = req.body;
+  await User.findOneAndUpdate({ _id: userId }, { profilePictureUrl: mediaUrl });
   res.status(203).send('User updated');
 }

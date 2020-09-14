@@ -13,6 +13,7 @@ import {
 import axios from 'axios';
 import baseUrl from '../utils/baseUrl';
 import catchErrors from '../utils/catchErrors';
+import uploadImage from '../utils/uploadImage';
 const INITIAL_PRODUCT = {
   name: '',
   price: '',
@@ -42,27 +43,16 @@ function CreateProduct() {
     }
   }
 
-  async function handleIamgeUpload() {
-    const data = new FormData();
-    data.append('file', product.media);
-    data.append('upload_preset', 'reactreserve');
-    data.append('cloud_name', 'reedbargercodes');
-    const response = await axios.post(process.env.CLOUDINARY_URL, data);
-    const mediaUrl = response.data.url;
-    return mediaUrl;
-  }
-
   async function handleSubmit(e) {
     try {
-      event.preventDefault();
+      e.preventDefault();
       setLoading(true);
       setError('');
-      const mediaUrl = await handleIamgeUpload();
+      const mediaUrl = await uploadImage(product.media);
       const url = `${baseUrl}/api/product`;
       const { name, price, description } = product;
       const payload = { name, price, description, mediaUrl };
-      const response = await axios.post(url, payload);
-
+      await axios.post(url, payload);
       setLoading(false);
       setProduct(INITIAL_PRODUCT);
       setSuccess(true);

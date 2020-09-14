@@ -18,7 +18,7 @@ function Cart({ products, user }) {
     const token = cookie.get('token');
     const payload = {
       params: { productId },
-      headers: { authorization: token },
+      headers: { Authorization: token },
     };
     const response = await axios.delete(url, payload);
     setCartProducts(response.data);
