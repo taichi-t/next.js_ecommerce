@@ -17,3 +17,16 @@ body {
   margin: 0;
   padding: 0.5em 1em 0.75em !important;
 }
+
+.profile-container {
+  position: relative;
+  display: inline-block;
+}
+
+.profile-icon {
+  position: absolute;
+  cursor: pointer;
+  bottom: 0;
+  right: 0;
+  font-size: 1.5rem !important;
+}

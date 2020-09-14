@@ -28,6 +28,10 @@ const UserSchema = new mongoose.Schema(
       required: true,
       default: false,
     },
+    profilePictureUrl: {
+      type: String,
+      default: '/images/anonymous-user.png',
+    },
   },
   {
     timestamps: true,
