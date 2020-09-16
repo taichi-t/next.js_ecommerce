@@ -56,24 +56,21 @@ async function handlePostRequest(req, res) {
   if (!('authorization' in req.headers)) {
     return res.status(401).send('No authorization token');
   }
-  const { userId } = jwt.verify(
-    req.headers.authorization,
-    process.env.JWT_SECRET
-  );
-  const { newMediaUrl, mediaUrl } = req.body;
+  try {
+    const { userId } = jwt.verify(
+      req.headers.authorization,
+      process.env.JWT_SECRET
+    );
+    const { newMediaUrl, mediaUrl } = req.body;
 
-  await User.findOneAndUpdate(
-    { _id: userId },
-    { profilePictureUrl: newMediaUrl }
-  );
-  await deleteImage(formatImagePublicIds([mediaUrl]));
-  res.status(203).send('User updated');
+    await User.findOneAndUpdate(
+      { _id: userId },
+      { profilePictureUrl: newMediaUrl }
+    );
+    await deleteImage(formatImagePublicIds([mediaUrl]));
+    res.status(203).send('User updated');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
 }
-
-// async function handleDeleteRequest(req, res) {
-//   if (!('authorization' in req.headers)) {
-//     return res.status(401).send('No authorization token');
-//   }
-//   await deleteImage();
-//   res.status(203).send('Successfly deleted the image in cloudnary');
-// }
