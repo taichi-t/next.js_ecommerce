@@ -1,6 +1,8 @@
 import User from '../../models/User';
 import jwt from 'jsonwebtoken';
 import connectDb from '../../utils/connectDb';
+import deleteImage from '../../utils/deleteImage';
+import formatImagePublicIds from '../../utils/formatImagePublicIds';
 
 connectDb();
 
@@ -15,6 +17,9 @@ export default async (req, res) => {
     case 'POST':
       await handlePostRequest(req, res);
       break;
+    // case 'DELETE':
+    //   await handleDeleteRequest(req, res);
+    //   break;
     default:
       res.status(405).send(`Method ${req.method} not allowed`);
       break;
@@ -55,7 +60,20 @@ async function handlePostRequest(req, res) {
     req.headers.authorization,
     process.env.JWT_SECRET
   );
-  const { mediaUrl } = req.body;
-  await User.findOneAndUpdate({ _id: userId }, { profilePictureUrl: mediaUrl });
+  const { newMediaUrl, mediaUrl } = req.body;
+
+  await User.findOneAndUpdate(
+    { _id: userId },
+    { profilePictureUrl: newMediaUrl }
+  );
+  await deleteImage(formatImagePublicIds([mediaUrl]));
   res.status(203).send('User updated');
 }
+
+// async function handleDeleteRequest(req, res) {
+//   if (!('authorization' in req.headers)) {
+//     return res.status(401).send('No authorization token');
+//   }
+//   await deleteImage();
+//   res.status(203).send('Successfly deleted the image in cloudnary');
+// }

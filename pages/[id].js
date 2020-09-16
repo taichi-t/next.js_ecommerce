@@ -18,7 +18,7 @@ export const getStaticPaths = async () => {
   const response = await axios.get(url);
   return {
     paths: response.data,
-    fallback: true,
+    fallback: false,
   };
 };
 

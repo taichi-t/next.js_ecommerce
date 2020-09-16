@@ -18,6 +18,7 @@ import baseUrl from '../../utils/baseUrl';
 import cookie from 'js-cookie';
 import axios from 'axios';
 import catchErrors from '../../utils/catchErrors';
+import deleteImage from '../../utils/deleteImage';
 
 function AccountHeader({ role, email, name, createdAt, profilePictureUrl }) {
   const [open, setOpen] = React.useState(false);
@@ -39,15 +40,16 @@ function AccountHeader({ role, email, name, createdAt, profilePictureUrl }) {
       setLoading(true);
       setError('');
       setOpen(false);
-      const mediaUrl = await uploadImage(profilePicture);
+      const newMediaUrl = await uploadImage(profilePicture);
       const token = cookie.get('token');
-      const payload = { mediaUrl };
       const headers = { headers: { Authorization: token } };
+      const payload = { newMediaUrl, mediaUrl };
       const url = `${baseUrl}/api/account`;
+      // await axios.delete(url, headers);
       await axios.post(url, payload, headers);
       setLoading(false);
       setProfilePicture('');
-      setMediaUrl(mediaUrl);
+      setMediaUrl(newMediaUrl);
       setSuccess(true);
     } catch (error) {
       catchErrors(error, setError);
