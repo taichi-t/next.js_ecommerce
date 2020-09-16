@@ -17,7 +17,7 @@ import uploadImage from '../utils/uploadImage';
 const INITIAL_PRODUCT = {
   name: '',
   price: '',
-  media: '',
+  media: [],
   description: '',
 };
 function CreateProduct() {
@@ -35,8 +35,12 @@ function CreateProduct() {
 
   function handleChange(e) {
     const { name, value, files } = e.target;
+
     if (name === 'media') {
-      setProduct((prevState) => ({ ...prevState, media: files[0] }));
+      setProduct((prevState) => ({
+        ...prevState,
+        media: product.media.concat(files),
+      }));
       setMediaPreview(window.URL.createObjectURL(files[0]));
     } else {
       setProduct((prevState) => ({ ...prevState, [name]: value }));
@@ -107,6 +111,7 @@ function CreateProduct() {
             name="media"
             label="Media"
             type="file"
+            multiple
             content="Select Image"
             accept="image/*"
             onChange={handleChange}

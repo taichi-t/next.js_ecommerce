@@ -17,9 +17,6 @@ export default async (req, res) => {
     case 'POST':
       await handlePostRequest(req, res);
       break;
-    // case 'DELETE':
-    //   await handleDeleteRequest(req, res);
-    //   break;
     default:
       res.status(405).send(`Method ${req.method} not allowed`);
       break;
