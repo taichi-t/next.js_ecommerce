@@ -7,7 +7,7 @@ function ProductList({ products }) {
         <Image src={product.mediaUrls[0]} wrapped ui={false} />
         <Card.Content>
           <Card.Header>
-            <Link href={`/products/[id]`} as={`/products/${product._id}`}>
+            <Link href={`/[id]`} as={`/${product._id}`}>
               <a>{product.name}</a>
             </Link>
           </Card.Header>

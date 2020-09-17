@@ -7,7 +7,7 @@ export default async function getProductPaths() {
   let paths = [];
   try {
     const products = await Product.find({}, { _id: 1 }).limit(9);
-    const promises = await products.map(async (product) => {
+    paths = await products.map((product) => {
       const { _id } = product;
       return {
         params: {
@@ -15,7 +15,6 @@ export default async function getProductPaths() {
         },
       };
     });
-    paths = await Promise.all(promises);
     return paths;
   } catch (error) {
     console.error(error);
