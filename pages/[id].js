@@ -13,16 +13,16 @@ function Product({ product, user }) {
   );
 }
 
-export const getStaticPaths = async () => {
+export async function getStaticPaths() {
   const url = `${baseUrl}/api/productPaths`;
   const response = await axios.get(url);
   return {
     paths: response.data,
-    fallback: false,
+    fallback: true,
   };
-};
+}
 
-export const getStaticProps = async ({ params: { id } }) => {
+export async function getStaticProps({ params: { id } }) {
   const url = `${baseUrl}/api/product`;
   const payload = { params: { id } };
   const response = await axios.get(url, payload);
@@ -32,6 +32,6 @@ export const getStaticProps = async ({ params: { id } }) => {
       product,
     },
   };
-};
+}
 
 export default Product;
