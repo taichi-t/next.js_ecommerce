@@ -1,7 +1,6 @@
 import axios from 'axios';
 import ProductSummary from '../components/Product/ProductSummary';
 import ProductAttributes from '../components/Product/ProductAttributes';
-
 import baseUrl from '../utils/baseUrl';
 
 function Product({ product, user }) {
@@ -15,6 +14,7 @@ function Product({ product, user }) {
 
 export async function getStaticPaths() {
   const url = `${baseUrl}/api/productPaths`;
+  console.log(url);
   const response = await axios.get(url);
   return {
     paths: response.data,
