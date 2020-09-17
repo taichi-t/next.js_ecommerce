@@ -2,6 +2,7 @@ import axios from 'axios';
 import ProductSummary from '../../components/Product/ProductSummary';
 import ProductAttributes from '../../components/Product/ProductAttributes';
 import baseUrl from '../../utils/baseUrl';
+import getProductPaths from '../../utils/getProductPaths';
 
 function Product({ product, user }) {
   return (
@@ -13,10 +14,9 @@ function Product({ product, user }) {
 }
 
 export async function getStaticPaths() {
-  const url = `${baseUrl}/api/productPaths`;
-  const response = await axios.get(url);
+  const paths = await getProductPaths();
   return {
-    paths: response.data,
+    paths: paths,
     fallback: true,
   };
 }
