@@ -1,10 +1,10 @@
 import { Item, Label } from 'semantic-ui-react';
 import AddProductToCart from '../Product/AddProductToCart';
-function ProductSummary({ name, mediaUrl, _id, price, sku, user }) {
+function ProductSummary({ name, mediaUrls, _id, price, sku, user }) {
   return (
     <Item.Group>
       <Item>
-        <Item.Image size="medium" src={mediaUrl} />
+        <Item.Image size="medium" src={mediaUrls[0]} />
         <Item.Content>
           <Item.Header>{name}</Item.Header>
           <Item.Description>

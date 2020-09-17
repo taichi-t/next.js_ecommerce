@@ -29,15 +29,15 @@ async function handleGetRequest(req, res) {
 
 async function handlePostRequest(req, res) {
   try {
-    const { name, price, description, mediaUrl } = req.body;
-    if (!name || !price || !description || !mediaUrl) {
+    const { name, price, description, mediaUrls } = req.body;
+    if (!name || !price || !description || !mediaUrls) {
       return res.status(422).send('Product missing one or more fields');
     }
     const product = await new Product({
       name,
       price,
       description,
-      mediaUrl,
+      mediaUrls,
     }).save();
 
     res.status(201).json(product);

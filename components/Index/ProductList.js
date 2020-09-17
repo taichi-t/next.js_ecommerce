@@ -4,7 +4,7 @@ function ProductList({ products }) {
   function mapProductsToItems(products) {
     return products.map((product) => (
       <Card key={product._id} fluid color="teal">
-        <Image src={product.mediaUrl} wrapped ui={false} />
+        <Image src={product.mediaUrls[0]} wrapped ui={false} />
         <Card.Content>
           <Card.Header>
             <Link href={`/[id]`} as={`/${product._id}`}>

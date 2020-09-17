@@ -21,9 +21,10 @@ const ProductsSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  mediaUrl: {
-    type: String,
+  mediaUrls: {
+    type: [String],
     required: true,
+    default: [],
   },
 });
 

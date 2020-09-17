@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import {
-  From,
   Input,
   TextArea,
   Button,
-  Image,
   Message,
   Header,
   Icon,
   Form,
+  Segment,
 } from 'semantic-ui-react';
 import axios from 'axios';
 import baseUrl from '../utils/baseUrl';
 import catchErrors from '../utils/catchErrors';
 import uploadImage from '../utils/uploadImage';
+import ImagesForm from '../components/Create/ImagesForm';
 const INITIAL_PRODUCT = {
   name: '',
   price: '',
@@ -22,7 +22,6 @@ const INITIAL_PRODUCT = {
 };
 function CreateProduct() {
   const [product, setProduct] = useState(INITIAL_PRODUCT);
-  const [mediaPreview, setMediaPreview] = useState('');
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [disabled, setDisabled] = useState(true);
@@ -34,17 +33,8 @@ function CreateProduct() {
   }, [product]);
 
   function handleChange(e) {
-    const { name, value, files } = e.target;
-
-    if (name === 'media') {
-      setProduct((prevState) => ({
-        ...prevState,
-        media: product.media.concat(files),
-      }));
-      setMediaPreview(window.URL.createObjectURL(files[0]));
-    } else {
-      setProduct((prevState) => ({ ...prevState, [name]: value }));
-    }
+    const { name, value } = e.target;
+    setProduct((prevState) => ({ ...prevState, [name]: value }));
   }
 
   async function handleSubmit(e) {
@@ -52,10 +42,10 @@ function CreateProduct() {
       e.preventDefault();
       setLoading(true);
       setError('');
-      const mediaUrl = await uploadImage(product.media);
+      const { mediaUrls } = await uploadImage(product.media);
       const url = `${baseUrl}/api/product`;
       const { name, price, description } = product;
-      const payload = { name, price, description, mediaUrl };
+      const payload = { name, price, description, mediaUrls };
       await axios.post(url, payload);
       setLoading(false);
       setProduct(INITIAL_PRODUCT);
@@ -106,27 +96,28 @@ function CreateProduct() {
             onChange={handleChange}
             value={product.price}
           />
+        </Form.Group>
+
+        <Form.Field>
+          <label>Media</label>
+          <ImagesForm
+            state={product}
+            setState={setProduct}
+            maxNumber={4}
+            id="images-form"
+          />
+        </Form.Field>
+
+        <Form.Group widths="equal">
           <Form.Field
-            control={Input}
-            name="media"
-            label="Media"
-            type="file"
-            multiple
-            content="Select Image"
-            accept="image/*"
+            control={TextArea}
+            name="description"
+            label="Description"
+            placeholder="Description"
             onChange={handleChange}
-            value={product.files}
+            value={product.description}
           />
         </Form.Group>
-        <Image src={mediaPreview} rounded centered size="small" />
-        <Form.Field
-          control={TextArea}
-          name="description"
-          label="Description"
-          placeholder="Description"
-          onChange={handleChange}
-          value={product.description}
-        />
         <Form.Field
           control={Button}
           disabled={disabled || loading}
