@@ -62,9 +62,11 @@ async function handlePostRequest(req, res) {
 
     await User.findOneAndUpdate(
       { _id: userId },
-      { profilePictureUrl: newMediaUrl }
+      { profilePictureUrl: newMediaUrl[0] }
     );
-    await deleteImage(formatImagePublicIds([mediaUrl]));
+    if (mediaUrl) {
+      await deleteImage(formatImagePublicIds([mediaUrl]));
+    }
     res.status(203).send('User updated');
   } catch (error) {
     console.error(error);

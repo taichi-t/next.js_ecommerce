@@ -40,16 +40,15 @@ function AccountHeader({ role, email, name, createdAt, profilePictureUrl }) {
       setLoading(true);
       setError('');
       setOpen(false);
-      const newMediaUrl = await uploadImage(profilePicture);
+      const newMediaUrl = await uploadImage([profilePicture]);
       const token = cookie.get('token');
       const headers = { headers: { Authorization: token } };
       const payload = { newMediaUrl, mediaUrl };
       const url = `${baseUrl}/api/account`;
-      // await axios.delete(url, headers);
       await axios.post(url, payload, headers);
       setLoading(false);
       setProfilePicture('');
-      setMediaUrl(newMediaUrl);
+      setMediaUrl(newMediaUrl[0]);
       setSuccess(true);
     } catch (error) {
       catchErrors(error, setError);
