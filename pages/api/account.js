@@ -64,7 +64,7 @@ async function handlePostRequest(req, res) {
       { _id: userId },
       { profilePictureUrl: newMediaUrl[0] }
     );
-    if (mediaUrl && mediaUrl !== 'images/anonymous-user.png') {
+    if (mediaUrl && mediaUrl !== '/images/anonymous-user.png') {
       await deleteImage(formatImagePublicIds([mediaUrl]));
     }
     res.status(203).send('User updated');
