@@ -1,4 +1,4 @@
-import { Card, Image, Icon } from 'semantic-ui-react';
+import { Card, Image } from 'semantic-ui-react';
 import Link from 'next/link';
 function ProductList({ products }) {
   function mapProductsToItems(products) {
