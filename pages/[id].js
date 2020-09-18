@@ -4,6 +4,7 @@ import getProductPaths from '../utils/getProductPaths';
 import getProductData from '../utils/getProductData';
 
 function Product({ product, user }) {
+  console.log(user);
   return (
     <>
       <ProductSummary user={user} {...product} />
