@@ -6,8 +6,9 @@ import { redirectUser } from '../utils/auth';
 import baseUrl from '../utils/baseUrl';
 import axios from 'axios';
 import Router from 'next/router';
+import { AuthProvider } from '../utils/AuthProvider';
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps, userData }) {
   React.useEffect(() => {
     window.addEventListener('storage', syncLogout);
   }, []);
@@ -17,15 +18,18 @@ function MyApp({ Component, pageProps }) {
     }
   };
   return (
-    <Layout {...pageProps}>
-      <Component {...pageProps} />
-    </Layout>
+    <AuthProvider userData={userData}>
+      <Layout {...pageProps}>
+        <Component {...pageProps} />
+      </Layout>
+    </AuthProvider>
   );
 }
 
 MyApp.getInitialProps = async ({ Component, ctx }) => {
   const { token } = parseCookies(ctx);
   let pageProps = {};
+  let userData = {};
   if (Component.getInitialProps) {
     pageProps = await Component.getInitialProps(ctx);
   }
@@ -43,15 +47,15 @@ MyApp.getInitialProps = async ({ Component, ctx }) => {
       const payload = { headers: { Authorization: token } };
       const url = `${baseUrl}/api/account`;
       const response = await axios.get(url, payload);
-      const user = response.data;
-      const isRoot = user.role === 'root';
-      const isAdmin = user.role === 'admin';
+      // const userData = response.data;
+      userData = response.data;
+      const isRoot = userData.role === 'root';
+      const isAdmin = userData.role === 'admin';
       //if authenticated, but not of role "admin" or "root", redirect from "/create" page
       const isNotPermitted = !(isRoot || isAdmin) && ctx.pathname === '/create';
       if (isNotPermitted) {
         redirectUser(ctx, '/');
       }
-      pageProps.user = user;
     } catch (error) {
       console.error('Error getting current user', error);
       // 1) Throw out invalid token
@@ -60,7 +64,7 @@ MyApp.getInitialProps = async ({ Component, ctx }) => {
       redirectUser(ctx, 'login');
     }
   }
-  return { pageProps };
+  return { pageProps, userData };
 };
 
 export default MyApp;

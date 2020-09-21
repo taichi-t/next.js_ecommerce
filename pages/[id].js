@@ -2,8 +2,10 @@ import ProductSummary from '../components/Product/ProductSummary';
 import ProductAttributes from '../components/Product/ProductAttributes';
 import getProductPaths from '../utils/getProductPaths';
 import getProductData from '../utils/getProductData';
+import { useAuth } from '../utils/AuthProvider';
 
-function Product({ product, user }) {
+function Product({ product }) {
+  const { user } = useAuth();
   return (
     <>
       <ProductSummary user={user} {...product} />

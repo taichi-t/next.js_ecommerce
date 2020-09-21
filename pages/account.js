@@ -5,8 +5,10 @@ import AccountInvitationCode from '../components/Account/AccountInvitationCode';
 import { parseCookies } from 'nookies';
 import baseUrl from '../utils/baseUrl';
 import axios from 'axios';
+import { useAuth } from '../utils/AuthProvider';
 
-function Account({ user, orders }) {
+function Account({ orders }) {
+  const { user } = useAuth();
   return (
     <>
       <AccountHeader {...user} />

@@ -1,10 +1,12 @@
+import { useAuth } from '../../utils/AuthProvider';
 import Head from 'next/head';
 import { Container } from 'semantic-ui-react';
-
 import Header from './Header';
 import HeadContent from './HeadContent';
 
-function Layout({ children, user }) {
+function Layout({ children }) {
+  const { user } = useAuth();
+
   return (
     <>
       <Head>
