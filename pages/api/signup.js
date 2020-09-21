@@ -43,7 +43,6 @@ export default async (req, res) => {
       password: hash,
       invitationCodeVerified: true,
     }).save();
-
     //5) create cart for newuser
     await new Cart({ user: newUser._id }).save();
     //6) create token for the new user
