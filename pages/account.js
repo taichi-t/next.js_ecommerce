@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import AccountHeader from '../components/Account/AccountHeader';
 import AccountOrders from '../components/Account/AccountOrders';
 import AccountPermissions from '../components/Account/AccountPermissions';
@@ -8,7 +9,11 @@ import axios from 'axios';
 import { useAuth } from '../utils/AuthProvider';
 
 function Account({ orders }) {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
+  useEffect(() => {
+    console.log('mounted');
+  }, []);
+
   return (
     <>
       <AccountHeader {...user} />

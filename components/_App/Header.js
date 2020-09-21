@@ -18,6 +18,10 @@ function Header({ user }) {
   function isActive(route) {
     return route == pathname;
   }
+
+  const handleClick = () => {
+    setAuth({ user: {} });
+  };
   return (
     <Menu stackable fluid id="menu" inverted>
       <Container text>
@@ -45,7 +49,7 @@ function Header({ user }) {
             </Menu.Item>
           </Link>
         )}
-        {user ? (
+        {Object.keys(user).length ? (
           <>
             <Link href="/account">
               <Menu.Item header active={isActive('/account')}>

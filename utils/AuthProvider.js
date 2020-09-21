@@ -1,9 +1,6 @@
 import React from 'react';
 
-const AuthContext = React.createContext({
-  user: {},
-  setUser: () => {},
-});
+const AuthContext = React.createContext();
 
 /**
  * The initial value of `isAuthenticated` comes from the `authenticated`
