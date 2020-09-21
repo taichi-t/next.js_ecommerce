@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import AccountHeader from '../components/Account/AccountHeader';
 import AccountOrders from '../components/Account/AccountOrders';
 import AccountPermissions from '../components/Account/AccountPermissions';
@@ -7,12 +6,11 @@ import { parseCookies } from 'nookies';
 import baseUrl from '../utils/baseUrl';
 import axios from 'axios';
 import { useAuth } from '../utils/AuthProvider';
+import useUser from '../hooks/useUser';
 
 function Account({ orders }) {
   const { user, setUser } = useAuth();
-  useEffect(() => {
-    console.log('mounted');
-  }, []);
+  const { user: foo } = useUser();
 
   return (
     <>
