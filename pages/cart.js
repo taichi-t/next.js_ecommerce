@@ -7,8 +7,15 @@ import axios from 'axios';
 import baseUrl from '../utils/baseUrl';
 import cookie from 'js-cookie';
 import catchErrors from '../utils/catchErrors';
+import { UserContext } from '../utils/UserProvider';
+import { useContext } from 'react';
 
-function Cart({ products, user }) {
+function Cart({ products }) {
+  const {
+    user,
+    loading: { userLoading },
+  } = useContext(UserContext);
+
   const [cartProducts, setCartProducts] = React.useState(products);
   const [success, setSuccess] = React.useState(false);
   const [loading, setLoading] = React.useState(false);

@@ -1,11 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, createContext } from 'react';
 import Layout from '../components/_App/Layout';
-import useUser from '../hooks/useUser';
 import cookie from 'js-cookie';
 import Router from 'next/router';
+// import UserProvider from '../utils/UserProvider';
+import useUser from '../hooks/useUser';
+import UserContextProvider from '../utils/UserProvider';
+
+export const UserContext = createContext();
 
 function MyApp({ Component, pageProps, router: { pathname } }) {
-  const { user, token, error, loading } = useUser(pathname);
+  const { user, error, loading, token } = useUser(pathname);
 
   useEffect(() => {
     if (!token) {
@@ -45,9 +49,16 @@ function MyApp({ Component, pageProps, router: { pathname } }) {
     }
   };
   return (
-    <Layout {...pageProps}>
-      <Component {...pageProps} />
-    </Layout>
+    <UserContextProvider
+      user={user}
+      error={error}
+      loading={loading}
+      token={token}
+    >
+      <Layout {...pageProps}>
+        <Component {...pageProps} />
+      </Layout>
+    </UserContextProvider>
   );
 }
 

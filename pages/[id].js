@@ -1,9 +1,13 @@
+import { useContext } from 'react';
 import ProductSummary from '../components/Product/ProductSummary';
 import ProductAttributes from '../components/Product/ProductAttributes';
 import getProductPaths from '../utils/getProductPaths';
 import getProductData from '../utils/getProductData';
+import { UserContext } from '../utils/UserProvider';
 
-function Product({ product, user }) {
+function Product({ product }) {
+  const { user, loading } = useContext(UserContext);
+
   return (
     <>
       <ProductSummary user={user} {...product} />

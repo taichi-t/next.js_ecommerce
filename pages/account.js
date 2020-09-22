@@ -3,10 +3,12 @@ import AccountOrders from '../components/Account/AccountOrders';
 import AccountPermissions from '../components/Account/AccountPermissions';
 import AccountInvitationCode from '../components/Account/AccountInvitationCode';
 import useOrders from '../hooks/useOrders';
-import { useEffect } from 'react';
+import { useContext } from 'react';
+import { UserContext } from '../utils/UserProvider';
 
-function Account({ user, loading }) {
+function Account() {
   const { orders } = useOrders();
+  const { user, loading } = useContext(UserContext);
 
   return (
     <>
