@@ -37,8 +37,6 @@ export default function ImagesForm({ state, setState, maxNumber }) {
         isDragging,
         dragProps,
       }) => (
-        // write your building UI
-
         <>
           <Button
             style={isDragging ? { color: 'red' } : undefined}

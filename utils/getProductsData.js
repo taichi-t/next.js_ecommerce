@@ -15,7 +15,5 @@ export default async function getProductsData(page, size) {
     const skips = pageSize * (pageNum - 1);
     products = await Product.find().skip(skips).limit(pageSize);
   }
-  // const products = await Product.find();
-  // res.status(200).json({ products, totalPages });
   return JSON.parse(JSON.stringify({ products, totalPages }));
 }

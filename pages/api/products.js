@@ -16,6 +16,6 @@ export default async (req, res) => {
     const skips = pageSize * (pageNum - 1);
     products = await Product.find().skip(skips).limit(pageSize);
   }
-  // const products = await Product.find();
+
   res.status(200).json({ products, totalPages });
 };

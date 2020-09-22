@@ -39,10 +39,7 @@ function AccountInvitationCode() {
         Invitation Code
       </Header>
 
-      <Form
-        // loading={loading}
-        onSubmit={handleGenerate}
-      >
+      <Form onSubmit={handleGenerate}>
         <Message
           positive
           hidden={hidden}

@@ -7,12 +7,8 @@ import axios from 'axios';
 import baseUrl from '../utils/baseUrl';
 import cookie from 'js-cookie';
 import catchErrors from '../utils/catchErrors';
-// import { useAuth } from '../utils/AuthProvider';
-import useUser from '../hooks/useUser';
 
-function Cart({ products }) {
-  // const { user } = useAuth();
-  const { user } = useUser();
+function Cart({ products, user }) {
   const [cartProducts, setCartProducts] = React.useState(products);
   const [success, setSuccess] = React.useState(false);
   const [loading, setLoading] = React.useState(false);

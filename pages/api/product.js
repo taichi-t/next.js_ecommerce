@@ -21,12 +21,6 @@ export default async (req, res) => {
   }
 };
 
-// async function handleGetRequest(req, res) {
-//   const { id } = req.query;
-//   const product = await Product.findOne({ _id: id });
-//   res.status(200).json(product);
-// }
-
 async function handlePostRequest(req, res) {
   try {
     const { name, price, description, mediaUrls } = req.body;

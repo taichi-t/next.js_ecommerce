@@ -18,7 +18,6 @@ import baseUrl from '../../utils/baseUrl';
 import cookie from 'js-cookie';
 import axios from 'axios';
 import catchErrors from '../../utils/catchErrors';
-// import deleteImage from '../../utils/deleteImage';
 
 function AccountHeader({ role, email, name, createdAt, profilePictureUrl }) {
   const [open, setOpen] = React.useState(false);

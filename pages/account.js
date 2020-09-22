@@ -2,15 +2,10 @@ import AccountHeader from '../components/Account/AccountHeader';
 import AccountOrders from '../components/Account/AccountOrders';
 import AccountPermissions from '../components/Account/AccountPermissions';
 import AccountInvitationCode from '../components/Account/AccountInvitationCode';
-import { parseCookies } from 'nookies';
-import baseUrl from '../utils/baseUrl';
-import axios from 'axios';
-import { useAuth } from '../utils/AuthProvider';
-import useUser from '../hooks/useUser';
 import useOrders from '../hooks/useOrders';
+import { useEffect } from 'react';
 
-function Account() {
-  const { user } = useUser();
+function Account({ user }) {
   const { orders } = useOrders();
 
   return (
@@ -24,16 +19,5 @@ function Account() {
     </>
   );
 }
-
-// Account.getInitialProps = async (ctx) => {
-//   const { token } = parseCookies(ctx);
-//   if (!token) {
-//     return { order: [] };
-//   }
-//   const payload = { headers: { Authorization: token } };
-//   const url = `${baseUrl}/api/orders`;
-//   const response = await axios.get(url, payload);
-//   return response.data;
-// };
 
 export default Account;
