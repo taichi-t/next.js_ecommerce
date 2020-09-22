@@ -34,6 +34,8 @@ function MyApp({ Component, pageProps, router: { pathname } }) {
   }, [pathname]);
 
   pageProps.user = user;
+  pageProps.loading = loading;
+
   React.useEffect(() => {
     window.addEventListener('storage', syncLogout);
   }, []);

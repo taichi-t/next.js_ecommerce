@@ -5,12 +5,12 @@ import AccountInvitationCode from '../components/Account/AccountInvitationCode';
 import useOrders from '../hooks/useOrders';
 import { useEffect } from 'react';
 
-function Account({ user }) {
+function Account({ user, loading }) {
   const { orders } = useOrders();
 
   return (
     <>
-      <AccountHeader {...user} />
+      <AccountHeader {...user} loading={loading} />
       <AccountOrders orders={orders} />
       {user.role === 'root' && <AccountPermissions currentUserId={user._id} />}
       {(user.role === 'root' || user.role === 'admin') && (

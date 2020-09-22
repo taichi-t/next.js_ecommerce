@@ -18,8 +18,16 @@ import baseUrl from '../../utils/baseUrl';
 import cookie from 'js-cookie';
 import axios from 'axios';
 import catchErrors from '../../utils/catchErrors';
+import Skeleton from 'react-loading-skeleton';
 
-function AccountHeader({ role, email, name, createdAt, profilePictureUrl }) {
+function AccountHeader({
+  role,
+  email,
+  name,
+  createdAt,
+  profilePictureUrl,
+  loading: userLoading,
+}) {
   const [open, setOpen] = React.useState(false);
   const [profilePicture, setProfilePicture] = useState();
   const [mediaUrl, setMediaUrl] = useState();
@@ -32,6 +40,8 @@ function AccountHeader({ role, email, name, createdAt, profilePictureUrl }) {
     const { files } = e.target;
     setProfilePicture(files[0]);
   }
+
+  console.log(userLoading);
 
   async function handleSubmit(e) {
     try {
@@ -92,46 +102,51 @@ function AccountHeader({ role, email, name, createdAt, profilePictureUrl }) {
   );
   return (
     <>
-      <Segment secondary inverted color="violet" loading={loading}>
-        <Label
-          color="teal"
-          size="large"
-          ribbon
-          icon="privacy"
-          style={{ textTramsform: 'capitalize' }}
-          content={role}
-        />
-        <Header inverted textAlign="center" as="h1" icon>
-          <Header.Content>
-            <div className="profile-container">
-              <Image
-                src={mediaUrl || profilePictureUrl}
-                circular
-                wrapped
-                size="small"
-                className="profile-image"
-              />
-              <ModalForm
-                trigger={
-                  <Icon
-                    name="camera"
-                    className="profile-icon"
-                    color="grey"
-                    inverted
-                    circular
-                  />
-                }
-                component={modalFormComponent}
-                setOpen={setOpen}
-                open={open}
-              />
-            </div>
-          </Header.Content>
-          <Header.Content>{name}</Header.Content>
-          <Header.Subheader>{email}</Header.Subheader>
-          <Header.Subheader>Joined {formatDate(createdAt)}</Header.Subheader>
-        </Header>
-      </Segment>
+      {userLoading ? (
+        <Skeleton width={700} height={300} />
+      ) : (
+        <Segment secondary inverted color="violet" loading={loading}>
+          <Label
+            color="teal"
+            size="large"
+            ribbon
+            icon="privacy"
+            style={{ textTramsform: 'capitalize' }}
+            content={role}
+          />
+          <Header inverted textAlign="center" as="h1" icon>
+            <Header.Content>
+              <div className="profile-container">
+                <Image
+                  src={mediaUrl || profilePictureUrl}
+                  circular
+                  wrapped
+                  size="small"
+                  className="profile-image"
+                />
+
+                <ModalForm
+                  trigger={
+                    <Icon
+                      name="camera"
+                      className="profile-icon"
+                      color="grey"
+                      inverted
+                      circular
+                    />
+                  }
+                  component={modalFormComponent}
+                  setOpen={setOpen}
+                  open={open}
+                />
+              </div>
+            </Header.Content>
+            <Header.Content>{name}</Header.Content>
+            <Header.Subheader>{email}</Header.Subheader>
+            <Header.Subheader>Joined {formatDate(createdAt)}</Header.Subheader>
+          </Header>
+        </Segment>
+      )}
     </>
   );
 }
