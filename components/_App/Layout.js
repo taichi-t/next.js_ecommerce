@@ -3,10 +3,10 @@ import Head from 'next/head';
 import { Container } from 'semantic-ui-react';
 import Header from './Header';
 import HeadContent from './HeadContent';
+import useUser from '../../hooks/useUser';
 
 function Layout({ children }) {
-  const { user } = useAuth();
-
+  const { user } = useUser();
   return (
     <>
       <Head>

@@ -4,6 +4,7 @@ import Router, { useRouter } from 'next/router';
 import NProgress from 'nprogress';
 import { handleLogout } from '../../utils/auth';
 import { useAuth } from '../../utils/AuthProvider';
+import useUser from '../../hooks/useUser';
 
 Router.onRouteChangeStart = () => NProgress.start();
 Router.onRouteChangeComplete = () => NProgress.done();
@@ -11,7 +12,7 @@ Router.onRouteError = () => NProgress.done();
 
 function Header() {
   const { pathname } = useRouter();
-  const { user } = useAuth();
+  const { user } = useUser();
 
   const isRoot = user && user.role === 'root';
   const isAdmin = user && user.role === 'admin';

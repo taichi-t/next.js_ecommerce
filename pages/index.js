@@ -13,13 +13,18 @@ function Home({ products, totalPages }) {
   );
 }
 
-Home.getInitialProps = async (ctx) => {
+export async function getServerSideProps(ctx) {
   const page = ctx.query.page ? ctx.query.page : '1';
   const size = 9;
   const url = `${baseUrl}/api/products`;
   const payload = { params: { page, size } };
   const response = await axios.get(url, payload);
-  return response.data;
-};
+  return {
+    props: {
+      products: response.data.products,
+      totalPages: response.data.totalPages,
+    },
+  };
+}
 
 export default Home;

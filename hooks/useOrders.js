@@ -5,7 +5,7 @@ import cookie from 'js-cookie';
 import { useEffect } from 'react';
 
 export default function useOrders() {
-  const [orders, setOrders] = useState();
+  const [orders, setOrders] = useState([]);
   const [error, setError] = useState();
   const token = cookie.get('token');
 
@@ -15,13 +15,13 @@ export default function useOrders() {
         const payload = { headers: { Authorization: token } };
         const url = `${baseUrl}/api/orders`;
         const response = await axios.get(url, payload);
-        setOrders(response.data);
+
+        setOrders(response.data.orders);
       } catch (error) {
         setError(error);
       }
     }
     getOrdersData();
   }, []);
-
   return { orders, error };
 }

@@ -18,12 +18,12 @@ import baseUrl from '../../utils/baseUrl';
 import cookie from 'js-cookie';
 import axios from 'axios';
 import catchErrors from '../../utils/catchErrors';
-import deleteImage from '../../utils/deleteImage';
+// import deleteImage from '../../utils/deleteImage';
 
 function AccountHeader({ role, email, name, createdAt, profilePictureUrl }) {
   const [open, setOpen] = React.useState(false);
   const [profilePicture, setProfilePicture] = useState();
-  const [mediaUrl, setMediaUrl] = useState(profilePictureUrl);
+  const [mediaUrl, setMediaUrl] = useState();
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [disabled, setDisabled] = useState(true);
@@ -106,7 +106,7 @@ function AccountHeader({ role, email, name, createdAt, profilePictureUrl }) {
           <Header.Content>
             <div className="profile-container">
               <Image
-                src={mediaUrl}
+                src={mediaUrl || profilePictureUrl}
                 circular
                 wrapped
                 size="small"

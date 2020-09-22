@@ -2,13 +2,13 @@ import { useState } from 'react';
 import axios from 'axios';
 import baseUrl from '../utils/baseUrl';
 import cookie from 'js-cookie';
-// import { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
 export default function useUser() {
-  const [user, setUser] = useState();
-  const [error, setError] = useState();
   // const router = useRouter();
+  const [user, setUser] = useState({});
+  const [error, setError] = useState({});
   const token = cookie.get('token');
 
   useEffect(() => {

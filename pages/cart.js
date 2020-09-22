@@ -7,10 +7,12 @@ import axios from 'axios';
 import baseUrl from '../utils/baseUrl';
 import cookie from 'js-cookie';
 import catchErrors from '../utils/catchErrors';
-import { useAuth } from '../utils/AuthProvider';
+// import { useAuth } from '../utils/AuthProvider';
+import useUser from '../hooks/useUser';
 
 function Cart({ products }) {
-  const { user } = useAuth();
+  // const { user } = useAuth();
+  const { user } = useUser();
   const [cartProducts, setCartProducts] = React.useState(products);
   const [success, setSuccess] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
@@ -59,15 +61,18 @@ function Cart({ products }) {
   );
 }
 
-Cart.getInitialProps = async (ctx) => {
+export async function getServerSideProps(ctx) {
   const { token } = parseCookies(ctx);
   if (!token) {
-    return { products: [] };
+    return { props: { products: [] } };
   }
   const url = `${baseUrl}/api/cart`;
   const payload = { headers: { Authorization: token } };
   const response = await axios.get(url, payload);
-  return { products: response.data };
-};
+
+  return {
+    props: { products: response.data },
+  };
+}
 
 export default Cart;

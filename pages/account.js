@@ -9,13 +9,9 @@ import { useAuth } from '../utils/AuthProvider';
 import useUser from '../hooks/useUser';
 import useOrders from '../hooks/useOrders';
 
-function Account({ orders }) {
-  const { user, setUser } = useAuth();
-  const { user: foo } = useUser();
-  const { orders: hoo } = useOrders();
-  console.log({ hoo });
-
-  // console.log(foo);
+function Account() {
+  const { user } = useUser();
+  const { orders } = useOrders();
 
   return (
     <>

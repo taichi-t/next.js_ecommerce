@@ -13,48 +13,50 @@ import formatDate from '../../utils/formatDate';
 
 function AccountOrders({ orders }) {
   const router = useRouter();
-
   function mapOrdersToPanels(orders) {
-    return orders.map((order) => ({
-      key: order._id,
-      title: {
-        content: <Label color="blue" content={formatDate(order.createdAt)} />,
-      },
-      content: {
-        content: (
-          <>
-            <List.Header as="h3">
-              Total: ${order.total}
-              <Label
-                content={order.email}
-                icon="mail"
-                basic
-                horizontal
-                style={{ marginLeft: '1em' }}
-              />
-            </List.Header>
-            <List>
-              {order.products.map((p) => (
-                <List.Item key={p.product._id}>
-                  <Image avatar src={p.product.mediaUrl} />
-                  <List.Content>
-                    <List.Header>{p.product.name}</List.Header>
-                    <List.Description>
-                      {p.quantity} ・ ${p.product.price}
-                    </List.Description>
-                  </List.Content>
-                  <List.Content floated="right">
-                    <Label tag color="red" size="tiny">
-                      {p.product.sku}
-                    </Label>
-                  </List.Content>
-                </List.Item>
-              ))}
-            </List>
-          </>
-        ),
-      },
-    }));
+    return (
+      orders &&
+      orders.map((order) => ({
+        key: order._id,
+        title: {
+          content: <Label color="blue" content={formatDate(order.createdAt)} />,
+        },
+        content: {
+          content: (
+            <>
+              <List.Header as="h3">
+                Total: ${order.total}
+                <Label
+                  content={order.email}
+                  icon="mail"
+                  basic
+                  horizontal
+                  style={{ marginLeft: '1em' }}
+                />
+              </List.Header>
+              <List>
+                {order.products.map((p) => (
+                  <List.Item key={p.product._id}>
+                    <Image avatar src={p.product.mediaUrl} />
+                    <List.Content>
+                      <List.Header>{p.product.name}</List.Header>
+                      <List.Description>
+                        {p.quantity} ・ ${p.product.price}
+                      </List.Description>
+                    </List.Content>
+                    <List.Content floated="right">
+                      <Label tag color="red" size="tiny">
+                        {p.product.sku}
+                      </Label>
+                    </List.Content>
+                  </List.Item>
+                ))}
+              </List>
+            </>
+          ),
+        },
+      }))
+    );
   }
 
   return (
