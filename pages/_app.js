@@ -5,7 +5,7 @@ import cookie from 'js-cookie';
 import Router from 'next/router';
 
 function MyApp({ Component, pageProps, router: { pathname } }) {
-  const { user, token, error } = useUser(pathname);
+  const { user, token, error, loading } = useUser(pathname);
 
   useEffect(() => {
     if (!token) {
