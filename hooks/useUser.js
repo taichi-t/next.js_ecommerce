@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import axios from 'axios';
 import baseUrl from '../utils/baseUrl';
 import cookie from 'js-cookie';
@@ -10,9 +10,9 @@ export default function useUser(pathname) {
   const [loading, setLoding] = useState(false);
   const token = cookie.get('token');
   useEffect(() => {
+    if (!token) return setUser({});
+    if (pathname === '/logout') return setUser({});
     async function getUserData() {
-      if (!token) return setUser({});
-      if (pathname === '/logout') return setUser({});
       try {
         setLoding(true);
         const payload = { headers: { Authorization: token } };
@@ -24,6 +24,7 @@ export default function useUser(pathname) {
         setLoding(false);
       }
     }
+
     getUserData();
   }, [pathname]);
 

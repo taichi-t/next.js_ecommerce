@@ -41,8 +41,6 @@ function AccountHeader({
     setProfilePicture(files[0]);
   }
 
-  console.log(userLoading);
-
   async function handleSubmit(e) {
     try {
       e.preventDefault();

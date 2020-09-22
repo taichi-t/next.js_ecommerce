@@ -1,9 +1,12 @@
+import { useContext } from 'react';
 import Head from 'next/head';
 import { Container } from 'semantic-ui-react';
 import Header from './Header';
 import HeadContent from './HeadContent';
+import { UserContext } from '../../utils/UserProvider';
 
-function Layout({ children, user }) {
+function Layout({ children }) {
+  const { user, loading } = useContext(UserContext);
   return (
     <>
       <Head>
