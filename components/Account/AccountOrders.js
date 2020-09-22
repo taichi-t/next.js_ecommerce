@@ -1,3 +1,4 @@
+import React, { useContext } from 'react';
 import {
   Header,
   Accordion,
@@ -10,8 +11,11 @@ import {
 } from 'semantic-ui-react';
 import { useRouter } from 'next/router';
 import formatDate from '../../utils/formatDate';
+import Skeleton from 'react-loading-skeleton';
+import { UserContext } from '../../utils/UserProvider';
 
 function AccountOrders({ orders }) {
+  const { loading } = useContext(UserContext);
   const router = useRouter();
   function mapOrdersToPanels(orders) {
     return (
@@ -65,7 +69,8 @@ function AccountOrders({ orders }) {
         <Icon name="folder open" />
         Order History
       </Header>
-      {orders.length === 0 ? (
+      {loading && <Skeleton width={700} height={150} />}
+      {!loading && orders.length === 0 ? (
         <Segment inverted color="grey" textAlign="center">
           <Header icon>
             <Icon name="copy outline" />
