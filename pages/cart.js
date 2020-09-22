@@ -11,10 +11,7 @@ import { UserContext } from '../utils/UserProvider';
 import { useContext } from 'react';
 
 function Cart({ products }) {
-  const {
-    user,
-    loading: { userLoading },
-  } = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   const [cartProducts, setCartProducts] = React.useState(products);
   const [success, setSuccess] = React.useState(false);

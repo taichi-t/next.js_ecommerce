@@ -8,10 +8,12 @@ export default function useOrders() {
   const [orders, setOrders] = useState([]);
   const [error, setError] = useState();
   const token = cookie.get('token');
+  const [loading, setLoding] = useState(false);
 
   useEffect(() => {
     async function getOrdersData() {
       try {
+        setLoding(true);
         const payload = { headers: { Authorization: token } };
         const url = `${baseUrl}/api/orders`;
         const response = await axios.get(url, payload);
@@ -19,9 +21,11 @@ export default function useOrders() {
         setOrders(response.data.orders);
       } catch (error) {
         setError(error);
+      } finally {
+        setLoding(false);
       }
     }
     getOrdersData();
   }, []);
-  return { orders, error };
+  return { orders, error, loading };
 }

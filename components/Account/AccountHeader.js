@@ -18,7 +18,6 @@ import baseUrl from '../../utils/baseUrl';
 import cookie from 'js-cookie';
 import axios from 'axios';
 import catchErrors from '../../utils/catchErrors';
-import Skeleton from 'react-loading-skeleton';
 
 function AccountHeader({
   role,
@@ -100,51 +99,47 @@ function AccountHeader({
   );
   return (
     <>
-      {userLoading ? (
-        <Skeleton width={700} height={300} />
-      ) : (
-        <Segment secondary inverted color="violet" loading={loading}>
-          <Label
-            color="teal"
-            size="large"
-            ribbon
-            icon="privacy"
-            style={{ textTramsform: 'capitalize' }}
-            content={role}
-          />
-          <Header inverted textAlign="center" as="h1" icon>
-            <Header.Content>
-              <div className="profile-container">
-                <Image
-                  src={mediaUrl || profilePictureUrl}
-                  circular
-                  wrapped
-                  size="small"
-                  className="profile-image"
-                />
+      <Segment secondary inverted color="violet" loading={loading}>
+        <Label
+          color="teal"
+          size="large"
+          ribbon
+          icon="privacy"
+          style={{ textTramsform: 'capitalize' }}
+          content={role}
+        />
+        <Header inverted textAlign="center" as="h1" icon>
+          <Header.Content>
+            <div className="profile-container">
+              <Image
+                src={mediaUrl || profilePictureUrl}
+                circular
+                wrapped
+                size="small"
+                className="profile-image"
+              />
 
-                <ModalForm
-                  trigger={
-                    <Icon
-                      name="camera"
-                      className="profile-icon"
-                      color="grey"
-                      inverted
-                      circular
-                    />
-                  }
-                  component={modalFormComponent}
-                  setOpen={setOpen}
-                  open={open}
-                />
-              </div>
-            </Header.Content>
-            <Header.Content>{name}</Header.Content>
-            <Header.Subheader>{email}</Header.Subheader>
-            <Header.Subheader>Joined {formatDate(createdAt)}</Header.Subheader>
-          </Header>
-        </Segment>
-      )}
+              <ModalForm
+                trigger={
+                  <Icon
+                    name="camera"
+                    className="profile-icon"
+                    color="grey"
+                    inverted
+                    circular
+                  />
+                }
+                component={modalFormComponent}
+                setOpen={setOpen}
+                open={open}
+              />
+            </div>
+          </Header.Content>
+          <Header.Content>{name}</Header.Content>
+          <Header.Subheader>{email}</Header.Subheader>
+          <Header.Subheader>Joined {formatDate(createdAt)}</Header.Subheader>
+        </Header>
+      </Segment>
     </>
   );
 }

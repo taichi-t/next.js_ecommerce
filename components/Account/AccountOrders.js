@@ -11,11 +11,10 @@ import {
 } from 'semantic-ui-react';
 import { useRouter } from 'next/router';
 import formatDate from '../../utils/formatDate';
-import Skeleton from 'react-loading-skeleton';
-import { UserContext } from '../../utils/UserProvider';
+import useOrders from '../../hooks/useOrders';
 
-function AccountOrders({ orders }) {
-  const { loading } = useContext(UserContext);
+function AccountOrders() {
+  const { orders } = useOrders();
   const router = useRouter();
   function mapOrdersToPanels(orders) {
     return (
@@ -69,8 +68,7 @@ function AccountOrders({ orders }) {
         <Icon name="folder open" />
         Order History
       </Header>
-      {loading && <Skeleton width={700} height={150} />}
-      {!loading && orders.length === 0 ? (
+      {orders.length === 0 ? (
         <Segment inverted color="grey" textAlign="center">
           <Header icon>
             <Icon name="copy outline" />

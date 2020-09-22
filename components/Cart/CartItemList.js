@@ -1,3 +1,4 @@
+import React, { useContext } from 'react';
 import {
   Header,
   Segment,
@@ -7,7 +8,11 @@ import {
   Message,
 } from 'semantic-ui-react';
 import { useRouter } from 'next/router';
-function CartItemList({ products, user, handleRemoveFromCart, success }) {
+import { UserContext } from '../../utils/UserProvider';
+
+function CartItemList({ products, handleRemoveFromCart, success }) {
+  const { user } = useContext(UserContext);
+
   const router = useRouter();
 
   function mapCartProductsToItems(products) {
@@ -51,7 +56,7 @@ function CartItemList({ products, user, handleRemoveFromCart, success }) {
           No products in your cart. Add some!
         </Header>
         <div>
-          {user ? (
+          {Object.keys(user).length ? (
             <Button color="orange" onClick={() => router.push('/')}>
               View Proucts
             </Button>
