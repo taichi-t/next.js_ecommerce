@@ -12,7 +12,6 @@ import { UserContext } from '../../utils/UserProvider';
 
 function CartItemList({ products, handleRemoveFromCart, success }) {
   const { user } = useContext(UserContext);
-
   const router = useRouter();
 
   function mapCartProductsToItems(products) {

@@ -2,18 +2,14 @@ import React from 'react';
 import { Segment } from 'semantic-ui-react';
 import CartItemList from '../components/Cart/CartItemList';
 import CartSummary from '../components/Cart/CartSummary';
-import { parseCookies } from 'nookies';
 import axios from 'axios';
 import baseUrl from '../utils/baseUrl';
 import cookie from 'js-cookie';
 import catchErrors from '../utils/catchErrors';
-import { UserContext } from '../utils/UserProvider';
-import { useContext } from 'react';
+import useCartProducts from '../hooks/useCartProducts';
 
-function Cart({ products }) {
-  const { user } = useContext(UserContext);
-
-  const [cartProducts, setCartProducts] = React.useState(products);
+function Cart() {
+  const { products, setProducts } = useCartProducts();
   const [success, setSuccess] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
 
@@ -25,7 +21,7 @@ function Cart({ products }) {
       headers: { Authorization: token },
     };
     const response = await axios.delete(url, payload);
-    setCartProducts(response.data);
+    setProducts(response.data);
   }
 
   async function handleCheckout(paymentData) {
@@ -47,32 +43,17 @@ function Cart({ products }) {
   return (
     <Segment loading={loading}>
       <CartItemList
-        products={cartProducts}
-        user={user}
+        products={products}
         handleRemoveFromCart={handleRemoveFromCart}
         success={success}
       />
       <CartSummary
-        products={cartProducts}
+        products={products}
         handleCheckout={handleCheckout}
         success={success}
       />
     </Segment>
   );
-}
-
-export async function getServerSideProps(ctx) {
-  const { token } = parseCookies(ctx);
-  if (!token) {
-    return { props: { products: [] } };
-  }
-  const url = `${baseUrl}/api/cart`;
-  const payload = { headers: { Authorization: token } };
-  const response = await axios.get(url, payload);
-
-  return {
-    props: { products: response.data },
-  };
 }
 
 export default Cart;
