@@ -46,6 +46,7 @@ function AccountHeader({
       setLoading(true);
       setError('');
       setOpen(false);
+      console.log(profilePictureUrl);
       const newMediaUrl = await uploadImage([profilePicture]);
       const token = cookie.get('token');
       const headers = { headers: { Authorization: token } };

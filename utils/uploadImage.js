@@ -9,7 +9,6 @@ export default async function handleImageUpload(medias) {
       data.append('upload_preset', 'reactreserve');
       data.append('cloud_name', 'reedbargercodes');
       const response = await axios.post(process.env.CLOUDINARY_URL, data);
-
       const mediaUrl = response.data.url;
       promises.push(mediaUrl);
     }
