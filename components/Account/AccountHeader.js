@@ -28,7 +28,7 @@ function AccountHeader({
   loading: userLoading,
 }) {
   const [open, setOpen] = React.useState(false);
-  const [profilePicture, setProfilePicture] = useState();
+  const [profilePicture, setProfilePicture] = useState(profilePictureUrl);
   const [mediaUrl, setMediaUrl] = useState();
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -46,7 +46,6 @@ function AccountHeader({
       setLoading(true);
       setError('');
       setOpen(false);
-      console.log(profilePictureUrl);
       const newMediaUrl = await uploadImage([profilePicture]);
       const token = cookie.get('token');
       const headers = { headers: { Authorization: token } };
@@ -113,7 +112,7 @@ function AccountHeader({
           <Header.Content>
             <div className="profile-container">
               <Image
-                src={mediaUrl || profilePictureUrl}
+                src={profilePictureUrl || 'images/anonymous-user.png'}
                 circular
                 wrapped
                 size="small"

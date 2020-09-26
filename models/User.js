@@ -30,7 +30,6 @@ const UserSchema = new mongoose.Schema(
     },
     profilePictureUrl: {
       type: String,
-      default: '/images/anonymous-user.png',
     },
   },
   {
