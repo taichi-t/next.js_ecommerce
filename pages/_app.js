@@ -10,7 +10,6 @@ function MyApp({ Component, pageProps }) {
   const { user, error, loading, token } = useUser();
 
   if (process.browser) {
-    console.log('実行');
     if (!token) {
       const isProtectedRoute =
         router.pathname === '/account' ||
