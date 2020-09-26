@@ -36,8 +36,6 @@ function AccountHeader() {
     setMedia(files);
   }
 
-  console.log(user);
-
   async function handleSubmit(e) {
     try {
       e.preventDefault();
