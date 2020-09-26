@@ -3,16 +3,19 @@ import axios from 'axios';
 import baseUrl from '../utils/baseUrl';
 import cookie from 'js-cookie';
 import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
-export default function useUser(pathname) {
+export default function useUser() {
+  const { pathname } = useRouter();
   const [user, setUser] = useState({});
   const [error, setError] = useState();
   const [loading, setLoding] = useState(false);
   const token = cookie.get('token');
+
   useEffect(() => {
-    if (!token) return setUser({});
-    if (pathname === '/logout') return setUser({});
     async function getUserData() {
+      if (!token) return setUser({});
+      if (pathname === '/logout') return setUser({});
       try {
         setLoding(true);
         const payload = { headers: { Authorization: token } };
@@ -24,9 +27,8 @@ export default function useUser(pathname) {
         setLoding(false);
       }
     }
-
     getUserData();
   }, [pathname]);
 
-  return { user, token, error, loading };
+  return { user, token, error, loading, setUser };
 }

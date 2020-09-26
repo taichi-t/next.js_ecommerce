@@ -36,8 +36,6 @@ function AccountHeader() {
     setMedia(files[0]);
   }
 
-  console.log(profilePicture);
-
   async function handleSubmit(e) {
     try {
       e.preventDefault();
@@ -47,10 +45,10 @@ function AccountHeader() {
       const token = cookie.get('token');
       const headers = { headers: { Authorization: token } };
       const payload = { media, profilePicture };
-      console.log({ payload });
+
       const url = `${baseUrl}/api/account`;
       const response = await axios.post(url, payload, headers);
-      console.log('newMediaUrl', response.data);
+
       setLoading(false);
       setProfilePicture('');
       setMedia(response.data);

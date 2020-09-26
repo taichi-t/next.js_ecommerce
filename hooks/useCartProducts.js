@@ -14,7 +14,7 @@ export default function useCartProducts() {
     async function getCartData() {
       try {
         setLoding(true);
-        console.log('get products start');
+
         const payload = { headers: { Authorization: token } };
         const url = `${baseUrl}/api/cart`;
         const response = await axios.get(url, payload);
