@@ -15,6 +15,7 @@ export const uploadImage = async (medias) => {
     console.log(requests);
     const responses = await axios.all(requests);
     const mediaUrls = responses.map((response) => response.data.url);
+    console.log({ mediaUrls });
     return mediaUrls;
   } catch (error) {
     console.error(error);

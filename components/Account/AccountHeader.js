@@ -45,6 +45,7 @@ function AccountHeader() {
       const token = cookie.get('token');
       const headers = { headers: { Authorization: token } };
       const newProfilePictureUrl = await uploadImage(media);
+      console.log({ newProfilePictureUrl });
       const payload = { profilePictureUrl, newProfilePictureUrl };
       const url = `${baseUrl}/api/account`;
       await axios.post(url, payload, headers);
