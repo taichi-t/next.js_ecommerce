@@ -9,7 +9,7 @@ import UserContextProvider from '../utils/UserProvider';
 export const UserContext = createContext();
 
 function MyApp({ Component, pageProps, router: { pathname } }) {
-  const { user, error, loading, token } = useUser(pathname);
+  const { user, error, loading, token, setUser } = useUser(pathname);
 
   useEffect(() => {
     if (!token) {
@@ -51,6 +51,7 @@ function MyApp({ Component, pageProps, router: { pathname } }) {
       error={error}
       loading={loading}
       token={token}
+      setUser={setUser}
     >
       <Layout {...pageProps}>
         <Component {...pageProps} />

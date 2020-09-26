@@ -50,6 +50,8 @@ async function handlePutRequest(req, res) {
 }
 
 async function handlePostRequest(req, res) {
+  const { profilePictureUrl, newProfilePictureUrl } = req.body;
+
   if (!('authorization' in req.headers)) {
     return res.status(401).send('No authorization token');
   }
@@ -58,15 +60,13 @@ async function handlePostRequest(req, res) {
       req.headers.authorization,
       process.env.JWT_SECRET
     );
-    const { newMediaUrl, mediaUrl } = req.body;
 
     await User.findOneAndUpdate(
       { _id: userId },
-      { profilePictureUrl: newMediaUrl[0] }
+      { profilePictureUrl: newProfilePictureUrl[0] }
     );
-
-    if (mediaUrl && mediaUrl !== '/images/anonymous-user.png') {
-      await deleteImage(formatImagePublicIds([mediaUrl]));
+    if (profilePictureUrl) {
+      await deleteImage(formatImagePublicIds([profilePictureUrl]));
     }
     res.status(203).send('User updated');
   } catch (error) {

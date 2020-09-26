@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   Header,
   Icon,
@@ -18,18 +18,14 @@ import baseUrl from '../../utils/baseUrl';
 import cookie from 'js-cookie';
 import axios from 'axios';
 import catchErrors from '../../utils/catchErrors';
+import { UserContext } from '../../utils/UserProvider';
 
-function AccountHeader({
-  role,
-  email,
-  name,
-  createdAt,
-  profilePictureUrl,
-  loading: userLoading,
-}) {
+function AccountHeader() {
+  const { user, setUser } = useContext(UserContext);
+  const { role, email, name, createdAt, profilePictureUrl } = user;
   const [open, setOpen] = React.useState(false);
-  const [profilePicture, setProfilePicture] = useState();
-  const [mediaUrl, setMediaUrl] = useState();
+  // const [profilePicture, setProfilePicture] = useState();
+  const [media, setMedia] = useState();
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [disabled, setDisabled] = useState(true);
@@ -37,8 +33,10 @@ function AccountHeader({
 
   function handleChange(e) {
     const { files } = e.target;
-    setProfilePicture(files[0]);
+    setMedia(files);
   }
+
+  console.log(user);
 
   async function handleSubmit(e) {
     try {
@@ -46,16 +44,14 @@ function AccountHeader({
       setLoading(true);
       setError('');
       setOpen(false);
-      console.log(profilePictureUrl);
-      const newMediaUrl = await uploadImage([profilePicture]);
+      const newProfilePictureUrl = await uploadImage(media);
       const token = cookie.get('token');
       const headers = { headers: { Authorization: token } };
-      const payload = { newMediaUrl, mediaUrl };
+      const payload = { profilePictureUrl, newProfilePictureUrl };
       const url = `${baseUrl}/api/account`;
       await axios.post(url, payload, headers);
       setLoading(false);
-      setProfilePicture('');
-      setMediaUrl(newMediaUrl[0]);
+      setUser({ ...user, profilePictureUrl: newProfilePictureUrl[0] });
       setSuccess(true);
     } catch (error) {
       catchErrors(error, setError);
@@ -113,7 +109,7 @@ function AccountHeader({
           <Header.Content>
             <div className="profile-container">
               <Image
-                src={mediaUrl || profilePictureUrl}
+                src={profilePictureUrl || 'images/anonymous-user.png'}
                 circular
                 wrapped
                 size="small"

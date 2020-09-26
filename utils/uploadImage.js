@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export default async function handleImageUpload(medias) {
+export default async function uploadImage(medias) {
   const data = new FormData();
   try {
     let promises = [];

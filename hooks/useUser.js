@@ -13,6 +13,7 @@ export default function useUser(pathname) {
     if (!token) return setUser({});
     if (pathname === '/logout') return setUser({});
     async function getUserData() {
+      console.log('exexuted get user data');
       try {
         setLoding(true);
         const payload = { headers: { Authorization: token } };
@@ -28,5 +29,5 @@ export default function useUser(pathname) {
     getUserData();
   }, [pathname]);
 
-  return { user, token, error, loading };
+  return { user, token, error, loading, setUser };
 }
