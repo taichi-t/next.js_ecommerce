@@ -18,3 +18,5 @@ export const uploadImage = async (medias, headers) => {
     console.error(error);
   }
 };
+
+export default uploadImage;
