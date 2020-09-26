@@ -1,40 +1,41 @@
-import React from 'react';
+import React, { useEffect, createContext } from 'react';
 import Layout from '../components/_App/Layout';
 import cookie from 'js-cookie';
+import Router from 'next/router';
+// import UserProvider from '../utils/UserProvider';
 import useUser from '../hooks/useUser';
 import UserContextProvider from '../utils/UserProvider';
-import { useRouter } from 'next/router';
 
-function MyApp({ Component, pageProps }) {
-  const router = useRouter();
-  const { user, error, loading, token } = useUser();
+export const UserContext = createContext();
 
-  if (process.browser) {
+function MyApp({ Component, pageProps, router: { pathname } }) {
+  const { user, error, loading, token } = useUser(pathname);
+
+  useEffect(() => {
     if (!token) {
       const isProtectedRoute =
-        router.pathname === '/account' ||
-        router.pathname === '/create' ||
-        router.pathname === '/cart';
+        pathname === '/account' ||
+        pathname === '/create' ||
+        pathname === '/cart';
       if (isProtectedRoute) {
-        router.push('/login');
+        Router.push('/login');
       }
     }
     const isRoot = user.role === 'root';
     const isAdmin = user.role === 'admin';
     //if authenticated, but not of role "admin" or "root", redirect from "/create" page
-    const isNotPermitted =
-      !(isRoot || isAdmin) && router.pathname === '/create';
+    const isNotPermitted = !(isRoot || isAdmin) && pathname === '/create';
     if (isNotPermitted) {
-      router.push('/');
+      Router.push('/');
     }
     if (error) {
       console.error('Error getting current user', error);
       // 1) Throw out invalid token
       cookie.remove('token');
       // 2) Redirect to login
-      router.push('/login');
+      Router.push('/login');
     }
-  }
+  }, [pathname]);
 
   React.useEffect(() => {
     window.addEventListener('storage', syncLogout);
