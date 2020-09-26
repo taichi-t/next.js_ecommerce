@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import connectDb from '../../utils/connectDb';
 import deleteImage from '../../utils/deleteImage';
 import formatImagePublicIds from '../../utils/formatImagePublicIds';
+import uploadImage from '../../utils/uploadImage';
 
 connectDb();
 
@@ -50,6 +51,7 @@ async function handlePutRequest(req, res) {
 }
 
 async function handlePostRequest(req, res) {
+  const { profilePictureUrl, media } = req.body;
   if (!('authorization' in req.headers)) {
     return res.status(401).send('No authorization token');
   }
@@ -58,17 +60,18 @@ async function handlePostRequest(req, res) {
       req.headers.authorization,
       process.env.JWT_SECRET
     );
-    const { newMediaUrl, mediaUrl } = req.body;
+
+    const newMediaUrl = await uploadImage([media]);
 
     await User.findOneAndUpdate(
       { _id: userId },
       { profilePictureUrl: newMediaUrl[0] }
     );
 
-    if (mediaUrl && mediaUrl !== '/images/anonymous-user.png') {
-      await deleteImage(formatImagePublicIds([mediaUrl]));
+    if (profilePictureUrl) {
+      await deleteImage(formatImagePublicIds([profilePictureUrl]));
     }
-    res.status(203).send('User updated');
+    res.status(203).json(newMediaUrl);
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');

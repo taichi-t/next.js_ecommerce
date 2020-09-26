@@ -6,11 +6,11 @@ import { useContext } from 'react';
 import { UserContext } from '../utils/UserProvider';
 
 function Account() {
-  const { user, loading } = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   return (
     <>
-      <AccountHeader {...user} loading={loading} />
+      <AccountHeader />
       <AccountOrders />
       {user.role === 'root' && <AccountPermissions currentUserId={user._id} />}
       {(user.role === 'root' || user.role === 'admin') && (
