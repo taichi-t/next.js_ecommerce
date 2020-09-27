@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-export const uploadImage = async (medias) => {
+export const uploadImage = async (medias, cloudinaryUrl) => {
   try {
     // let promises = [];
     let requests = [];
@@ -10,8 +10,8 @@ export const uploadImage = async (medias) => {
       let data = new FormData();
       data.append('file', medias[i]);
       data.append('upload_preset', 'reactreserve');
-      data.append('cloud_name', `${process.env.CLOUDINARY_CLOUD_NAME}`);
-      requests.push(axios.post(process.env.CLOUDINARY_URL, data));
+      data.append('cloud_name', 'dhwqisywt');
+      requests.push(axios.post(cloudinaryUrl, data));
     }
     console.log('requests', requests);
     const responses = await axios.all(requests);
