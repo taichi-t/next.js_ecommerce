@@ -19,6 +19,7 @@ import cookie from 'js-cookie';
 import axios from 'axios';
 import catchErrors from '../../utils/catchErrors';
 import { UserContext } from '../../utils/UserProvider';
+import formatMedia from '../../utils/formatMedias';
 
 function AccountHeader() {
   const { user, setUser } = useContext(UserContext);
@@ -44,8 +45,8 @@ function AccountHeader() {
       setOpen(false);
       const token = cookie.get('token');
       const headers = { headers: { Authorization: token } };
+      console.log(formatMedia(media));
       const newProfilePictureUrl = await uploadImage(media);
-      console.log({ newProfilePictureUrl });
       const payload = { profilePictureUrl, newProfilePictureUrl };
       const url = `${baseUrl}/api/account`;
       await axios.post(url, payload, headers);
