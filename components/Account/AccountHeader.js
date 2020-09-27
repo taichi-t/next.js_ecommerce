@@ -20,7 +20,7 @@ import axios from 'axios';
 import catchErrors from '../../utils/catchErrors';
 import { UserContext } from '../../utils/UserProvider';
 
-function AccountHeader({ cloudinaryUrl }) {
+export default function AccountHeader() {
   const { user, setUser } = useContext(UserContext);
   const { role, email, name, createdAt, profilePictureUrl } = user;
   const [open, setOpen] = React.useState(false);
@@ -35,7 +35,6 @@ function AccountHeader({ cloudinaryUrl }) {
     const { files } = e.target;
     setMedia(files);
   }
-  console.log('cloudinaryUrl', cloudinaryUrl);
 
   async function handleSubmit(e) {
     try {
@@ -45,7 +44,7 @@ function AccountHeader({ cloudinaryUrl }) {
       setOpen(false);
       const token = cookie.get('token');
       const headers = { headers: { Authorization: token } };
-      const newProfilePictureUrl = await uploadImage(media, cloudinaryUrl);
+      const newProfilePictureUrl = await uploadImage(media);
       console.log({ newProfilePictureUrl });
       const payload = { profilePictureUrl, newProfilePictureUrl };
       const url = `${baseUrl}/api/account`;
@@ -140,13 +139,3 @@ function AccountHeader({ cloudinaryUrl }) {
     </>
   );
 }
-
-export async function getStaticProps() {
-  return {
-    props: {
-      cloudinaryUrl: process.env.CLOUDINARY_URL,
-    },
-  };
-}
-
-export default AccountHeader;
