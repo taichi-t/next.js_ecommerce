@@ -46,19 +46,14 @@ function AccountHeader() {
       const formData = new FormData();
       formData.append('file', media[0]);
       formData.append('profilePictureUrl', profilePictureUrl);
-      // const payload = {
-      //   profilePictureUrl,
-      //   media: media[0],
-      // };
       const headers = {
         headers: {
           Authorization: token,
           'content-type': 'multipart/form-data',
         },
       };
-      const url = `${baseUrl}/api/account`;
+      const url = `${baseUrl}/api/uploadImage`;
       const response = await axios.post(url, formData, headers);
-      console.log(response);
       setLoading(false);
       setUser({ ...user, profilePictureUrl: newProfilePictureUrl[0] });
       setSuccess(true);

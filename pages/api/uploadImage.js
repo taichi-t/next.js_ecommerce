@@ -1,30 +1,47 @@
+// import HttpStatus from 'http-status-codes';
+import middleware from '../../middleware/middleware';
+import nextConnect from 'next-connect';
 import jwt from 'jsonwebtoken';
 import deleteImage from '../../utils/deleteImage';
 import formatImagePublicIds from '../../utils/formatImagePublicIds';
+import uploadImage from '../../utils/uploadImage';
 
-export default async (req, res) => {
-  switch (req.method) {
-    case 'POST':
-      await handlePostRequest(req, res);
-      break;
-    default:
-      res.status(405).send(`Method ${req.method} not allowed`);
-      break;
-  }
-};
+const handler = nextConnect();
 
-async function handlePostRequest(req, res) {
-  const { media } = req.body;
+handler.use(middleware);
+
+handler.post(async (req, res) => {
   if (!('authorization' in req.headers)) {
     return res.status(401).send('No authorization token');
   }
   try {
+    const files = req.files;
+    const body = req.body;
+    // do stuff with files and body
+    const { userId } = jwt.verify(
+      req.headers.authorization,
+      process.env.JWT_SECRET
+    );
+    const newProfilePictureUrl = await uploadImage(files);
+
+    return;
+    await User.findOneAndUpdate(
+      { _id: userId },
+      { profilePictureUrl: newProfilePictureUrl[0] }
+    );
     if (profilePictureUrl) {
       await deleteImage(formatImagePublicIds([profilePictureUrl]));
     }
-    res.status(203).send('Uploaded');
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
+    res.status(203).send('User updated');
+  } catch (err) {
+    res.status(400).json({ error: err.message });
   }
-}
+});
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
+export default handler;

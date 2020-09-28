@@ -49,29 +49,27 @@ async function handlePutRequest(req, res) {
   res.status(203).send('User updated');
 }
 
-async function handlePostRequest(req, res) {
-  console.log(req.body);
-  return;
+// async function handlePostRequest(req, res) {
 
-  if (!('authorization' in req.headers)) {
-    return res.status(401).send('No authorization token');
-  }
-  try {
-    const { userId } = jwt.verify(
-      req.headers.authorization,
-      process.env.JWT_SECRET
-    );
+//   if (!('authorization' in req.headers)) {
+//     return res.status(401).send('No authorization token');
+//   }
+//   try {
+//     const { userId } = jwt.verify(
+//       req.headers.authorization,
+//       process.env.JWT_SECRET
+//     );
 
-    await User.findOneAndUpdate(
-      { _id: userId },
-      { profilePictureUrl: newProfilePictureUrl[0] }
-    );
-    if (profilePictureUrl) {
-      await deleteImage(formatImagePublicIds([profilePictureUrl]));
-    }
-    res.status(203).send('User updated');
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
-  }
-}
+//     await User.findOneAndUpdate(
+//       { _id: userId },
+//       { profilePictureUrl: newProfilePictureUrl[0] }
+//     );
+//     if (profilePictureUrl) {
+//       await deleteImage(formatImagePublicIds([profilePictureUrl]));
+//     }
+//     res.status(203).send('User updated');
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send('Internal Server Error');
+//   }
+// }
