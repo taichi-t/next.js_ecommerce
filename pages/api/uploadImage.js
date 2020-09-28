@@ -5,12 +5,14 @@ import jwt from 'jsonwebtoken';
 import deleteImage from '../../utils/deleteImage';
 import formatImagePublicIds from '../../utils/formatImagePublicIds';
 import uploadImage from '../../utils/uploadImage';
+import cloudinary from 'cloudinary';
 
 const handler = nextConnect();
 
 handler.use(middleware);
 
 handler.post(async (req, res) => {
+  console.log(cloudinary);
   if (!('authorization' in req.headers)) {
     return res.status(401).send('No authorization token');
   }
