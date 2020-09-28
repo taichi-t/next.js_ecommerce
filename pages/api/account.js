@@ -50,8 +50,8 @@ async function handlePutRequest(req, res) {
 }
 
 async function handlePostRequest(req, res) {
-  const { profilePictureUrl, newProfilePictureUrl } = req.body;
-  console.log('req.body', req.body);
+  console.log(req.body);
+  return;
 
   if (!('authorization' in req.headers)) {
     return res.status(401).send('No authorization token');

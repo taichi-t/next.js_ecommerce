@@ -19,13 +19,12 @@ import cookie from 'js-cookie';
 import axios from 'axios';
 import catchErrors from '../../utils/catchErrors';
 import { UserContext } from '../../utils/UserProvider';
-import formatMedia from '../../utils/formatMedias';
+// import formatMedia from '../../utils/formatMedia';
 
 function AccountHeader() {
   const { user, setUser } = useContext(UserContext);
   const { role, email, name, createdAt, profilePictureUrl } = user;
   const [open, setOpen] = React.useState(false);
-  // const [profilePicture, setProfilePicture] = useState();
   const [media, setMedia] = useState();
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -44,12 +43,22 @@ function AccountHeader() {
       setError('');
       setOpen(false);
       const token = cookie.get('token');
-      const headers = { headers: { Authorization: token } };
-      console.log(formatMedia(media));
-      const newProfilePictureUrl = await uploadImage(media);
-      const payload = { profilePictureUrl, newProfilePictureUrl };
+      const formData = new FormData();
+      formData.append('file', media[0]);
+      formData.append('profilePictureUrl', profilePictureUrl);
+      // const payload = {
+      //   profilePictureUrl,
+      //   media: media[0],
+      // };
+      const headers = {
+        headers: {
+          Authorization: token,
+          'content-type': 'multipart/form-data',
+        },
+      };
       const url = `${baseUrl}/api/account`;
-      await axios.post(url, payload, headers);
+      const response = await axios.post(url, formData, headers);
+      console.log(response);
       setLoading(false);
       setUser({ ...user, profilePictureUrl: newProfilePictureUrl[0] });
       setSuccess(true);
