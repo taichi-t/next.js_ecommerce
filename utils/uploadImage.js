@@ -2,6 +2,8 @@ const axios = require('axios');
 
 export const uploadImage = async (medias) => {
   const { file } = medias;
+  console.log(file);
+  return;
   try {
     // let requests = [];
     // for (let i = 0; i < file.length; i++) {
