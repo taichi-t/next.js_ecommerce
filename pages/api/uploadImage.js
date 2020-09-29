@@ -42,8 +42,12 @@ handler.post(async (req, res) => {
       );
     }
     if (profilePictureUrl) {
-      const publicId = formatImagePublicIds([profilePictureUrl]);
-      await cloudinary.uploader.destroy(publicId);
+      const { publicIds } = formatImagePublicIds([profilePictureUrl]);
+      await cloudinary.uploader.destroy(publicIds, (error, result) => {
+        if (error) {
+          console.error(error);
+        }
+      });
     }
     res.status(203).json(newProfilePictureUrl);
   } catch (err) {
