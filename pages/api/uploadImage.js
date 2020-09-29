@@ -1,40 +1,51 @@
-// import HttpStatus from 'http-status-codes';
 import middleware from '../../middleware/middleware';
 import nextConnect from 'next-connect';
 import jwt from 'jsonwebtoken';
-import deleteImage from '../../utils/deleteImage';
+// import deleteImage from '../../utils/deleteImage';
 import formatImagePublicIds from '../../utils/formatImagePublicIds';
-import uploadImage from '../../utils/uploadImage';
-import cloudinary from 'cloudinary';
+import { v2 as cloudinary } from 'cloudinary';
+import User from '../../models/User';
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 const handler = nextConnect();
 
 handler.use(middleware);
 
 handler.post(async (req, res) => {
-  console.log(cloudinary);
   if (!('authorization' in req.headers)) {
     return res.status(401).send('No authorization token');
   }
   try {
     const files = req.files;
-    const body = req.body;
-    // do stuff with files and body
+    const { profilePictureUrl } = req.body;
     const { userId } = jwt.verify(
       req.headers.authorization,
       process.env.JWT_SECRET
     );
-    const newProfilePictureUrl = await uploadImage(files);
-
-    return;
-    await User.findOneAndUpdate(
-      { _id: userId },
-      { profilePictureUrl: newProfilePictureUrl[0] }
+    const { url: newProfilePictureUrl } = await cloudinary.uploader.upload(
+      files.file.path,
+      (error) => {
+        if (error) {
+          console.error(error);
+        }
+      }
     );
-    if (profilePictureUrl) {
-      await deleteImage(formatImagePublicIds([profilePictureUrl]));
+    if (newProfilePictureUrl) {
+      await User.findOneAndUpdate(
+        { _id: userId },
+        { profilePictureUrl: newProfilePictureUrl }
+      );
     }
-    res.status(203).send('User updated');
+    if (profilePictureUrl) {
+      const publicId = formatImagePublicIds([profilePictureUrl]);
+      await cloudinary.uploader.destroy(publicId);
+    }
+    res.status(203).json(newProfilePictureUrl);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }

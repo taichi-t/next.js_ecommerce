@@ -53,9 +53,14 @@ function AccountHeader() {
         },
       };
       const url = `${baseUrl}/api/uploadImage`;
-      const response = await axios.post(url, formData, headers);
+      const { data: newProfilePictureUrl } = await axios.post(
+        url,
+        formData,
+        headers
+      );
+
       setLoading(false);
-      setUser({ ...user, profilePictureUrl: newProfilePictureUrl[0] });
+      setUser({ ...user, profilePictureUrl: newProfilePictureUrl });
       setSuccess(true);
     } catch (error) {
       catchErrors(error, setError);

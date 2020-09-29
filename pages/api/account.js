@@ -1,8 +1,8 @@
 import User from '../../models/User';
 import jwt from 'jsonwebtoken';
 import connectDb from '../../utils/connectDb';
-import deleteImage from '../../utils/deleteImage';
-import formatImagePublicIds from '../../utils/formatImagePublicIds';
+// import deleteImage from '../../utils/deleteImage';
+// import formatImagePublicIds from '../../utils/formatImagePublicIds';
 
 connectDb();
 
@@ -14,9 +14,9 @@ export default async (req, res) => {
     case 'PUT':
       await handlePutRequest(req, res);
       break;
-    case 'POST':
-      await handlePostRequest(req, res);
-      break;
+    // case 'POST':
+    //   await handlePostRequest(req, res);
+    //   break;
     default:
       res.status(405).send(`Method ${req.method} not allowed`);
       break;
