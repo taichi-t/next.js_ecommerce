@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import shortid from 'shortid';
+import beautifyUnique from 'mongoose-beautiful-unique-validation';
 
 const { String, Number } = mongoose.Schema.Types;
 
@@ -15,7 +16,6 @@ const ProductsSchema = new mongoose.Schema({
   sku: {
     type: String,
     unique: true,
-    default: shortid.generate(),
   },
   description: {
     type: String,
@@ -27,6 +27,8 @@ const ProductsSchema = new mongoose.Schema({
     default: [],
   },
 });
+
+ProductsSchema.plugin(beautifyUnique);
 
 export default mongoose.models.Product ||
   mongoose.model('Product', ProductsSchema);

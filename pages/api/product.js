@@ -5,6 +5,7 @@ import { v2 as cloudinary } from 'cloudinary';
 import middleware from '../../middleware/middleware';
 import nextConnect from 'next-connect';
 import jwt from 'jsonwebtoken';
+import shortid from 'shortid';
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -82,6 +83,7 @@ handler.post(async (req, res) => {
       price,
       description,
       mediaUrls,
+      sku: shortid.generate(),
     }).save();
 
     res.status(201).json(product);
