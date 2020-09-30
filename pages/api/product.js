@@ -1,47 +1,24 @@
 import Product from '../../models/Product';
 import connectDb from '../../utils/connectDb';
 import Cart from '../../models/Cart';
+import { v2 as cloudinary } from 'cloudinary';
+import middleware from '../../middleware/middleware';
+import nextConnect from 'next-connect';
+import jwt from 'jsonwebtoken';
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+const handler = nextConnect();
+
+handler.use(middleware);
 
 connectDb();
 
-export default async (req, res) => {
-  switch (req.method) {
-    case 'GET':
-      await handleGetRequest(req, res);
-      break;
-    case 'POST':
-      await handlePostRequest(req, res);
-      break;
-    case 'DELETE':
-      await handleDeleteRequest(req, res);
-      break;
-    default:
-      res.status(405).send(`Method ${req.method} not allowed`);
-      break;
-  }
-};
-
-async function handlePostRequest(req, res) {
-  try {
-    const { name, price, description, mediaUrls } = req.body;
-    if (!name || !price || !description || !mediaUrls) {
-      return res.status(422).send('Product missing one or more fields');
-    }
-    const product = await new Product({
-      name,
-      price,
-      description,
-      mediaUrls,
-    }).save();
-
-    res.status(201).json(product);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Server error in creating product');
-  }
-}
-
-async function handleDeleteRequest(req, res) {
+handler.delete(async (req, res) => {
   const { _id } = req.query;
   try {
     //1) Delete product by id
@@ -56,4 +33,51 @@ async function handleDeleteRequest(req, res) {
     console.error(error);
     res.status(500).send('Error deleting product');
   }
-}
+});
+
+handler.post(async (req, res) => {
+  if (!('authorization' in req.headers)) {
+    return res.status(401).send('No authorization token');
+  }
+  try {
+    const files = req.files['files'];
+    const { name, price, description } = req.body;
+    if (!name || !price || !description || !files) {
+      return res.status(422).send('Product missing one or more fields');
+    }
+    const promises = files.map(
+      (file) =>
+        new Promise((resolve, reject) => {
+          cloudinary.uploader.upload(file.path, (error, result) => {
+            if (error) {
+              reject(console.error(error));
+            } else {
+              resolve(result.url);
+            }
+          });
+        })
+    );
+
+    const mediaUrls = await Promise.all(promises);
+
+    const product = await new Product({
+      name,
+      price,
+      description,
+      mediaUrls,
+    }).save();
+
+    res.status(201).json(product);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server error in creating product');
+  }
+});
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
+export default handler;

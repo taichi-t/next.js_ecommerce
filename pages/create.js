@@ -13,6 +13,7 @@ import axios from 'axios';
 import baseUrl from '../utils/baseUrl';
 import catchErrors from '../utils/catchErrors';
 import uploadImage from '../utils/uploadImage';
+import cookie from 'js-cookie';
 import ImagesForm from '../components/Create/ImagesForm';
 const INITIAL_PRODUCT = {
   name: '',
@@ -42,12 +43,23 @@ function CreateProduct() {
       e.preventDefault();
       setLoading(true);
       setError('');
-      const medias = product.media.map((i) => i.file);
-      const mediaUrls = await uploadImage(medias);
-      const url = `${baseUrl}/api/product`;
+      const token = cookie.get('token');
       const { name, price, description } = product;
-      const payload = { name, price, description, mediaUrls };
-      await axios.post(url, payload);
+      const formData = new FormData();
+      for (const { file } of product.media) {
+        formData.append('files', file);
+      }
+      formData.append('name', name);
+      formData.append('price', price);
+      formData.append('description', description);
+      const headers = {
+        headers: {
+          Authorization: token,
+          'content-type': 'multipart/form-data',
+        },
+      };
+      const url = `${baseUrl}/api/product`;
+      await axios.post(url, formData, headers);
       setLoading(false);
       setProduct(INITIAL_PRODUCT);
       setSuccess(true);
