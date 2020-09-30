@@ -12,7 +12,6 @@ import {
 import axios from 'axios';
 import baseUrl from '../utils/baseUrl';
 import catchErrors from '../utils/catchErrors';
-import uploadImage from '../utils/uploadImage';
 import cookie from 'js-cookie';
 import ImagesForm from '../components/Create/ImagesForm';
 const INITIAL_PRODUCT = {

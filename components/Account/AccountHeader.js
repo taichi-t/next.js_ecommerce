@@ -13,15 +13,13 @@ import {
 } from 'semantic-ui-react';
 import ModalForm from '../Modal/ModalForm';
 import formatDate from '../../utils/formatDate';
-import uploadImage from '../../utils/uploadImage';
 import baseUrl from '../../utils/baseUrl';
 import cookie from 'js-cookie';
 import axios from 'axios';
 import catchErrors from '../../utils/catchErrors';
 import { UserContext } from '../../utils/UserProvider';
-// import formatMedia from '../../utils/formatMedia';
 
-function AccountHeader() {
+function AccountHeader({ cloudinaryUrl }) {
   const { user, setUser } = useContext(UserContext);
   const { role, email, name, createdAt, profilePictureUrl } = user;
   const [open, setOpen] = React.useState(false);
@@ -148,6 +146,14 @@ function AccountHeader() {
       </Segment>
     </>
   );
+}
+
+export async function getStaticProps() {
+  return {
+    props: {
+      cloudinaryUrl: process.env.CLOUDINARY_URL,
+    },
+  };
 }
 
 export default AccountHeader;
