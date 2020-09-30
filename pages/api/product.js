@@ -45,24 +45,37 @@ handler.post(async (req, res) => {
     if (!name || !price || !description || !files) {
       return res.status(422).send('Product missing one or more fields');
     }
-    const promises = files.map(
-      (file) =>
-        new Promise((resolve, reject) => {
-          cloudinary.uploader.upload(
-            file.path,
-            { height: 350, width: 350, crop: 'pad', background: 'white' },
-            (error, result) => {
-              if (error) {
-                reject(console.error(error));
-              } else {
-                resolve(result.url);
+    let mediaUrls;
+    if (files.length) {
+      const promises = files.map(
+        (file) =>
+          new Promise((resolve, reject) => {
+            cloudinary.uploader.upload(
+              file.path,
+              { height: 350, width: 350, crop: 'pad', background: 'white' },
+              (error, result) => {
+                if (error) {
+                  reject(console.error(error));
+                } else {
+                  resolve(result.url);
+                }
               }
-            }
-          );
-        })
-    );
-
-    const mediaUrls = await Promise.all(promises);
+            );
+          })
+      );
+      mediaUrls = await Promise.all(promises);
+    } else {
+      const result = await cloudinary.uploader.upload(
+        files.path,
+        { height: 350, width: 350, crop: 'pad', background: 'white' },
+        (error) => {
+          if (error) {
+            console.error(error);
+          }
+        }
+      );
+      mediaUrls = result.url;
+    }
 
     const product = await new Product({
       name,
