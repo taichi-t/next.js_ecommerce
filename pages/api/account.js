@@ -57,6 +57,13 @@ handler.post(async (req, res) => {
     );
     const { url: newProfilePictureUrl } = await cloudinary.uploader.upload(
       files.file.path,
+      {
+        width: 250,
+        height: 250,
+        radius: 'max',
+        background: 'white',
+        crop: 'pad',
+      },
       (error) => {
         if (error) {
           console.error(error);

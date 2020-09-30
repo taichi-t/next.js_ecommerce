@@ -48,13 +48,17 @@ handler.post(async (req, res) => {
     const promises = files.map(
       (file) =>
         new Promise((resolve, reject) => {
-          cloudinary.uploader.upload(file.path, (error, result) => {
-            if (error) {
-              reject(console.error(error));
-            } else {
-              resolve(result.url);
+          cloudinary.uploader.upload(
+            file.path,
+            { height: 350, width: 350, crop: 'pad', background: 'white' },
+            (error, result) => {
+              if (error) {
+                reject(console.error(error));
+              } else {
+                resolve(result.url);
+              }
             }
-          });
+          );
         })
     );
 
