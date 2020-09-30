@@ -1,29 +1,24 @@
 import User from '../../models/User';
 import jwt from 'jsonwebtoken';
 import connectDb from '../../utils/connectDb';
-// import deleteImage from '../../utils/deleteImage';
-// import formatImagePublicIds from '../../utils/formatImagePublicIds';
+import { v2 as cloudinary } from 'cloudinary';
+import middleware from '../../middleware/middleware';
+import nextConnect from 'next-connect';
+import formatImagePublicIds from '../../utils/formatImagePublicIds';
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+const handler = nextConnect();
+
+handler.use(middleware);
 
 connectDb();
 
-export default async (req, res) => {
-  switch (req.method) {
-    case 'GET':
-      await handleGetRequest(req, res);
-      break;
-    case 'PUT':
-      await handlePutRequest(req, res);
-      break;
-    // case 'POST':
-    //   await handlePostRequest(req, res);
-    //   break;
-    default:
-      res.status(405).send(`Method ${req.method} not allowed`);
-      break;
-  }
-};
-
-async function handleGetRequest(req, res) {
+handler.get(async (req, res) => {
   if (!('authorization' in req.headers)) {
     return res.status(401).send('No authorization token');
   }
@@ -41,35 +36,57 @@ async function handleGetRequest(req, res) {
   } catch (error) {
     res.status(403).send('Invalid token');
   }
-}
+});
 
-async function handlePutRequest(req, res) {
+handler.put(async (req, res) => {
   const { _id, role } = req.body;
   await User.findOneAndUpdate({ _id }, { role });
   res.status(203).send('User updated');
-}
+});
 
-// async function handlePostRequest(req, res) {
+handler.post(async (req, res) => {
+  if (!('authorization' in req.headers)) {
+    return res.status(401).send('No authorization token');
+  }
+  try {
+    const files = req.files;
+    const { profilePictureUrl } = req.body;
+    const { userId } = jwt.verify(
+      req.headers.authorization,
+      process.env.JWT_SECRET
+    );
+    const { url: newProfilePictureUrl } = await cloudinary.uploader.upload(
+      files.file.path,
+      (error) => {
+        if (error) {
+          console.error(error);
+        }
+      }
+    );
+    if (newProfilePictureUrl) {
+      await User.findOneAndUpdate(
+        { _id: userId },
+        { profilePictureUrl: newProfilePictureUrl }
+      );
+    }
+    if (profilePictureUrl) {
+      const { publicIds } = formatImagePublicIds([profilePictureUrl]);
+      await cloudinary.uploader.destroy(publicIds, (error, result) => {
+        if (error) {
+          console.error(error);
+        }
+      });
+    }
+    res.status(203).json(newProfilePictureUrl);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
 
-//   if (!('authorization' in req.headers)) {
-//     return res.status(401).send('No authorization token');
-//   }
-//   try {
-//     const { userId } = jwt.verify(
-//       req.headers.authorization,
-//       process.env.JWT_SECRET
-//     );
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
 
-//     await User.findOneAndUpdate(
-//       { _id: userId },
-//       { profilePictureUrl: newProfilePictureUrl[0] }
-//     );
-//     if (profilePictureUrl) {
-//       await deleteImage(formatImagePublicIds([profilePictureUrl]));
-//     }
-//     res.status(203).send('User updated');
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send('Internal Server Error');
-//   }
-// }
+export default handler;

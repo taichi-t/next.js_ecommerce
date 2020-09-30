@@ -52,7 +52,7 @@ function AccountHeader() {
           'content-type': 'multipart/form-data',
         },
       };
-      const url = `${baseUrl}/api/uploadImage`;
+      const url = `${baseUrl}/api/account`;
       const { data: newProfilePictureUrl } = await axios.post(
         url,
         formData,
