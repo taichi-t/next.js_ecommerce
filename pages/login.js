@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Button, Form, Icon, Message, Segment } from 'semantic-ui-react';
 import Link from 'next/link';
 import catchErrors from '../utils/catchErrors';
 import baseUrl from '../utils/baseUrl';
 import axios from 'axios';
-import handleLogin from '../utils/auth';
+// import handleLogin from '../utils/auth';
+import { UserContext } from '../utils/UserProvider';
+
 const INITIAL_USER = {
   email: '',
   password: '',
 };
 
 function Signup() {
+  const { handleLogin } = useContext(UserContext);
   const [user, setUser] = useState(INITIAL_USER);
   const [disabled, setDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -33,8 +36,9 @@ function Signup() {
       setError('');
       const url = `${baseUrl}/api/login`;
       const payload = { ...user };
-      const response = await axios.post(url, payload);
-      handleLogin(response.data);
+      const { data: token } = await axios.post(url, payload);
+      // handleLogin(response.data);
+      handleLogin(token);
     } catch (error) {
       catchErrors(error, setError);
     } finally {

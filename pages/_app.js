@@ -1,22 +1,16 @@
-import React, { useEffect, createContext } from 'react';
+import React, { useEffect } from 'react';
 import Layout from '../components/_App/Layout';
 import cookie from 'js-cookie';
 import Router from 'next/router';
-// import UserProvider from '../utils/UserProvider';
 import useUser from '../hooks/useUser';
 import UserContextProvider from '../utils/UserProvider';
 
-export const UserContext = createContext();
-
 function MyApp({ Component, pageProps, router: { pathname } }) {
-  const { user, error, loading, token, setUser } = useUser(pathname);
-
   useEffect(() => {
+    const token = cookie.get('token');
     if (!token) {
       const isProtectedRoute =
-        pathname === '/account' ||
-        pathname === '/create' ||
-        pathname === '/cart';
+        pathname === '/account' || pathname === '/create';
       if (isProtectedRoute) {
         Router.push('/login');
       }
@@ -28,16 +22,18 @@ function MyApp({ Component, pageProps, router: { pathname } }) {
     if (isNotPermitted) {
       Router.push('/');
     }
-    if (error) {
-      console.error('Error getting current user', error);
-      // 1) Throw out invalid token
-      cookie.remove('token');
-      // 2) Redirect to login
-      Router.push('/login');
-    }
-  }, [pathname]);
+  }, []);
 
-  React.useEffect(() => {
+  const {
+    user,
+    error,
+    loading,
+    setUser,
+    handleLogout,
+    handleLogin,
+  } = useUser();
+
+  useEffect(() => {
     window.addEventListener('storage', syncLogout);
   }, []);
   const syncLogout = (e) => {
@@ -47,11 +43,7 @@ function MyApp({ Component, pageProps, router: { pathname } }) {
   };
   return (
     <UserContextProvider
-      user={user}
-      error={error}
-      loading={loading}
-      token={token}
-      setUser={setUser}
+      auth={{ setUser, loading, error, user, handleLogout, handleLogin }}
     >
       <Layout {...pageProps}>
         <Component {...pageProps} />

@@ -3,15 +3,21 @@ import React, { createContext } from 'react';
 export const UserContext = createContext();
 
 const UserContextProvider = ({
-  user,
-  error,
-  loading,
-  token,
+  auth: { user, error, loading, setUser, handleLogin, handleLogout },
   children,
-  setUser,
 }) => {
   return (
-    <UserContext.Provider value={{ user, error, loading, token, setUser }}>
+    <UserContext.Provider
+      value={{
+        user,
+        error,
+        loading,
+
+        setUser,
+        handleLogin,
+        handleLogout,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );

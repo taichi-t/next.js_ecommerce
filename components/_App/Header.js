@@ -1,14 +1,17 @@
+import { useContext } from 'react';
 import { Menu, Container, Image, Icon } from 'semantic-ui-react';
 import Link from 'next/link';
 import Router, { useRouter } from 'next/router';
 import NProgress from 'nprogress';
-import { handleLogout } from '../../utils/auth';
+// import { handleLogout } from '../../utils/auth';
+import { UserContext } from '../../utils/UserProvider';
 
 Router.onRouteChangeStart = () => NProgress.start();
 Router.onRouteChangeComplete = () => NProgress.done();
 Router.onRouteError = () => NProgress.done();
 
-function Header({ user }) {
+function Header() {
+  const { user, handleLogout } = useContext(UserContext);
   const { pathname } = useRouter();
 
   const isRoot = user && user.role === 'root';

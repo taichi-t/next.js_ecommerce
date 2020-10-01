@@ -1,12 +1,9 @@
-import { useContext } from 'react';
 import Head from 'next/head';
 import { Container } from 'semantic-ui-react';
 import Header from './Header';
 import HeadContent from './HeadContent';
-import { UserContext } from '../../utils/UserProvider';
 
 function Layout({ children }) {
-  const { user, loading } = useContext(UserContext);
   return (
     <>
       <Head>
@@ -20,7 +17,7 @@ function Layout({ children }) {
         />
         <title>Private garage sale</title>
       </Head>
-      <Header user={user} />
+      <Header />
       <Container text style={{ paddingTop: '1em' }}>
         {children}
       </Container>

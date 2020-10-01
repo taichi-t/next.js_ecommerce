@@ -1,33 +1,61 @@
-import { useState, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import baseUrl from '../utils/baseUrl';
 import cookie from 'js-cookie';
-import { useEffect } from 'react';
+import Router from 'next/router';
 
-export default function useUser(pathname) {
+export default function useUser() {
   const [user, setUser] = useState({});
   const [error, setError] = useState();
   const [loading, setLoding] = useState(false);
-  const token = cookie.get('token');
+
+  async function getUserData(token) {
+    try {
+      setLoding(true);
+      const payload = { headers: { Authorization: token } };
+      const response = await axios.get(`${baseUrl}/api/account`, payload);
+      setUser(response.data);
+    } catch (error) {
+      console.error('Error getting current user', error);
+      // 1) Throw out invalid token
+      cookie.remove('token');
+      // 2) Redirect to login
+      Router.push('/login');
+      setError(error);
+    } finally {
+      setLoding(false);
+    }
+  }
+
   useEffect(() => {
-    if (!token) return setUser({});
-    if (pathname === '/logout') return setUser({});
-    async function getUserData() {
-      ('exexuted get user data');
-      try {
-        setLoding(true);
-        const payload = { headers: { Authorization: token } };
-        const response = await axios.get(`${baseUrl}/api/account`, payload);
-        setUser(response.data);
-      } catch (error) {
-        setError(error);
-      } finally {
-        setLoding(false);
+    async function cdm() {
+      const token = cookie.get('token');
+      if (Router.pathname !== ('/login' || '/singup' || '/') && token) {
+        await getUserData(token);
       }
     }
+    cdm();
+  }, []);
 
-    getUserData();
-  }, [pathname]);
+  function handleLogout() {
+    cookie.remove('token');
+    localStorage.setItem('logout', Date.now());
+    Router.push('/login');
+    setUser({});
+  }
 
-  return { user, token, error, loading, setUser };
+  async function handleLogin(token) {
+    cookie.set('token', token);
+    await getUserData(token);
+    Router.push('/account');
+  }
+
+  return {
+    user,
+    error,
+    loading,
+    setUser,
+    handleLogout,
+    handleLogin,
+  };
 }

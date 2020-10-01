@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { Button, Form, Icon, Message, Segment } from 'semantic-ui-react';
 import Link from 'next/link';
 import catchErrors from '../utils/catchErrors';
 import axios from 'axios';
 import baseUrl from '../utils/baseUrl';
-import handleLogin from '../utils/auth';
+import { UserContext } from '../utils/UserProvider';
 
 const INITIAL_USER = {
   name: '',
@@ -14,6 +14,7 @@ const INITIAL_USER = {
 };
 
 function Signup() {
+  const { handleLogin } = useContext(UserContext);
   const [user, setUser] = useState(INITIAL_USER);
   const [disabled, setDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
