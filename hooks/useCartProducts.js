@@ -19,6 +19,7 @@ export default function useCartProducts() {
         const response = await axios.get(url, payload);
         setProducts(response.data);
       } catch (error) {
+        console.error("Error getting cart data'", error);
         setError(error);
       } finally {
         setLoding(false);

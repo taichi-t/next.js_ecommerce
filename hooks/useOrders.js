@@ -17,9 +17,9 @@ export default function useOrders() {
         const payload = { headers: { Authorization: token } };
         const url = `${baseUrl}/api/orders`;
         const response = await axios.get(url, payload);
-
         setOrders(response.data.orders);
       } catch (error) {
+        console.error('Error getting orders', error);
         setError(error);
       } finally {
         setLoding(false);
