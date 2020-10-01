@@ -15,6 +15,7 @@ import useOrders from '../../hooks/useOrders';
 
 function AccountOrders() {
   const { orders } = useOrders();
+  console.log(orders);
   const router = useRouter();
   function mapOrdersToPanels(orders) {
     return (
@@ -40,7 +41,7 @@ function AccountOrders() {
               <List>
                 {order.products.map((p) => (
                   <List.Item key={p.product._id}>
-                    <Image avatar src={p.product.mediaUrl} />
+                    <Image size="small" src={p.product.mediaUrls[0]} />
                     <List.Content>
                       <List.Header>{p.product.name}</List.Header>
                       <List.Description>
