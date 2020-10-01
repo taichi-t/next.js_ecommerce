@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import { Header, Checkbox, Table, Icon, Divider } from 'semantic-ui-react';
 import baseUrl from '../../utils/baseUrl';
@@ -8,17 +8,17 @@ import formatDate from '../../utils/formatDate';
 function AccountPermissions() {
   const [users, setUsers] = React.useState([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
+    async function getUsers() {
+      const url = `${baseUrl}/api/users`;
+      const token = cookie.get('token');
+      const payload = { headers: { Authorization: token } };
+      const response = await axios.get(url, payload);
+      setUsers(response.data);
+    }
     getUsers();
   }, []);
 
-  async function getUsers() {
-    const url = `${baseUrl}/api/users`;
-    const token = cookie.get('token');
-    const payload = { headers: { Authorization: token } };
-    const response = await axios.get(url, payload);
-    setUsers(response.data);
-  }
   return (
     <div style={{ margin: '2em 0' }}>
       <Header as="h2">
@@ -48,13 +48,26 @@ function AccountPermissions() {
 
 function UserPermission({ user }) {
   const [admin, setAdmin] = React.useState(user.role === 'admin');
-
   const isFirstRun = React.useRef(true);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isFirstRun.current) {
       isFirstRun.current = false;
       return;
+    }
+    async function updatePermission() {
+      const url = `${baseUrl}/api/account`;
+      const role = admin ? 'admin' : 'user';
+      const formData = new FormData();
+      formData.append('_id', user._id);
+      formData.append('role', role);
+      const token = cookie.get('token');
+      const headers = {
+        headers: {
+          Authorization: token,
+        },
+      };
+      await axios.put(url, formData, headers);
     }
     updatePermission();
   }, [admin]);
@@ -63,20 +76,6 @@ function UserPermission({ user }) {
     setAdmin((prevState) => !prevState);
   }
 
-  async function updatePermission() {
-    const url = `${baseUrl}/api/account`;
-    const role = admin ? 'admin' : 'user';
-    const formData = new FormData();
-    formData.append('_id', user._id);
-    formData.append('role', role);
-    const token = cookie.get('token');
-    const headers = {
-      headers: {
-        Authorization: token,
-      },
-    };
-    await axios.put(url, formData, headers);
-  }
   return (
     <Table.Row>
       <Table.Cell>
