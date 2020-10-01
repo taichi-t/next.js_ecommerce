@@ -46,14 +46,14 @@ function AddProductToCart({ user, productId }) {
       value={quantity}
       onChange={(event) => setQuantity(Number(event.target.value))}
       action={
-        user && success
+        Object.keys(user).length && success
           ? {
               color: 'blue',
               content: 'Item Added!',
               icon: 'plus cart',
               disabled: true,
             }
-          : user
+          : Object.keys(user).length
           ? {
               color: 'orange',
               content: 'Add to Cart',
