@@ -18,9 +18,10 @@ import cookie from 'js-cookie';
 import axios from 'axios';
 import catchErrors from '../../utils/catchErrors';
 import { UserContext } from '../../utils/UserProvider';
+import Skeleton from 'react-loading-skeleton';
 
-function AccountHeader({ cloudinaryUrl }) {
-  const { user, setUser } = useContext(UserContext);
+function AccountHeader() {
+  const { user, setUser, loading: userLoading } = useContext(UserContext);
   const { role, email, name, createdAt, profilePictureUrl } = user;
   const [open, setOpen] = React.useState(false);
   const [media, setMedia] = useState();
@@ -103,47 +104,51 @@ function AccountHeader({ cloudinaryUrl }) {
   );
   return (
     <>
-      <Segment secondary inverted color="violet" loading={loading}>
-        <Label
-          color="teal"
-          size="large"
-          ribbon
-          icon="privacy"
-          style={{ textTramsform: 'capitalize' }}
-          content={role}
-        />
-        <Header inverted textAlign="center" as="h1" icon>
-          <Header.Content>
-            <div className="profile-container">
-              <Image
-                src={profilePictureUrl || 'images/anonymous-user.png'}
-                circular
-                wrapped
-                size="small"
-                className="profile-image"
-              />
+      {userLoading ? (
+        <Skeleton height={330} style={{ textAlign: 'center' }} />
+      ) : (
+        <Segment secondary inverted color="violet" loading={loading}>
+          <Label
+            color="teal"
+            size="large"
+            ribbon
+            icon="privacy"
+            style={{ textTramsform: 'capitalize' }}
+            content={role}
+          />
+          <Header inverted textAlign="center" as="h1" icon>
+            <Header.Content>
+              <div className="profile-container">
+                <Image
+                  src={profilePictureUrl || 'images/anonymous-user.png'}
+                  circular
+                  wrapped
+                  size="small"
+                  className="profile-image"
+                />
 
-              <ModalForm
-                trigger={
-                  <Icon
-                    name="camera"
-                    className="profile-icon"
-                    color="grey"
-                    inverted
-                    circular
-                  />
-                }
-                component={modalFormComponent}
-                setOpen={setOpen}
-                open={open}
-              />
-            </div>
-          </Header.Content>
-          <Header.Content>{name}</Header.Content>
-          <Header.Subheader>{email}</Header.Subheader>
-          <Header.Subheader>Joined {formatDate(createdAt)}</Header.Subheader>
-        </Header>
-      </Segment>
+                <ModalForm
+                  trigger={
+                    <Icon
+                      name="camera"
+                      className="profile-icon"
+                      color="grey"
+                      inverted
+                      circular
+                    />
+                  }
+                  component={modalFormComponent}
+                  setOpen={setOpen}
+                  open={open}
+                />
+              </div>
+            </Header.Content>
+            <Header.Content>{name}</Header.Content>
+            <Header.Subheader>{email}</Header.Subheader>
+            <Header.Subheader>Joined {formatDate(createdAt)}</Header.Subheader>
+          </Header>
+        </Segment>
+      )}
     </>
   );
 }

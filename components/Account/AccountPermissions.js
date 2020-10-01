@@ -4,20 +4,11 @@ import { Header, Checkbox, Table, Icon, Divider } from 'semantic-ui-react';
 import baseUrl from '../../utils/baseUrl';
 import cookie from 'js-cookie';
 import formatDate from '../../utils/formatDate';
+import useUsers from '../../hooks/useUsers';
+import Skeleton from 'react-loading-skeleton';
 
 function AccountPermissions() {
-  const [users, setUsers] = React.useState([]);
-
-  useEffect(() => {
-    async function getUsers() {
-      const url = `${baseUrl}/api/users`;
-      const token = cookie.get('token');
-      const payload = { headers: { Authorization: token } };
-      const response = await axios.get(url, payload);
-      setUsers(response.data);
-    }
-    getUsers();
-  }, []);
+  const { users, loading } = useUsers();
 
   return (
     <div style={{ margin: '2em 0' }}>
@@ -25,23 +16,27 @@ function AccountPermissions() {
         <Icon name="settings" />
         User Permissions
       </Header>
-      <Table compact celled definition>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell />
-            <Table.HeaderCell>Name</Table.HeaderCell>
-            <Table.HeaderCell>Email</Table.HeaderCell>
-            <Table.HeaderCell>Joined</Table.HeaderCell>
-            <Table.HeaderCell>Updated</Table.HeaderCell>
-            <Table.HeaderCell>Role</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {users.map((user) => (
-            <UserPermission key={user._id} user={user} />
-          ))}
-        </Table.Body>
-      </Table>
+      {loading ? (
+        <Skeleton height={300} />
+      ) : (
+        <Table compact celled definition>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell />
+              <Table.HeaderCell>Name</Table.HeaderCell>
+              <Table.HeaderCell>Email</Table.HeaderCell>
+              <Table.HeaderCell>Joined</Table.HeaderCell>
+              <Table.HeaderCell>Updated</Table.HeaderCell>
+              <Table.HeaderCell>Role</Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            {users.map((user) => (
+              <UserPermission key={user._id} user={user} />
+            ))}
+          </Table.Body>
+        </Table>
+      )}
     </div>
   );
 }

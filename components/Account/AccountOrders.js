@@ -12,10 +12,10 @@ import {
 import { useRouter } from 'next/router';
 import formatDate from '../../utils/formatDate';
 import useOrders from '../../hooks/useOrders';
+import Skeleton from 'react-loading-skeleton';
 
 function AccountOrders() {
-  const { orders } = useOrders();
-  console.log(orders);
+  const { orders, loading } = useOrders();
   const router = useRouter();
   function mapOrdersToPanels(orders) {
     return (
@@ -69,7 +69,9 @@ function AccountOrders() {
         <Icon name="folder open" />
         Order History
       </Header>
-      {orders.length === 0 ? (
+      {loading ? (
+        <Skeleton height={100} />
+      ) : !loading && orders.length === 0 ? (
         <Segment inverted color="grey" textAlign="center">
           <Header icon>
             <Icon name="copy outline" />

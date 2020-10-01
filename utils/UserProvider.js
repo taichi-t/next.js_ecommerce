@@ -12,7 +12,6 @@ const UserContextProvider = ({
         user,
         error,
         loading,
-
         setUser,
         handleLogin,
         handleLogout,

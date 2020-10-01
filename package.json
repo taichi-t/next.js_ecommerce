@@ -27,6 +27,7 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-images-uploading": "^3.0.1",
+    "react-loading-skeleton": "^2.1.1",
     "react-stripe-checkout": "^2.6.3",
     "semantic-ui-react": "^1.2.1",
     "shortid": "^2.2.14",
