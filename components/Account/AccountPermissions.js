@@ -65,8 +65,17 @@ function UserPermission({ user }) {
 
   async function updatePermission() {
     const url = `${baseUrl}/api/account`;
-    const payload = { _id: user._id, role: admin ? 'admin' : 'user' };
-    await axios.put(url, payload);
+    const role = admin ? 'admin' : 'user';
+    const formData = new FormData();
+    formData.append('_id', user._id);
+    formData.append('role', role);
+    const token = cookie.get('token');
+    const headers = {
+      headers: {
+        Authorization: token,
+      },
+    };
+    await axios.put(url, formData, headers);
   }
   return (
     <Table.Row>
