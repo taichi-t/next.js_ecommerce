@@ -9,7 +9,11 @@ import catchErrors from '../utils/catchErrors';
 import useCartProducts from '../hooks/useCartProducts';
 
 function Cart() {
-  const { products, setProducts } = useCartProducts();
+  const {
+    products,
+    setProducts,
+    loading: cartProductsLoading,
+  } = useCartProducts();
   const [success, setSuccess] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
 
@@ -46,11 +50,13 @@ function Cart() {
         products={products}
         handleRemoveFromCart={handleRemoveFromCart}
         success={success}
+        loading={cartProductsLoading}
       />
       <CartSummary
         products={products}
         handleCheckout={handleCheckout}
         success={success}
+        loading={cartProductsLoading}
       />
     </Segment>
   );

@@ -105,7 +105,7 @@ function AccountHeader() {
   return (
     <>
       {userLoading ? (
-        <Skeleton height={330} style={{ textAlign: 'center' }} />
+        <Skeleton height={330} />
       ) : (
         <Segment secondary inverted color="violet" loading={loading}>
           <Label

@@ -9,8 +9,9 @@ import {
 } from 'semantic-ui-react';
 import { useRouter } from 'next/router';
 import { UserContext } from '../../utils/UserProvider';
+import Skeleton from 'react-loading-skeleton';
 
-function CartItemList({ products, handleRemoveFromCart, success }) {
+function CartItemList({ products, handleRemoveFromCart, success, loading }) {
   const { user } = useContext(UserContext);
   const router = useRouter();
 
@@ -34,6 +35,26 @@ function CartItemList({ products, handleRemoveFromCart, success }) {
         />
       ),
     }));
+  }
+
+  if (loading) {
+    return (
+      <div style={{ display: 'flex' }}>
+        <div>
+          <Skeleton height={150} width={150} />
+        </div>
+        <div
+          style={{
+            fontSize: 20,
+            lineHeight: 2,
+            width: '100%',
+            marginLeft: '1em',
+          }}
+        >
+          <Skeleton count={4} />
+        </div>
+      </div>
+    );
   }
 
   if (success) {

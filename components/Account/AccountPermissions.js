@@ -17,7 +17,7 @@ function AccountPermissions() {
         User Permissions
       </Header>
       {loading ? (
-        <Skeleton height={300} />
+        <Skeleton height={190} />
       ) : (
         <Table compact celled definition>
           <Table.Header>
