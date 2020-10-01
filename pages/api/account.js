@@ -39,7 +39,6 @@ handler.get(async (req, res) => {
 });
 
 handler.put(async (req, res) => {
-  console.log(req);
   const { _id, role } = req.body;
   await User.findOneAndUpdate({ _id }, { role });
   res.status(203).send('User updated');
