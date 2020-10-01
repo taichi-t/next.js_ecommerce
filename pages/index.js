@@ -3,7 +3,6 @@ import axios from 'axios';
 import ProductList from '../components/Index/ProductList';
 import ProductPagination from '../components/Index/ProductPagination';
 import baseUrl from '../utils/baseUrl';
-import { UserContext } from '../pages/_app';
 
 function Home({ products, totalPages }) {
   return (
