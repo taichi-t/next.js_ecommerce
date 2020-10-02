@@ -9,11 +9,8 @@ import catchErrors from '../utils/catchErrors';
 import useCartProducts from '../hooks/useCartProducts';
 
 function Cart() {
-  const {
-    products,
-    setProducts,
-    loading: cartProductsLoading,
-  } = useCartProducts();
+  const { products, loading: cartProductsLoading, mutate } = useCartProducts();
+
   const [success, setSuccess] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
 
@@ -25,7 +22,7 @@ function Cart() {
       headers: { Authorization: token },
     };
     const response = await axios.delete(url, payload);
-    setProducts(response.data);
+    mutate(response.data);
   }
 
   async function handleCheckout(paymentData) {
@@ -47,13 +44,13 @@ function Cart() {
   return (
     <Segment loading={loading}>
       <CartItemList
-        products={products}
+        products={products && products}
         handleRemoveFromCart={handleRemoveFromCart}
         success={success}
         loading={cartProductsLoading}
       />
       <CartSummary
-        products={products}
+        products={products && products}
         handleCheckout={handleCheckout}
         success={success}
         loading={cartProductsLoading}

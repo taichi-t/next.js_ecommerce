@@ -1,30 +1,17 @@
-import { useEffect, useState } from 'react';
 import axios from 'axios';
 import baseUrl from '../utils/baseUrl';
 import cookie from 'js-cookie';
+import useSWR from 'swr';
 
 export default function useUsers() {
-  const [users, setUsers] = useState([]);
-  const [error, setError] = useState();
-  const [loading, setLoding] = useState(false);
+  async function getUsers(url) {
+    const token = cookie.get('token');
+    const payload = { headers: { Authorization: token } };
+    const response = await axios.get(url, payload);
+    return response.data;
+  }
+  const { data: users, error } = useSWR(`${baseUrl}/api/users`, getUsers);
 
-  useEffect(() => {
-    async function getUsers() {
-      try {
-        setLoding(true);
-        const url = `${baseUrl}/api/users`;
-        const token = cookie.get('token');
-        const payload = { headers: { Authorization: token } };
-        const response = await axios.get(url, payload);
-        setUsers(response.data);
-      } catch (error) {
-        console.error(error);
-        setError(error);
-      } finally {
-        setLoding(false);
-      }
-    }
-    getUsers();
-  }, []);
+  let loading = !users && !error;
   return { users, error, loading };
 }

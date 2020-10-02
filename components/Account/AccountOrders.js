@@ -71,7 +71,14 @@ function AccountOrders() {
       </Header>
       {loading ? (
         <Skeleton height={100} />
-      ) : orders.length === 0 ? (
+      ) : orders ? (
+        <Accordion
+          fluid
+          styled
+          exclusive={false}
+          panels={mapOrdersToPanels(orders)}
+        />
+      ) : (
         <Segment inverted color="grey" textAlign="center">
           <Header icon>
             <Icon name="copy outline" />
@@ -83,13 +90,6 @@ function AccountOrders() {
             </Button>
           </div>
         </Segment>
-      ) : (
-        <Accordion
-          fluid
-          styled
-          exclusive={false}
-          panels={mapOrdersToPanels(orders)}
-        />
       )}
     </>
   );

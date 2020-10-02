@@ -12,7 +12,7 @@ function CartSummary({ products, handleCheckout, success, loading }) {
     const { cartTotal, stripeTotal } = calculateCartTotal(products);
     setCartAmount(cartTotal);
     seStripeAmnount(stripeTotal);
-    setCartEmpty(products.length === 0);
+    setCartEmpty(products && products.length === 0);
   }, [products]);
 
   return (

@@ -3,29 +3,19 @@ import axios from 'axios';
 import baseUrl from '../utils/baseUrl';
 import cookie from 'js-cookie';
 import { useEffect } from 'react';
+import useSWR from 'swr';
 
 export default function useOrders() {
-  const [orders, setOrders] = useState([]);
-  const [error, setError] = useState();
-  const token = cookie.get('token');
-  const [loading, setLoding] = useState(false);
-
-  useEffect(() => {
-    async function getOrdersData() {
-      try {
-        setLoding(true);
-        const payload = { headers: { Authorization: token } };
-        const url = `${baseUrl}/api/orders`;
-        const response = await axios.get(url, payload);
-        setOrders(response.data.orders);
-      } catch (error) {
-        console.error('Error getting orders', error);
-        setError(error);
-      } finally {
-        setLoding(false);
-      }
-    }
-    getOrdersData();
-  }, []);
+  async function getOrdersData(url) {
+    const token = cookie.get('token');
+    const payload = { headers: { Authorization: token } };
+    const response = await axios.get(url, payload);
+    return response.data;
+  }
+  const { data: orders, error } = useSWR(
+    `${baseUrl}/api/orders`,
+    getOrdersData
+  );
+  let loading = !orders && !error;
   return { orders, error, loading };
 }
