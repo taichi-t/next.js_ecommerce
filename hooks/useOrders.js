@@ -1,8 +1,6 @@
-import { useState } from 'react';
 import axios from 'axios';
 import baseUrl from '../utils/baseUrl';
 import cookie from 'js-cookie';
-import { useEffect } from 'react';
 import useSWR from 'swr';
 
 export default function useOrders() {
