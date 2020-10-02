@@ -71,7 +71,7 @@ function AccountOrders() {
       </Header>
       {loading ? (
         <Skeleton height={100} />
-      ) : !loading && orders.length === 0 ? (
+      ) : orders.length === 0 ? (
         <Segment inverted color="grey" textAlign="center">
           <Header icon>
             <Icon name="copy outline" />
