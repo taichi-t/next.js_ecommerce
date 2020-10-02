@@ -44,13 +44,13 @@ function Cart() {
   return (
     <Segment loading={loading}>
       <CartItemList
-        products={products && products}
+        products={products}
         handleRemoveFromCart={handleRemoveFromCart}
         success={success}
         loading={cartProductsLoading}
       />
       <CartSummary
-        products={products && products}
+        products={products}
         handleCheckout={handleCheckout}
         success={success}
         loading={cartProductsLoading}

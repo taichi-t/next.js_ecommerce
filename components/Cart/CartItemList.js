@@ -68,7 +68,7 @@ function CartItemList({ products, handleRemoveFromCart, success, loading }) {
     );
   }
 
-  if (products.length === -0) {
+  if (products && products.length === -0) {
     return (
       <Segment secondary color="teal" inverted textAlign="center" placeholder>
         <Header icon>
