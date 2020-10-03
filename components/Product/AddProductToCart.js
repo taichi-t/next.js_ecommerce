@@ -5,6 +5,7 @@ import axios from 'axios';
 import baseUrl from '../../utils/baseUrl';
 import catchErrors from '../../utils/catchErrors';
 import cookie from 'js-cookie';
+import { mutate } from 'swr';
 
 function AddProductToCart({ user, productId }) {
   const [quantity, setQuantity] = React.useState(1);
@@ -30,6 +31,7 @@ function AddProductToCart({ user, productId }) {
       const token = cookie.get('token');
       const headers = { headers: { Authorization: token } };
       await axios.put(url, payload, headers);
+      mutate(`${baseUrl}/api/cart`);
       setSuccess(true);
     } catch (error) {
       catchErrors(error, window.alert);
