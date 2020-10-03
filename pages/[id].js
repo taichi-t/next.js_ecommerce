@@ -7,11 +7,10 @@ import { UserContext } from '../utils/UserProvider';
 
 function Product({ product }) {
   const { user, loading } = useContext(UserContext);
-
   return (
     <>
-      <ProductSummary user={user} {...product} />
-      <ProductAttributes user={user} {...product} />
+      <ProductSummary user={user} product={product} />
+      <ProductAttributes user={user} product={product} />
     </>
   );
 }

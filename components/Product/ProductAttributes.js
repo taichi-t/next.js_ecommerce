@@ -3,7 +3,8 @@ import { useState } from 'react';
 import axios from 'axios';
 import baseUrl from '../../utils/baseUrl';
 import { useRouter } from 'next/router';
-function ProductAttributes({ description, _id, user }) {
+function ProductAttributes({ user, product }) {
+  const { description, _id } = product;
   const [modal, setModal] = useState(false);
   const router = useRouter();
   const isRoot = user && user.role === 'root';

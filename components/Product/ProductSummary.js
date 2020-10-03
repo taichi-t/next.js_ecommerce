@@ -1,7 +1,8 @@
 import { Item, Label } from 'semantic-ui-react';
 import AddProductToCart from '../Product/AddProductToCart';
 
-function ProductSummary({ name, mediaUrls, _id, price, sku, user }) {
+function ProductSummary({ user, product }) {
+  const { name, mediaUrls, _id, price, sku } = product;
   return (
     <Item.Group>
       <Item>
