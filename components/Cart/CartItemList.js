@@ -16,25 +16,28 @@ function CartItemList({ products, handleRemoveFromCart, success, loading }) {
   const router = useRouter();
 
   function mapCartProductsToItems(products) {
-    return products.map((p) => ({
-      childkey: p.product._id,
-      header: (
-        <Item.Header as="a" onClick={() => router.push(`/${p.product._id}`)}>
-          {p.product.name}
-        </Item.Header>
-      ),
-      image: p.product.mediaUrls[0],
-      meta: `${p.quantity} × $${p.product.price}`,
-      fluid: 'true',
-      extra: (
-        <Button
-          basic
-          icon="remove"
-          floated="right"
-          onClick={() => handleRemoveFromCart(p.product._id)}
-        />
-      ),
-    }));
+    return (
+      products &&
+      products.map((p) => ({
+        childkey: p.product._id,
+        header: (
+          <Item.Header as="a" onClick={() => router.push(`/${p.product._id}`)}>
+            {p.product.name}
+          </Item.Header>
+        ),
+        image: p.product.mediaUrls[0],
+        meta: `${p.quantity} × $${p.product.price}`,
+        fluid: 'true',
+        extra: (
+          <Button
+            basic
+            icon="remove"
+            floated="right"
+            onClick={() => handleRemoveFromCart(p.product._id)}
+          />
+        ),
+      }))
+    );
   }
 
   if (loading) {
@@ -68,7 +71,7 @@ function CartItemList({ products, handleRemoveFromCart, success, loading }) {
     );
   }
 
-  if (products && products.length === -0) {
+  if (!products || products.length === -0) {
     return (
       <Segment secondary color="teal" inverted textAlign="center" placeholder>
         <Header icon>

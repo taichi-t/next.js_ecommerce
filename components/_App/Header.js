@@ -34,12 +34,7 @@ function Header() {
             ReactReserve
           </Menu.Item>
         </Link>
-        <Link href="/cart">
-          <Menu.Item header active={isActive('/cart')}>
-            <Icon name="cart" size="large" />
-            Cart
-          </Menu.Item>
-        </Link>
+
         {isRoorOrAdmin && (
           <Link href="/create">
             <Menu.Item header active={isActive('/create')}>
@@ -50,6 +45,12 @@ function Header() {
         )}
         {Object.keys(user).length ? (
           <>
+            <Link href="/cart">
+              <Menu.Item header active={isActive('/cart')}>
+                <Icon name="cart" size="large" />
+                Cart
+              </Menu.Item>
+            </Link>
             <Link href="/account">
               <Menu.Item header active={isActive('/account')}>
                 <Icon name="user" size="large" />
