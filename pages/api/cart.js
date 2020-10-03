@@ -55,7 +55,11 @@ async function handlePutRequest(req, res) {
       process.env.JWT_SECRET
     );
     // Get user cart based on userId
-    const cart = await Cart.findOne({ user: userId });
+    let cart;
+    cart = await Cart.findOne({ user: userId });
+    if (!cart) {
+      cart = await new Cart({ user: userId }).save();
+    }
     // Check if product already exists in cart
     const productExists = cart.products.some((doc) =>
       ObjectId(productId).equals(doc.product)

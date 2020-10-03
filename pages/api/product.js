@@ -41,6 +41,10 @@ handler.post(async (req, res) => {
     return res.status(401).send('No authorization token');
   }
   try {
+    const { userId } = jwt.verify(
+      req.headers.authorization,
+      process.env.JWT_SECRET
+    );
     const files = req.files['files'];
     const { name, price, description } = req.body;
     if (!name || !price || !description || !files) {
@@ -79,6 +83,7 @@ handler.post(async (req, res) => {
     }
 
     const product = await new Product({
+      user: userId,
       name,
       price,
       description,

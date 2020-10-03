@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { mutate } from 'swr';
 import {
   Input,
   TextArea,
@@ -59,6 +60,7 @@ function CreateProduct() {
       };
       const url = `${baseUrl}/api/product`;
       await axios.post(url, formData, headers);
+      mutate(`${baseUrl}/api/products`);
       setLoading(false);
       setProduct(INITIAL_PRODUCT);
       setSuccess(true);
