@@ -16,7 +16,6 @@ import Skeleton from 'react-loading-skeleton';
 
 function AccountOrders() {
   const { orders, loading } = useOrders();
-  console.log(orders, loading);
   const router = useRouter();
   function mapOrdersToPanels(orders) {
     return (
