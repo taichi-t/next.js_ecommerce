@@ -14,7 +14,6 @@ import Skeleton from 'react-loading-skeleton';
 function CartItemList({ products, handleRemoveFromCart, success, loading }) {
   const { user } = useContext(UserContext);
   const router = useRouter();
-  console.log(products);
 
   function mapCartProductsToItems(products) {
     return (
