@@ -6,11 +6,10 @@ const { ObjectId } = mongoose.Types;
 
 connectDb();
 
-export default async function getProductData(id) {
+export default async function getProduct(id) {
   try {
     const product = await Product.aggregate([
       { $match: { _id: ObjectId(id) } },
-
       {
         $lookup: {
           from: 'users',
