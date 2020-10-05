@@ -10,17 +10,12 @@ function ProductList({ products }) {
         <Card key={product._id} color="teal">
           <Card.Content>
             <Card.Meta className="right floated">
-              posted {formatDateFromNow(product.createdAt)}
+              {formatDateFromNow(product.createdAt)}
             </Card.Meta>
             <Image src={product.user.profilePictureUrl} avatar ui />
             {product.user.name}
           </Card.Content>
-          {/* <div> */}
-
           <ImagesSlider imageUrls={product.mediaUrls} />
-
-          {/* <Image src={product.mediaUrls[0]} /> */}
-          {/* </div> */}
           <Card.Content>
             <Card.Header>
               <Link href={`/[id]`} as={`/${product._id}`}>

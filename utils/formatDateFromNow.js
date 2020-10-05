@@ -1,7 +1,8 @@
-import { DateTime } from 'luxon';
+const relativeTime = require('dayjs/plugin/relativeTime');
+const dayjs = require('dayjs');
+dayjs.extend(relativeTime);
 
 export default function formatDateFromNow(IOS) {
-  const daysfromIOS = DateTime.fromISO(IOS).get('day');
-  const diffDays = DateTime.local().minus({ days: daysfromIOS }).toRelative();
+  const diffDays = dayjs(IOS).fromNow();
   return diffDays;
 }

@@ -3,6 +3,7 @@ import { Image, Item } from 'semantic-ui-react';
 
 function ImagesSlider({ imageUrls }) {
   const settings = {
+    arrow: false,
     dots: true,
     infinite: true,
     speed: 500,
