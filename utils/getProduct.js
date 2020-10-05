@@ -31,7 +31,6 @@ export default async function getProduct(id) {
           },
         },
       },
-
       { $unwind: '$user' },
     ]);
     return JSON.parse(JSON.stringify(product));
