@@ -14,7 +14,9 @@ function ProductList({ products }) {
             <Image src={product.user.profilePictureUrl} avatar ui />
             {product.user.name}
           </Card.Content>
-          <Image src={product.mediaUrls[0]} />
+          <div>
+            <Image src={product.mediaUrls[0]} />
+          </div>
           <Card.Content>
             <Card.Header>
               <Link href={`/[id]`} as={`/${product._id}`}>

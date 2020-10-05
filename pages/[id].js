@@ -13,8 +13,8 @@ function Product({ product }) {
     <div>Loading</div>
   ) : (
     <>
-      <ProductSummary user={user} product={product && product[0]} />
-      <ProductAttributes user={user} product={product && product[0]} />
+      <ProductSummary user={user} product={product[0]} />
+      <ProductAttributes user={user} product={product[0]} />
     </>
   );
 }
