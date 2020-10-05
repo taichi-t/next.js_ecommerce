@@ -4,6 +4,8 @@ import cookie from 'js-cookie';
 import Router from 'next/router';
 import useUser from '../hooks/useUser';
 import UserContextProvider from '../utils/UserProvider';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 function MyApp({ Component, pageProps, router: { pathname } }) {
   useEffect(() => {
