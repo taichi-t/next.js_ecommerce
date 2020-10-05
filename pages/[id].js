@@ -9,8 +9,8 @@ function Product({ product }) {
   const { user, loading } = useContext(UserContext);
   return (
     <>
-      <ProductSummary user={user} product={product} />
-      <ProductAttributes user={user} product={product} />
+      <ProductSummary user={user} product={product[0]} />
+      <ProductAttributes user={user} product={product[0]} />
     </>
   );
 }
