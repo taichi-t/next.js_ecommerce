@@ -4,7 +4,7 @@ import cookie from 'js-cookie';
 import axios from 'axios';
 import baseUrl from '../../utils/baseUrl';
 
-const CommentForm = ({ content, refId, mutate, data }) => {
+const CommentForm = ({ content, refId, mutate, _data }) => {
   const [text, setText] = useState('');
   const [loading, setLoading] = useState(false);
   function handleChange(e) {
@@ -24,7 +24,10 @@ const CommentForm = ({ content, refId, mutate, data }) => {
       };
       const url = `${baseUrl}/api/comment`;
       const { data } = await axios.post(url, payload, headers);
-      mutate({ ...data, comments: data.comments });
+      mutate({
+        ..._data,
+        comments: _data.comments.concat(data.comments.slice(-1)[0]),
+      });
       setText('');
       setLoading(false);
     } catch (error) {

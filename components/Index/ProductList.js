@@ -29,7 +29,7 @@ function ProductList({ products }) {
     });
   }
   return (
-    <Card.Group itemsPerRow="2" stackable centered>
+    <Card.Group itemsPerRow="3" stackable centered>
       {mapProductsToItems(products)}
     </Card.Group>
   );

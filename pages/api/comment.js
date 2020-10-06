@@ -32,24 +32,30 @@ async function handlePostRequest(req, res) {
       process.env.JWT_SECRET
     );
 
+    //create Comments documents, if doesn't exist
     await Comments.updateOne(
       { product: ObjectId(productId) },
       { $setOnInsert: { comments: [] } },
       { upsert: true }
     );
 
+    const query = { product: ObjectId(productId) };
+    const update = {
+      comments: {
+        user: userId,
+        text: text,
+        createdAt: new Date().toISOString(),
+      },
+    };
+
+    const options = { new: true };
+
     const response = await Comments.findOneAndUpdate(
-      { product: ObjectId(productId) },
-      {
-        $push: {
-          comments: {
-            user: userId,
-            text: text,
-            createdAt: new Date().toISOString(),
-          },
-        },
-      }
+      query,
+      { $push: update },
+      options
     );
+
     res.status(200).json(response);
   } catch (error) {
     console.error(error);
@@ -59,9 +65,11 @@ async function handlePostRequest(req, res) {
 
 async function handleGetRequest(req, res) {
   const { productId } = req.query;
+
   try {
     const response = await Comments.aggregate([
       { $match: { product: ObjectId(productId) } },
+      { $match: { comments: { $exists: true, $ne: null } } },
       { $unwind: '$comments' },
       {
         $lookup: {
@@ -106,9 +114,7 @@ async function handleGetRequest(req, res) {
       },
     ]);
 
-    console.log(response);
-
-    res.status(200).json(response[0]);
+    res.status(200).json(response);
   } catch (error) {
     console.error(error);
     res.status(403).send('Please try again');

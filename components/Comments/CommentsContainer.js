@@ -27,7 +27,7 @@ const Container = ({ productId }) => {
         content="Add Comment"
         refId={productId}
         mutate={mutate}
-        data={data}
+        _data={data}
       />
     </Comment.Group>
   );
