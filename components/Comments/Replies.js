@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Comment, Form, Header, Loader } from 'semantic-ui-react';
-import Skeleton from 'react-loading-skeleton';
 
 const ProductReplies = () => {
   const [replies, setReplies] = useState();
-  useEffect(() => {
-    console.log('mounted');
-  }, []);
+  useEffect(() => {}, []);
   return replies ? (
     replies.map((reply) => (
       <Comment.Group>

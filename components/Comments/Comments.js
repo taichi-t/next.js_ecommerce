@@ -7,18 +7,24 @@ import {
   Header,
   Icon,
 } from 'semantic-ui-react';
-
 import Replies from './Replies';
+import CommentForm from './CommentForm';
 
-const Comments = ({ comment, index }) => {
-  const [open, setOpen] = useState(false);
-  const handleClick = (e) => {
-    setOpen(!open);
+const Comments = ({ comment }) => {
+  const [openReply, setOpenReply] = useState(false);
+  const [opneReplyForm, setOpenReplyForm] = useState(false);
+
+  const handleOpenReply = () => {
+    setOpenReply(!openReply);
+  };
+
+  const handleOpenReplyForm = () => {
+    setOpenReplyForm(!opneReplyForm);
   };
 
   return (
     <>
-      <Comment key={index}>
+      <Comment>
         <Comment.Avatar src="/images/anonymous-user.png" />
         <Comment.Content>
           <Comment.Author as="a">Matt</Comment.Author>
@@ -27,16 +33,19 @@ const Comments = ({ comment, index }) => {
           </Comment.Metadata>
           <Comment.Text>How artistic!</Comment.Text>
           <Comment.Actions>
-            <Comment.Action>Reply</Comment.Action>
-            <Comment.Action onClick={(e) => handleClick(e)}>
+            <Comment.Action onClick={() => handleOpenReplyForm()}>
+              Reply
+            </Comment.Action>
+            <Comment.Action onClick={() => handleOpenReply()}>
               <Icon
                 name="dropdown"
-                rotated={open ? null : 'counterclockwise'}
+                rotated={openReply ? null : 'counterclockwise'}
               />
             </Comment.Action>
           </Comment.Actions>
         </Comment.Content>
-        {open && <Replies />}
+        {openReply && <Replies />}
+        {opneReplyForm && <CommentForm content="Add Reply" />}
       </Comment>
     </>
   );

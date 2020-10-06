@@ -16,7 +16,7 @@ function Product({ product }) {
     <>
       <ProductSummary user={user} product={product[0]} />
       <ProductAttributes user={user} product={product[0]} />
-      <CommentsContainer />
+      <CommentsContainer productId={product[0]._id} />
     </>
   );
 }

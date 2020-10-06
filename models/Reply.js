@@ -4,7 +4,7 @@ const { ObjectId, String } = mongoose.Schema.Types;
 
 const ReplySchema = new mongoose.Schema(
   {
-    commnets: {
+    comments: {
       type: ObjectId,
       ref: 'Comments',
     },
