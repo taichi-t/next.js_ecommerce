@@ -6,20 +6,16 @@ import { useEffect, useRef } from 'react';
 
 export default function useComments(productId) {
   async function getComments(url) {
-    const token = cookie.get('token');
     const payload = { params: { productId } };
     const response = await axios.get(url, payload);
     return response.data;
   }
-  const { data: comments, error, mutate } = useSWR(
-    `${baseUrl}/api/comment`,
-    getComments
-  );
+  const { data, error, mutate } = useSWR(`${baseUrl}/api/comment`, getComments);
 
-  let loading = !comments && !error;
+  let loading = !data && !error;
 
   return {
-    comments,
+    data,
     error,
     loading,
     mutate,

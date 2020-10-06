@@ -6,7 +6,7 @@ import CommentForm from './CommentForm';
 import useComments from '../../hooks/useComments';
 
 const Container = ({ productId }) => {
-  const { comments, loading, mutate } = useComments(productId);
+  const { data, loading, mutate } = useComments(productId);
 
   return (
     <Comment.Group>
@@ -15,8 +15,8 @@ const Container = ({ productId }) => {
       </Header>
       {loading ? (
         <Skeleton count={5} />
-      ) : comments.comments ? (
-        comments.comments.map((comment) => (
+      ) : data.comments ? (
+        data.comments.map((comment) => (
           <Comments comment={comment} key={comment._id} />
         ))
       ) : (
@@ -27,7 +27,7 @@ const Container = ({ productId }) => {
         content="Add Comment"
         refId={productId}
         mutate={mutate}
-        comments={comments}
+        data={data}
       />
     </Comment.Group>
   );
