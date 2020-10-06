@@ -106,6 +106,8 @@ async function handleGetRequest(req, res) {
       },
     ]);
 
+    console.log(response);
+
     res.status(200).json(response[0]);
   } catch (error) {
     console.error(error);

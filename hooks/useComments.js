@@ -1,13 +1,12 @@
 import axios from 'axios';
 import baseUrl from '../utils/baseUrl';
-import cookie from 'js-cookie';
 import useSWR from 'swr';
-import { useEffect, useRef } from 'react';
 
 export default function useComments(productId) {
   async function getComments(url) {
     const payload = { params: { productId } };
     const response = await axios.get(url, payload);
+    console.log(response.data);
     return response.data;
   }
   const { data, error, mutate } = useSWR(`${baseUrl}/api/comment`, getComments);

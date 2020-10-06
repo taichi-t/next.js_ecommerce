@@ -15,7 +15,7 @@ const Container = ({ productId }) => {
       </Header>
       {loading ? (
         <Skeleton count={5} />
-      ) : data.comments ? (
+      ) : data && data.comments ? (
         data.comments.map((comment) => (
           <Comments comment={comment} key={comment._id} />
         ))
