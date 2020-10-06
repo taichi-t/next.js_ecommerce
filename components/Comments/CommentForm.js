@@ -24,10 +24,14 @@ const CommentForm = ({ content, refId, mutate, _data }) => {
       };
       const url = `${baseUrl}/api/comment`;
       const { data } = await axios.post(url, payload, headers);
-      mutate({
-        ..._data,
-        comments: _data.comments.concat(data.comments.slice(-1)[0]),
-      });
+      if (!_data.comments) {
+        mutate(data);
+      } else {
+        mutate({
+          ..._data,
+          comments: _data.comments.concat(data.comments.slice(-1)[0]),
+        });
+      }
       setText('');
       setLoading(false);
     } catch (error) {
