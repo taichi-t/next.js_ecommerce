@@ -9,6 +9,7 @@ import {
 } from 'semantic-ui-react';
 import Replies from './Replies';
 import CommentForm from './CommentForm';
+import formatDateFromNow from '../../utils/formatDateFromNow';
 
 const Comments = ({ comment }) => {
   const [openReply, setOpenReply] = useState(false);
@@ -25,13 +26,13 @@ const Comments = ({ comment }) => {
   return (
     <>
       <Comment>
-        <Comment.Avatar src="/images/anonymous-user.png" />
+        <Comment.Avatar src={comment.user.profilePictureUrl} />
         <Comment.Content>
-          <Comment.Author as="a">Matt</Comment.Author>
+          <Comment.Author as="a">{comment.user.name}</Comment.Author>
           <Comment.Metadata>
-            <div>Today at 5:42PM</div>
+            <div>{formatDateFromNow(comment.createdAt)}</div>
           </Comment.Metadata>
-          <Comment.Text>How artistic!</Comment.Text>
+          <Comment.Text>{comment.text}</Comment.Text>
           <Comment.Actions>
             <Comment.Action onClick={() => handleOpenReplyForm()}>
               Reply

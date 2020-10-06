@@ -12,6 +12,9 @@ export default async (req, res) => {
     case 'POST':
       await handlePostRequest(req, res);
       break;
+    case 'GET':
+      await handleGetRequest(req, res);
+      break;
     default:
       res.status(405).send(`Method ${req.method} not allowed`);
       break;
@@ -35,7 +38,7 @@ async function handlePostRequest(req, res) {
       { upsert: true }
     );
 
-    await Comments.findOneAndUpdate(
+    const response = await Comments.findOneAndUpdate(
       { product: ObjectId(productId) },
       {
         $push: {
@@ -47,7 +50,63 @@ async function handlePostRequest(req, res) {
         },
       }
     );
-    res.status(200).json({});
+    res.status(200).json(response);
+  } catch (error) {
+    console.error(error);
+    res.status(403).send('Please try again');
+  }
+}
+
+async function handleGetRequest(req, res) {
+  const { productId } = req.query;
+  try {
+    const response = await Comments.aggregate([
+      { $match: { product: ObjectId(productId) } },
+      { $unwind: '$comments' },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'comments.user',
+          foreignField: '_id',
+          as: 'comments.user',
+        },
+      },
+      {
+        $project: {
+          'comments.user': {
+            _id: 0,
+            role: 0,
+            invitationCodeVerified: 0,
+            email: 0,
+            password: 0,
+            updatedAt: 0,
+            createdAt: 0,
+          },
+        },
+      },
+      { $unwind: '$comments.user' },
+      {
+        $group: {
+          _id: '$_id',
+          root: { $mergeObjects: '$$ROOT' },
+          comments: { $push: '$comments' },
+        },
+      },
+      {
+        $replaceRoot: {
+          newRoot: {
+            $mergeObjects: ['$root', '$$ROOT'],
+          },
+        },
+      },
+      {
+        $project: {
+          root: 0,
+        },
+      },
+    ]);
+
+    res.status(200).json(response[0]);
   } catch (error) {
     console.error(error);
     res.status(403).send('Please try again');

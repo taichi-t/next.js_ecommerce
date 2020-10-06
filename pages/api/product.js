@@ -92,10 +92,6 @@ handler.post(async (req, res) => {
       sku: shortid.generate(),
     }).save();
 
-    // await new Comments({
-    //   product: product._id,
-    // }).save();
-
     res.status(201).json(product);
   } catch (error) {
     console.error(error);

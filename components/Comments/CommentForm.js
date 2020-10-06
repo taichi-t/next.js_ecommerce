@@ -4,7 +4,7 @@ import cookie from 'js-cookie';
 import axios from 'axios';
 import baseUrl from '../../utils/baseUrl';
 
-const CommentForm = ({ content, refId }) => {
+const CommentForm = ({ content, refId, mutate, comments }) => {
   const [text, setText] = useState('');
   const [loading, setLoading] = useState(false);
   function handleChange(e) {
@@ -23,12 +23,13 @@ const CommentForm = ({ content, refId }) => {
         },
       };
       const url = `${baseUrl}/api/comment`;
-      console.log({ url, payload });
-      await axios.post(url, payload, headers);
+      const { data } = await axios.post(url, payload, headers);
+      mutate({ ...comments, comments: data.comments });
+      setText('');
+      setLoading(false);
     } catch (error) {
       console.error('ERROR!', error);
     } finally {
-      setText('');
       setLoading(false);
     }
   }
@@ -36,7 +37,11 @@ const CommentForm = ({ content, refId }) => {
   return (
     <Form reply onSubmit={handleSubmit}>
       <Segment loading={loading}>
-        <Form.TextArea onChange={handleChange} style={{ height: '3em' }} />
+        <Form.TextArea
+          onChange={handleChange}
+          style={{ height: '3em' }}
+          value={text}
+        />
         <Button
           content={content}
           labelPosition="left"
