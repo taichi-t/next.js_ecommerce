@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const { ObjectId, String } = mongoose.Schema.Types;
 
-const CommentsSchema = new mongoose.Schema({
+const CommentSchema = new mongoose.Schema({
   product: {
     type: ObjectId,
     ref: 'Product',
@@ -23,5 +23,5 @@ const CommentsSchema = new mongoose.Schema({
   ],
 });
 
-export default mongoose.models.Comments ||
-  mongoose.model('Comments', CommentsSchema);
+export default mongoose.models.Comment ||
+  mongoose.model('Comment', CommentSchema);

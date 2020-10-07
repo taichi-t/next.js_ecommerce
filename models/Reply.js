@@ -8,7 +8,7 @@ const ReplySchema = new mongoose.Schema(
       type: ObjectId,
       ref: 'Comments',
     },
-    reply: [
+    replies: [
       {
         user: {
           type: ObjectId,

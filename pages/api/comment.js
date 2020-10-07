@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import Comments from '../../models/Comments';
+import Comment from '../../models/Comment';
 import connectDb from '../../utils/connectDb';
 import mongoose from 'mongoose';
 
@@ -33,7 +33,7 @@ async function handlePostRequest(req, res) {
     );
 
     //create Comments documents, if doesn't exist
-    await Comments.updateOne(
+    await Comment.updateOne(
       { product: ObjectId(productId) },
       { $setOnInsert: { comments: [] } },
       { upsert: true }
@@ -50,7 +50,7 @@ async function handlePostRequest(req, res) {
 
     const options = { new: true };
 
-    const response = await Comments.findOneAndUpdate(
+    const response = await Comment.findOneAndUpdate(
       query,
       { $push: update },
       options
@@ -67,7 +67,7 @@ async function handleGetRequest(req, res) {
   const { productId } = req.query;
 
   try {
-    const response = await Comments.aggregate([
+    const response = await Comment.aggregate([
       { $match: { product: ObjectId(productId) } },
       { $match: { comments: { $exists: true, $ne: null } } },
       { $unwind: '$comments' },

@@ -6,7 +6,7 @@ import middleware from '../../middleware/middleware';
 import nextConnect from 'next-connect';
 import jwt from 'jsonwebtoken';
 import shortid from 'shortid';
-import Comments from '../../models/Comments';
+import Comment from '../../models/Comment';
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -92,7 +92,7 @@ handler.post(async (req, res) => {
       sku: shortid.generate(),
     }).save();
 
-    await new Comments({
+    await new Comment({
       product: product._id,
       comments: [],
     }).save();
