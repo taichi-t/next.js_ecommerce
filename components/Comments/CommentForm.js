@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Button, Form, Segment } from 'semantic-ui-react';
 import cookie from 'js-cookie';
 import axios from 'axios';
 import baseUrl from '../../utils/baseUrl';
+import { UserContext } from '../../utils/UserProvider';
+import { useRouter } from 'next/router';
 
 const CommentForm = ({ content, refId, mutate, _data, action, prop }) => {
   const [text, setText] = useState('');
+  const router = useRouter();
+  const { user } = useContext(UserContext);
 
   const [loading, setLoading] = useState(false);
   function handleChange(e) {
@@ -51,13 +55,26 @@ const CommentForm = ({ content, refId, mutate, _data, action, prop }) => {
           style={{ height: '3em' }}
           value={text}
         />
-        <Button
-          content={content}
-          labelPosition="left"
-          icon="edit"
-          primary
-          disabled={loading}
-        />
+        {Object.keys(user).length ? (
+          <Button
+            content={content}
+            labelPosition="left"
+            icon="edit"
+            primary
+            disabled={loading}
+            type="submit"
+          />
+        ) : (
+          <Button
+            content={'Sign Up To Comment'}
+            onClick={() => router.push('/signup')}
+            labelPosition="left"
+            icon="edit"
+            primary
+            disabled={loading}
+            type="reset"
+          />
+        )}
       </Segment>
     </Form>
   );
