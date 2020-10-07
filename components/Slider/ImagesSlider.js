@@ -1,5 +1,5 @@
 import Slider from 'react-slick';
-import { Image, Item } from 'semantic-ui-react';
+import { Image } from 'semantic-ui-react';
 
 function ImagesSlider({ imageUrls }) {
   const settings = {

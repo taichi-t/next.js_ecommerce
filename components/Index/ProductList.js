@@ -1,4 +1,4 @@
-import { Card, Image, Icon, Divider } from 'semantic-ui-react';
+import { Card, Image, Icon, Divider, Label } from 'semantic-ui-react';
 import formatDateFromNow from '../../utils/formatDateFromNow';
 import ImagesSlider from '../Slider/ImagesSlider';
 import Link from 'next/link';
@@ -15,6 +15,7 @@ function ProductList({ products }) {
             <Image src={product.user.profilePictureUrl} avatar ui />
             {product.user.name}
           </Card.Content>
+
           <ImagesSlider imageUrls={product.mediaUrls} />
           <Card.Content>
             <Card.Header>
