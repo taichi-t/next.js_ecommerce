@@ -18,11 +18,12 @@ function ProductList({ products }) {
           <ImagesSlider imageUrls={product.mediaUrls} />
           <Card.Content>
             <span className="right floated">
-              <Icon name="heart outline like" />
-              17 likes
+              <Icon name="heart outline" />
+              want
             </span>
             <span>
-              <Icon name="comment" />3 comments
+              <Icon name="comment" />
+              {product.commentCounter} comments
             </span>
           </Card.Content>
           <Card.Content>
