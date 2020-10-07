@@ -1,26 +1,42 @@
-import React, { useEffect, useState } from 'react';
 import { Button, Comment, Form, Header, Loader } from 'semantic-ui-react';
+import useReplies from '../../hooks/useReplies';
+import formatDateFromNow from '../../utils/formatDateFromNow';
+import CommentForm from './CommentForm';
 
-const Replies = () => {
-  const [replies, setReplies] = useState();
-  useEffect(() => {}, []);
-  return replies ? (
-    replies.map((reply) => (
+const Replies = ({ commentId, openReplyForm, setOpenReplyForm }) => {
+  const { data, loading } = useReplies(commentId);
+
+  return (
+    <>
       <Comment.Group>
-        <Comment>
-          <Comment.Avatar src="/images/anonymous-user.png" />
-          <Comment.Content>
-            <Comment.Author as="a">Jenny Hess</Comment.Author>
-            <Comment.Metadata>
-              <div>Just now</div>
-            </Comment.Metadata>
-            <Comment.Text>Elliot you are always so right :)</Comment.Text>
-          </Comment.Content>
-        </Comment>
+        {loading ? (
+          <Loader active inline="centered" />
+        ) : data && data.replies ? (
+          data.replies.map((reply) => (
+            <Comment key={reply._id}>
+              <Comment.Avatar src={reply.user.profilePictureUrl} />
+              <Comment.Content>
+                <Comment.Author as="a">{reply.user.name}</Comment.Author>
+                <Comment.Metadata>
+                  {formatDateFromNow(reply.createdAt)}
+                </Comment.Metadata>
+                <Comment.Text>{reply.text}</Comment.Text>
+              </Comment.Content>
+            </Comment>
+          ))
+        ) : (
+          <div>There is no replies.</div>
+        )}
       </Comment.Group>
-    ))
-  ) : (
-    <Loader active inline="centered" />
+      {openReplyForm && (
+        <CommentForm
+          content="Add Reply"
+          action="reply"
+          prop="replies"
+          refId={commentId}
+        />
+      )}
+    </>
   );
 };
 

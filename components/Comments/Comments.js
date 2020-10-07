@@ -1,26 +1,18 @@
 import React, { useState } from 'react';
-import {
-  Accordion,
-  Button,
-  Comment,
-  Form,
-  Header,
-  Icon,
-} from 'semantic-ui-react';
-import Replies from './Replies';
-import CommentForm from './CommentForm';
+import { Comment, Icon } from 'semantic-ui-react';
 import formatDateFromNow from '../../utils/formatDateFromNow';
+import RepliesContainer from './RepliesContainer';
 
 const Comments = ({ comment }) => {
   const [openReply, setOpenReply] = useState(false);
-  const [opneReplyForm, setOpenReplyForm] = useState(false);
+  const [openReplyForm, setOpenReplyForm] = useState(false);
 
   const handleOpenReply = () => {
     setOpenReply(!openReply);
   };
 
   const handleOpenReplyForm = () => {
-    setOpenReplyForm(!opneReplyForm);
+    setOpenReplyForm(!openReplyForm);
   };
 
   return (
@@ -45,15 +37,14 @@ const Comments = ({ comment }) => {
             </Comment.Action>
           </Comment.Actions>
         </Comment.Content>
-        {openReply && <Replies />}
-        {opneReplyForm && (
-          <CommentForm
-            content="Add Reply"
-            action="reply"
-            prop="replies"
-            refId={comment._id}
-          />
-        )}
+
+        <RepliesContainer
+          commentId={comment._id}
+          openReply={openReply}
+          openReplyForm={openReplyForm}
+          setOpenReply={setOpenReply}
+          setOpenReplyForm={setOpenReplyForm}
+        />
       </Comment>
     </>
   );

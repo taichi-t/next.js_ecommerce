@@ -30,7 +30,7 @@ const CommentForm = ({ content, refId, mutate, _data, action, prop }) => {
       } else {
         mutate({
           ..._data,
-          comments: _data[prop].concat(data.comments.slice(-1)[0]),
+          [prop]: _data[prop].concat(data[prop].slice(-1)[0]),
         });
       }
       setText('');

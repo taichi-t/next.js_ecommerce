@@ -20,7 +20,7 @@ const Container = ({ productId }) => {
           <Comments comment={comment} key={comment._id} />
         ))
       ) : (
-        <div>There is no comments</div>
+        <div>There is no comments.</div>
       )}
       <Divider />
       <CommentForm

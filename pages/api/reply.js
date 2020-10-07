@@ -12,9 +12,9 @@ export default async (req, res) => {
     case 'POST':
       await handlePostRequest(req, res);
       break;
-    // case 'GET':
-    //   await handleGetRequest(req, res);
-    //   break;
+    case 'GET':
+      await handleGetRequest(req, res);
+      break;
     default:
       res.status(405).send(`Method ${req.method} not allowed`);
       break;
@@ -63,60 +63,60 @@ async function handlePostRequest(req, res) {
   }
 }
 
-// async function handleGetRequest(req, res) {
-//   const { productId } = req.query;
+async function handleGetRequest(req, res) {
+  const { commentId } = req.query;
 
-//   try {
-//     const response = await Comment.aggregate([
-//       { $match: { product: ObjectId(productId) } },
-//       { $match: { comments: { $exists: true, $ne: null } } },
-//       { $unwind: '$comments' },
-//       {
-//         $lookup: {
-//           from: 'users',
-//           localField: 'comments.user',
-//           foreignField: '_id',
-//           as: 'comments.user',
-//         },
-//       },
-//       {
-//         $project: {
-//           'comments.user': {
-//             _id: 0,
-//             role: 0,
-//             invitationCodeVerified: 0,
-//             email: 0,
-//             password: 0,
-//             updatedAt: 0,
-//             createdAt: 0,
-//           },
-//         },
-//       },
-//       { $unwind: '$comments.user' },
-//       {
-//         $group: {
-//           _id: '$_id',
-//           root: { $mergeObjects: '$$ROOT' },
-//           comments: { $push: '$comments' },
-//         },
-//       },
-//       {
-//         $replaceRoot: {
-//           newRoot: {
-//             $mergeObjects: ['$root', '$$ROOT'],
-//           },
-//         },
-//       },
-//       {
-//         $project: {
-//           root: 0,
-//         },
-//       },
-//     ]);
+  try {
+    const response = await Reply.aggregate([
+      { $match: { comment: ObjectId(commentId) } },
+      { $match: { replies: { $exists: true, $ne: null } } },
+      { $unwind: '$replies' },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'replies.user',
+          foreignField: '_id',
+          as: 'replies.user',
+        },
+      },
+      {
+        $project: {
+          'replies.user': {
+            _id: 0,
+            role: 0,
+            invitationCodeVerified: 0,
+            email: 0,
+            password: 0,
+            updatedAt: 0,
+            createdAt: 0,
+          },
+        },
+      },
+      { $unwind: '$replies.user' },
+      {
+        $group: {
+          _id: '$_id',
+          root: { $mergeObjects: '$$ROOT' },
+          replies: { $push: '$replies' },
+        },
+      },
+      {
+        $replaceRoot: {
+          newRoot: {
+            $mergeObjects: ['$root', '$$ROOT'],
+          },
+        },
+      },
+      {
+        $project: {
+          root: 0,
+        },
+      },
+    ]);
 
-//     res.status(200).json(response);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(403).send('Please try again');
-//   }
-// }
+    res.status(200).json(response);
+  } catch (error) {
+    console.error(error);
+    res.status(403).send('Please try again');
+  }
+}
