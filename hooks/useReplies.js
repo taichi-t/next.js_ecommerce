@@ -2,7 +2,7 @@ import axios from 'axios';
 import baseUrl from '../utils/baseUrl';
 import useSWR from 'swr';
 
-export default function useReplies(commentId) {
+export default function useReplies(commentId, openReply) {
   async function getReplies(url, commentId) {
     const payload = { params: { commentId } };
     const response = await axios.get(url, payload);
@@ -13,7 +13,7 @@ export default function useReplies(commentId) {
     }
   }
   const { data, error, mutate } = useSWR(
-    [`${baseUrl}/api/reply`, commentId],
+    openReply ? [`${baseUrl}/api/reply`, commentId] : null,
     getReplies
   );
 

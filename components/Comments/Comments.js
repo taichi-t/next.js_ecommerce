@@ -42,8 +42,6 @@ const Comments = ({ comment }) => {
           commentId={comment._id}
           openReply={openReply}
           openReplyForm={openReplyForm}
-          setOpenReply={setOpenReply}
-          setOpenReplyForm={setOpenReplyForm}
         />
       </Comment>
     </>

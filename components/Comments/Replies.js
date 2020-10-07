@@ -1,11 +1,7 @@
-import { Button, Comment, Form, Header, Loader } from 'semantic-ui-react';
-import useReplies from '../../hooks/useReplies';
+import { Comment, Loader } from 'semantic-ui-react';
 import formatDateFromNow from '../../utils/formatDateFromNow';
-import CommentForm from './CommentForm';
 
-const Replies = ({ commentId, openReplyForm, setOpenReplyForm }) => {
-  const { data, loading } = useReplies(commentId);
-
+const Replies = ({ data, loading }) => {
   return (
     <>
       <Comment.Group>
@@ -28,14 +24,6 @@ const Replies = ({ commentId, openReplyForm, setOpenReplyForm }) => {
           <div>There is no replies.</div>
         )}
       </Comment.Group>
-      {openReplyForm && (
-        <CommentForm
-          content="Add Reply"
-          action="reply"
-          prop="replies"
-          refId={commentId}
-        />
-      )}
     </>
   );
 };

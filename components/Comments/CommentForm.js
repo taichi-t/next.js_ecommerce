@@ -38,6 +38,7 @@ const CommentForm = ({ content, refId, mutate, _data, action, prop }) => {
     } catch (error) {
       console.error('ERROR!', error);
     } finally {
+      setText('');
       setLoading(false);
     }
   }
@@ -55,7 +56,7 @@ const CommentForm = ({ content, refId, mutate, _data, action, prop }) => {
           labelPosition="left"
           icon="edit"
           primary
-          // disabled={disabled || loading}
+          disabled={loading}
         />
       </Segment>
     </Form>
