@@ -4,8 +4,9 @@ import cookie from 'js-cookie';
 import axios from 'axios';
 import baseUrl from '../../utils/baseUrl';
 
-const CommentForm = ({ content, refId, mutate, _data }) => {
+const CommentForm = ({ content, refId, mutate, _data, action, prop }) => {
   const [text, setText] = useState('');
+
   const [loading, setLoading] = useState(false);
   function handleChange(e) {
     const { value } = e.target;
@@ -22,14 +23,14 @@ const CommentForm = ({ content, refId, mutate, _data }) => {
           Authorization: token,
         },
       };
-      const url = `${baseUrl}/api/comment`;
+      const url = `${baseUrl}/api/${action}`;
       const { data } = await axios.post(url, payload, headers);
-      if (!_data.comments) {
+      if (!_data[prop]) {
         mutate(data);
       } else {
         mutate({
           ..._data,
-          comments: _data.comments.concat(data.comments.slice(-1)[0]),
+          comments: _data[prop].concat(data.comments.slice(-1)[0]),
         });
       }
       setText('');

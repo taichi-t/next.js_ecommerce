@@ -46,7 +46,14 @@ const Comments = ({ comment }) => {
           </Comment.Actions>
         </Comment.Content>
         {openReply && <Replies />}
-        {opneReplyForm && <CommentForm content="Add Reply" />}
+        {opneReplyForm && (
+          <CommentForm
+            content="Add Reply"
+            action="reply"
+            prop="replies"
+            refId={comment._id}
+          />
+        )}
       </Comment>
     </>
   );

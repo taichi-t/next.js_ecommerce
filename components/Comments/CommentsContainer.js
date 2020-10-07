@@ -28,6 +28,8 @@ const Container = ({ productId }) => {
         refId={productId}
         mutate={mutate}
         _data={data}
+        action="comment"
+        prop="comments"
       />
     </Comment.Group>
   );

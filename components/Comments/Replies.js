@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Comment, Form, Header, Loader } from 'semantic-ui-react';
 
-const ProductReplies = () => {
+const Replies = () => {
   const [replies, setReplies] = useState();
   useEffect(() => {}, []);
   return replies ? (
@@ -24,4 +24,4 @@ const ProductReplies = () => {
   );
 };
 
-export default ProductReplies;
+export default Replies;
