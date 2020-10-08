@@ -39,18 +39,13 @@ function ProductSummary({ user, product }) {
   return (
     <Item.Group>
       <Item>
-        <Item.Image size="medium">
-          <ImagesSlider imageUrls={mediaUrls} />
-        </Item.Image>
+        <ImagesSlider imageUrls={mediaUrls} />
+
         <Item.Content>
           <Item.Header>{name}</Item.Header>
           <Item.Description>
             <p>${price}</p>
-            {/* <Label>SKU: {sku}</Label> */}
           </Item.Description>
-          {/* <Item.Extra>
-            <AddProductToCart productId={_id} user={user} />
-          </Item.Extra> */}
 
           <Item.Extra>
             <Button as="div" labelPosition="right">

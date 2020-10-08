@@ -1,12 +1,12 @@
 import Slider from 'react-slick';
-import { Image, Icon, Button } from 'semantic-ui-react';
+import { Image, Icon, Button, Item } from 'semantic-ui-react';
 import { Carousel } from 'react-responsive-carousel';
 
 function ImagesSlider({ imageUrls }) {
   const arrowStyles = {
     position: 'absolute',
     zIndex: 2,
-    top: 'calc(50% - 15px)',
+    top: 'calc(50% - 10px)',
     cursor: 'pointer',
     background: 'rgba(255,255,255,0.3)',
   };
@@ -15,26 +15,23 @@ function ImagesSlider({ imageUrls }) {
       showThumbs={false}
       showStatus={false}
       useKeyboardArrows
-      className="presentation-mode"
       infiniteLoop={true}
-      renderArrowPrev={(onClickHandler, hasPrev, label) =>
+      renderArrowPrev={(onClickHandler, hasPrev) =>
         hasPrev && (
           <Button
             type="button"
             onClick={onClickHandler}
-            title={label}
             style={{ ...arrowStyles, left: 10 }}
             icon="angle left"
             size="mini"
           />
         )
       }
-      renderArrowNext={(onClickHandler, hasNext, label) =>
+      renderArrowNext={(onClickHandler, hasNext) =>
         hasNext && (
           <Button
             type="button"
             onClick={onClickHandler}
-            title={label}
             style={{ ...arrowStyles, right: 10 }}
             icon="angle right"
             size="mini"
@@ -43,7 +40,9 @@ function ImagesSlider({ imageUrls }) {
       }
     >
       {imageUrls.map((url) => (
-        <img src={url} size="medium" key={url} />
+        <Item.Image>
+          <img src={url} size="medium" key={url} />
+        </Item.Image>
       ))}
     </Carousel>
   );

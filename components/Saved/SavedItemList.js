@@ -8,6 +8,7 @@ import {
   Message,
   Label,
   Image,
+  ItemContent,
 } from 'semantic-ui-react';
 import { useRouter } from 'next/router';
 import { UserContext } from '../../utils/UserProvider';
@@ -23,9 +24,7 @@ function SavedItemList({ products, handleRemoveFromSaved, loading }) {
       products &&
       products.map((p) => (
         <Item key={p.product._id}>
-          <Item.Image>
-            <ImagesSlider imageUrls={p.product.mediaUrls} />
-          </Item.Image>
+          <ImagesSlider imageUrls={p.product.mediaUrls} />
           <Item.Content verticalAlign="middle">
             <Item.Header
               as="a"
