@@ -39,15 +39,15 @@ function SavedItemList({ products, handleRemoveFromSaved, loading }) {
             </Item.Meta>
             <Item.Description>{p.product.description}</Item.Description>
             <Item.Extra>
-              <Label as="a">
-                <Image
-                  avatar
-                  spaced="right"
-                  size="small"
-                  src={p.product.user.profilePictureUrl}
-                />
-                {p.product.user.name}
-              </Label>
+              <Label
+                as="a"
+                content={p.product.user.name}
+                image={{
+                  src: p.product.user.profilePictureUrl,
+                  spaced: 'right',
+                  avatar: true,
+                }}
+              />
 
               <Button
                 basic
