@@ -51,6 +51,12 @@ function Header() {
                 Cart
               </Menu.Item>
             </Link>
+            <Link href="/saved">
+              <Menu.Item header active={isActive('/saved')}>
+                <Icon name="heart" size="large" />
+                Saved
+              </Menu.Item>
+            </Link>
             <Link href="/account">
               <Menu.Item header active={isActive('/account')}>
                 <Icon name="user" size="large" />

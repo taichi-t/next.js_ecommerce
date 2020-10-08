@@ -30,6 +30,10 @@ const ProductsSchema = new mongoose.Schema(
       required: true,
       default: [],
     },
+    wantCounter: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: true,
