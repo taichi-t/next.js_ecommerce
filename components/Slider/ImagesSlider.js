@@ -1,5 +1,5 @@
 import Slider from 'react-slick';
-import { Image, Icon, Button, Item } from 'semantic-ui-react';
+import { Image, Button, Item } from 'semantic-ui-react';
 import { Carousel } from 'react-responsive-carousel';
 
 function ImagesSlider({ imageUrls }) {
@@ -40,9 +40,7 @@ function ImagesSlider({ imageUrls }) {
       }
     >
       {imageUrls.map((url) => (
-        <Item.Image>
-          <img src={url} size="medium" key={url} />
-        </Item.Image>
+        <Image src={url} key={url} />
       ))}
     </Carousel>
   );

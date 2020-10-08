@@ -32,6 +32,7 @@
     "react-responsive-carousel": "^3.2.10",
     "react-slick": "^0.27.11",
     "react-stripe-checkout": "^2.6.3",
+    "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^1.2.1",
     "shortid": "^2.2.14",
     "stripe": "^7.5.0",

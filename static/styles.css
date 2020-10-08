@@ -36,3 +36,9 @@ body {
   transform: translateY(-50%);
   -webkit-transform: translateY(-50%);
 }
+
+@media only screen and (max-width: 767px) {
+  .ui.items:not(.unstackable) > .item > .image {
+    max-height: 100% !important;
+  }
+}

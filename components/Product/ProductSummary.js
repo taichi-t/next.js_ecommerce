@@ -39,8 +39,9 @@ function ProductSummary({ user, product }) {
   return (
     <Item.Group>
       <Item>
-        <ImagesSlider imageUrls={mediaUrls} />
-
+        <Item.Image className="maxHeight100">
+          <ImagesSlider imageUrls={mediaUrls} />
+        </Item.Image>
         <Item.Content>
           <Item.Header>{name}</Item.Header>
           <Item.Description>

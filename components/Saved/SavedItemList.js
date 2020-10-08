@@ -24,8 +24,10 @@ function SavedItemList({ products, handleRemoveFromSaved, loading }) {
       products &&
       products.map((p) => (
         <Item key={p.product._id}>
-          <ImagesSlider imageUrls={p.product.mediaUrls} />
-          <Item.Content verticalAlign="middle">
+          <Item.Image>
+            <ImagesSlider imageUrls={p.product.mediaUrls} />
+          </Item.Image>
+          <Item.Content>
             <Item.Header
               as="a"
               onClick={() => router.push(`/${p.product._id}`)}

@@ -5,6 +5,9 @@ import Router from 'next/router';
 import useUser from '../hooks/useUser';
 import UserContextProvider from '../utils/UserProvider';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import '../static/nprogress.css';
+import 'semantic-ui-css/semantic.min.css';
+import '../static/styles.css';
 
 function MyApp({ Component, pageProps, router: { pathname } }) {
   useEffect(() => {
