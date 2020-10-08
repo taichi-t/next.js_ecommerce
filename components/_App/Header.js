@@ -45,12 +45,6 @@ function Header() {
         )}
         {Object.keys(user).length ? (
           <>
-            {/* <Link href="/cart">
-              <Menu.Item header active={isActive('/cart')}>
-                <Icon name="cart" size="large" />
-                Cart
-              </Menu.Item>
-            </Link> */}
             <Link href="/saved">
               <Menu.Item header active={isActive('/saved')}>
                 <Icon name="heart" size="large" />

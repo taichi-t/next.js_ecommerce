@@ -4,8 +4,7 @@ import cookie from 'js-cookie';
 import Router from 'next/router';
 import useUser from '../hooks/useUser';
 import UserContextProvider from '../utils/UserProvider';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 function MyApp({ Component, pageProps, router: { pathname } }) {
   useEffect(() => {

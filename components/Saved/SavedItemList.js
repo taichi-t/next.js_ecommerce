@@ -22,7 +22,7 @@ function SavedItemList({ products, handleRemoveFromSaved, loading }) {
     return (
       products &&
       products.map((p) => (
-        <Item key={p.product.name}>
+        <Item key={p.product._id}>
           <Item.Image>
             <ImagesSlider imageUrls={p.product.mediaUrls} />
           </Item.Image>
