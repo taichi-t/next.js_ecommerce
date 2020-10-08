@@ -64,15 +64,15 @@ function ProductSummary({ user, product }) {
             </Button>
           </Item.Extra>
           <Item.Extra>
-            <Label as="a">
-              <Image
-                avatar
-                spaced="right"
-                size="medium"
-                src={product.user.profilePictureUrl}
-              />
-              {product.user.name}
-            </Label>
+            <Label
+              as="a"
+              content={product.user.name}
+              image={{
+                src: product.user.profilePictureUrl,
+                spaced: 'right',
+                avatar: true,
+              }}
+            />
           </Item.Extra>
         </Item.Content>
       </Item>
