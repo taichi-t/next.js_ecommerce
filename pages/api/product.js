@@ -1,6 +1,7 @@
 import Product from '../../models/Product';
 import connectDb from '../../utils/connectDb';
-import Cart from '../../models/Cart';
+// import Cart from '../../models/Cart';
+import Save from '../../models/Save';
 import { v2 as cloudinary } from 'cloudinary';
 import middleware from '../../middleware/middleware';
 import nextConnect from 'next-connect';
@@ -25,11 +26,13 @@ handler.delete(async (req, res) => {
   try {
     //1) Delete product by id
     await Product.findOneAndDelete({ _id });
-    //2) Remove product from all carts, referenced as "product"
-    await Cart.updateMany(
+    //2) Remove product from all saved items, referenced as "product"
+    await Save.updateMany(
       { 'products.product': _id },
       { $pull: { products: { product: _id } } }
     );
+    //3) Remove comments with product id
+    await Comment.findOneAndDelete({ product: _id });
     res.status(204).json({});
   } catch (error) {
     console.error(error);

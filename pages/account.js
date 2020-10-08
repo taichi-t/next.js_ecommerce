@@ -1,5 +1,4 @@
 import AccountHeader from '../components/Account/AccountHeader';
-import AccountOrders from '../components/Account/AccountOrders';
 import AccountPermissions from '../components/Account/AccountPermissions';
 import AccountInvitationCode from '../components/Account/AccountInvitationCode';
 import { useContext } from 'react';
@@ -11,7 +10,6 @@ function Account() {
   return (
     <>
       <AccountHeader {...user} loading={loading} />
-      <AccountOrders />
       {user.role === 'root' && <AccountPermissions currentUserId={user._id} />}
       {(user.role === 'root' || user.role === 'admin') && (
         <AccountInvitationCode currentUserId={user._id} />
