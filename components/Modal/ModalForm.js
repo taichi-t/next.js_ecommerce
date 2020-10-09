@@ -1,4 +1,4 @@
-import { Modal, Header, Button } from 'semantic-ui-react';
+import { Modal } from 'semantic-ui-react';
 
 export default function ModalForm({ trigger, component, setOpen, open }) {
   return (

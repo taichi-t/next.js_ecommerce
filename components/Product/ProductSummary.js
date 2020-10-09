@@ -8,11 +8,14 @@ import catchErrors from '../../utils/catchErrors';
 import baseUrl from '../../utils/baseUrl';
 import axios from 'axios';
 import cookie from 'js-cookie';
+import ModalForm from '../Modal/ModalForm';
+import Profile from '../Profile/Profile';
 
 function ProductSummary({ user, product }) {
   const { name, mediaUrls, _id, price, sku } = product;
   const [loading, setLoading] = React.useState(false);
   const [counter, setCounter] = useState(product.wantCounter);
+  const [open, setOpen] = useState(false);
   const router = useRouter();
 
   const handleAddProductToSavedItems = async () => {
@@ -64,14 +67,27 @@ function ProductSummary({ user, product }) {
             </Button>
           </Item.Extra>
           <Item.Extra>
-            <Label
-              as="a"
-              content={product.user.name}
-              image={{
-                src: product.user.profilePictureUrl,
-                spaced: 'right',
-                avatar: true,
-              }}
+            <ModalForm
+              trigger={
+                <Label
+                  as="a"
+                  content={product.user.name}
+                  image={{
+                    src: product.user.profilePictureUrl,
+                    spaced: 'right',
+                    avatar: true,
+                  }}
+                />
+              }
+              component={
+                <Profile
+                  setOpen={setOpen}
+                  {...product.user}
+                  product={product}
+                />
+              }
+              setOpen={setOpen}
+              open={open}
             />
           </Item.Extra>
         </Item.Content>

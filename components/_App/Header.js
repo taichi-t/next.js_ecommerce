@@ -35,14 +35,6 @@ function Header() {
           </Menu.Item>
         </Link>
 
-        {isRoorOrAdmin && (
-          <Link href="/create">
-            <Menu.Item header active={isActive('/create')}>
-              <Icon name="add square" size="large" />
-              Create
-            </Menu.Item>
-          </Link>
-        )}
         {Object.keys(user).length ? (
           <>
             <Link href="/saved">
@@ -51,6 +43,14 @@ function Header() {
                 Saved
               </Menu.Item>
             </Link>
+            {isRoorOrAdmin && (
+              <Link href="/create">
+                <Menu.Item header active={isActive('/create')}>
+                  <Icon name="add square" size="large" />
+                  Create
+                </Menu.Item>
+              </Link>
+            )}
             <Link href="/account">
               <Menu.Item header active={isActive('/account')}>
                 <Icon name="user" size="large" />

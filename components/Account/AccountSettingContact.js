@@ -7,10 +7,12 @@ import {
   Icon,
   Message,
   Segment,
+  Loader,
 } from 'semantic-ui-react';
 import baseUrl from '../../utils/baseUrl';
 import cookie from 'js-cookie';
 import catchErrors from '../../utils/catchErrors';
+import Skeleton from 'react-loading-skeleton';
 
 const INITIAL_CONTACT = {
   twitter: '',
@@ -30,7 +32,7 @@ function AccountSettingContact({ user, setUser }) {
     isContact ? setDisabled(false) : setDisabled(true);
   }, [contact]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     let timeout;
     if (success) {
       timeout = setTimeout(() => setSuccess(false), 3000);
@@ -77,54 +79,57 @@ function AccountSettingContact({ user, setUser }) {
         header="Notes"
         content="The below info can be accessible for people who has an account."
       />
-
-      <Form
-        onSubmit={handleSubmit}
-        success={success}
-        loading={loading}
-        error={Boolean(error)}
-      >
-        <Message
-          success
-          icon="check"
-          header="Success!"
-          content="Your contact info has been saved"
-        />
-        <Message error header="Oops!" content={error} />
-        <Segment>
-          <Icon name="twitter" size="large" />
-          <Form.Input
-            fluid
-            placeholder={user.twitter || 'https://twitter.com/....'}
-            name="twitter"
-            onChange={handleChange}
-            value={contact.twitter}
+      {Object.keys(user).length ? (
+        <Form
+          onSubmit={handleSubmit}
+          success={success}
+          loading={loading}
+          error={Boolean(error)}
+        >
+          <Message
+            success
+            icon="check"
+            header="Success!"
+            content="Your contact info has been saved"
           />
-          <Icon name="instagram" size="large" />
-          <Form.Input
-            fluid
-            placeholder={user.instagram || 'https://www.instagram.com/...'}
-            name="instagram"
-            onChange={handleChange}
-            value={contact.instagram}
-          />
-          <Icon name="envelope outline" size="large" />
-          <Form.Input
-            fluid
-            placeholder={user.contactEmail || 'email'}
-            name="contactEmail"
-            onChange={handleChange}
-            value={contact.contactEmail}
-          />
-          <Button
-            type="submit"
-            color="orange"
-            content="Save"
-            disabled={disabled || loading}
-            loading={loading}
-          />
-        </Segment>
-      </Form>
+          <Message error header="Oops!" content={error} />
+          <Segment>
+            <Icon name="twitter" size="large" />
+            <Form.Input
+              fluid
+              placeholder={user.twitter || 'https://twitter.com/....'}
+              name="twitter"
+              onChange={handleChange}
+              value={contact.twitter}
+            />
+            <Icon name="instagram" size="large" />
+            <Form.Input
+              fluid
+              placeholder={user.instagram || 'https://www.instagram.com/...'}
+              name="instagram"
+              onChange={handleChange}
+              value={contact.instagram}
+            />
+            <Icon name="envelope outline" size="large" />
+            <Form.Input
+              fluid
+              placeholder={user.contactEmail || 'email'}
+              name="contactEmail"
+              onChange={handleChange}
+              value={contact.contactEmail}
+            />
+            <Button
+              type="submit"
+              color="orange"
+              content="Save"
+              disabled={disabled || loading}
+              loading={loading}
+            />
+          </Segment>
+        </Form>
+      ) : (
+        <Skeleton count={10} />
+      )}
     </div>
   );
 }
