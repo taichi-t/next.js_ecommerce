@@ -32,6 +32,15 @@ const UserSchema = new mongoose.Schema(
       type: String,
       default: '/images/anonymous-user.png',
     },
+    twitter: {
+      type: String,
+    },
+    instagram: {
+      type: String,
+    },
+    contactEmail: {
+      type: String,
+    },
   },
   {
     timestamps: true,

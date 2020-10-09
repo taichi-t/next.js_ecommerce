@@ -115,7 +115,7 @@ function SavedItemList({ products, handleRemoveFromSaved, loading }) {
       </Segment>
     );
   }
-  return <Item.Group>{mapCartProductsToItems(products)}</Item.Group>;
+  return <Item.Group divided>{mapCartProductsToItems(products)}</Item.Group>;
 }
 
 export default SavedItemList;
