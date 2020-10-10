@@ -22,8 +22,6 @@ export default function useProfile(sellerId) {
 
   let loading = !data && !error;
 
-  console.log(data);
-
   return {
     data,
     error,
