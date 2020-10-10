@@ -39,7 +39,7 @@ function SavedItem({ product, handleRemoveFromSaved }) {
             component={
               <Profile
                 setOpen={setOpen}
-                user={product.user}
+                seller={product.user}
                 product={product}
               />
             }

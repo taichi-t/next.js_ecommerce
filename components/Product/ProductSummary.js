@@ -68,24 +68,25 @@ function ProductSummary({ user, product }) {
             </Button>
           </Item.Extra>
           <Item.Extra>
-            {/* Object.keys(user).length&& */}
-
             <ModalForm
               trigger={
-                <Label
-                  as="a"
-                  content={product.user.name}
-                  image={{
-                    src: product.user.profilePictureUrl,
-                    spaced: 'right',
-                    avatar: true,
-                  }}
-                />
+                Object.keys(user).length ? (
+                  <Label
+                    as="a"
+                    content={product.user.name}
+                    image={{
+                      src: product.user.profilePictureUrl,
+                      spaced: 'right',
+                      avatar: true,
+                    }}
+                  />
+                ) : (
+                  <span />
+                )
               }
               component={
                 <Profile
                   setOpen={setOpen}
-                  user={user}
                   seller={product.user}
                   product={product}
                 />

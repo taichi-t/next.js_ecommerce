@@ -11,7 +11,7 @@ import formatDateFromNow from '../../utils/formatDateFromNow';
 import baseUrl from '../../utils/baseUrl';
 import useProfile from '../../hooks/useProfile';
 
-const Profile = ({ seller, product, setOpen, user }) => {
+const Profile = ({ seller, product, setOpen }) => {
   const { data, error, loading } = useProfile(product.user._id);
 
   return (

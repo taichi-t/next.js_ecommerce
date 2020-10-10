@@ -3,6 +3,7 @@ import axios from 'axios';
 import baseUrl from '../utils/baseUrl';
 import cookie from 'js-cookie';
 import Router from 'next/router';
+import { cache } from 'swr';
 
 export default function useUser() {
   const [user, setUser] = useState({});
@@ -40,6 +41,7 @@ export default function useUser() {
   function handleLogout() {
     cookie.remove('token');
     localStorage.setItem('logout', Date.now());
+    cache.clear();
     Router.push('/login');
     setUser({});
   }
