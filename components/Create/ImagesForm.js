@@ -15,7 +15,7 @@ export default function ImagesForm({ state, setState, maxNumber }) {
       onChange={onChange}
       maxNumber={maxNumber}
       dataURLKey="data_url"
-      acceptType={['jpg', 'gif', 'png', 'PNG']}
+      acceptType={['jpg', 'gif', 'png']}
       onError={(error) => {
         if (error.acceptType) {
           setError('Invalid type of file');
