@@ -24,6 +24,13 @@ async function handlePostRequest(req, res) {
   }
   const { twitter, instagram, contactEmail } = req.body;
 
+  let contact = {};
+  for (let key in req.body) {
+    if (req.body[key] !== '') {
+      contact[key] = req.body[key];
+    }
+  }
+
   try {
     const { userId } = jwt.verify(
       req.headers.authorization,
@@ -36,9 +43,7 @@ async function handlePostRequest(req, res) {
       },
       {
         $set: {
-          twitter: twitter,
-          instagram: instagram,
-          contactEmail: contactEmail,
+          ...contact,
         },
       },
       { upsert: true, new: true }

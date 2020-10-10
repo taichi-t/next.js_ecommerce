@@ -69,6 +69,8 @@ function AccountSettingContact({ user, setUser }) {
     setContact((prevState) => ({ ...prevState, [name]: value }));
   }
 
+  console.log(user);
+
   return (
     <div style={{ margin: '2em 0' }}>
       <Header as="h2">

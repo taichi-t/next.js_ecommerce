@@ -27,7 +27,18 @@ handler.get(async (req, res) => {
       req.headers.authorization,
       process.env.JWT_SECRET
     );
-    const user = await User.findOne({ _id: userId });
+    const user = await User.findOne(
+      { _id: userId },
+      {
+        role: 1,
+        profilePictureUrl: 1,
+        name: 1,
+        createdAt: 1,
+        contactEmail: 1,
+        instagram: 1,
+        twitter: 1,
+      }
+    );
     if (user) {
       res.status(200).json(user);
     } else {
