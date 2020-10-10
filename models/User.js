@@ -34,12 +34,15 @@ const UserSchema = new mongoose.Schema(
     },
     twitter: {
       type: String,
+      select: false,
     },
     instagram: {
       type: String,
+      select: false,
     },
     contactEmail: {
       type: String,
+      select: false,
     },
   },
   {

@@ -11,6 +11,7 @@ import '../static/styles.css';
 
 function MyApp({ Component, pageProps, router: { pathname } }) {
   useEffect(() => {
+    window.addEventListener('storage', syncLogout);
     const token = cookie.get('token');
     if (!token) {
       const isProtectedRoute =
@@ -37,9 +38,6 @@ function MyApp({ Component, pageProps, router: { pathname } }) {
     handleLogin,
   } = useUser();
 
-  useEffect(() => {
-    window.addEventListener('storage', syncLogout);
-  }, []);
   const syncLogout = (e) => {
     if (e.key === 'logout') {
       router.push('/login');

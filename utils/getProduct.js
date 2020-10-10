@@ -22,12 +22,14 @@ export default async function getProduct(id) {
       {
         $project: {
           user: {
-            _id: 0,
             role: 0,
             invitationCodeVerified: 0,
             email: 0,
             password: 0,
             updatedAt: 0,
+            contactEmail: 0,
+            instagram: 0,
+            twitter: 0,
           },
         },
       },

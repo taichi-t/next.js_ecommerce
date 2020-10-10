@@ -1,5 +1,5 @@
 // import moduleName from ''
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Item, Label, Image, Button, Icon } from 'semantic-ui-react';
 import AddProductToCart from '../Product/AddProductToCart';
 import ImagesSlider from '../Slider/ImagesSlider';
@@ -10,6 +10,7 @@ import axios from 'axios';
 import cookie from 'js-cookie';
 import ModalForm from '../Modal/ModalForm';
 import Profile from '../Profile/Profile';
+import { UserContext } from '../../utils/UserProvider';
 
 function ProductSummary({ user, product }) {
   const { name, mediaUrls, _id, price, sku } = product;
@@ -67,6 +68,8 @@ function ProductSummary({ user, product }) {
             </Button>
           </Item.Extra>
           <Item.Extra>
+            {/* Object.keys(user).length&& */}
+
             <ModalForm
               trigger={
                 <Label
@@ -82,7 +85,8 @@ function ProductSummary({ user, product }) {
               component={
                 <Profile
                   setOpen={setOpen}
-                  {...product.user}
+                  user={user}
+                  seller={product.user}
                   product={product}
                 />
               }
