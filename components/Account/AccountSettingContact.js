@@ -27,6 +27,8 @@ function AccountSettingContact({ user, setUser }) {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
 
+  console.log(user);
+
   useEffect(() => {
     const isContact = Object.values(contact).some((el) => Boolean(el));
     isContact ? setDisabled(false) : setDisabled(true);
@@ -68,8 +70,6 @@ function AccountSettingContact({ user, setUser }) {
     const { name, value } = e.target;
     setContact((prevState) => ({ ...prevState, [name]: value }));
   }
-
-  console.log(user);
 
   return (
     <div style={{ margin: '2em 0' }}>
