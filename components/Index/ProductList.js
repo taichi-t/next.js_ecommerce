@@ -5,7 +5,6 @@ import Link from 'next/link';
 
 function ProductList({ products }) {
   function mapProductsToItems(products) {
-    const handleChangeWant = () => {};
     return products.map((product) => {
       return (
         <Card key={product._id} color="teal">
@@ -19,12 +18,7 @@ function ProductList({ products }) {
           <ImagesSlider imageUrls={product.mediaUrls} />
           <Card.Content>
             <span className="right floated">
-              <Icon
-                name="heart"
-                color="red"
-                size="large"
-                onClick={() => handleChangeWant}
-              />
+              <Icon name="heart" color="red" size="large" />
               {product.wantCounter} wants
             </span>
             <span>

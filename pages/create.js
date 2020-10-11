@@ -127,13 +127,6 @@ function CreateProduct() {
         <Form.Group style={{ display: 'block' }}>
           <UploadForm error={uploadError} onLoad={onLoad} />
           <ImagePreviews handleRemove={handleRemove} previews={previews} />
-          {/* <ImagesUploader
-            state={product.media}
-            setState={setProduct}
-            setError={setError}
-            error={error}
-            prop="media"
-          /> */}
         </Form.Group>
 
         <Form.Group widths="equal">
