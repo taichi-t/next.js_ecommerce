@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { mutate } from 'swr';
 import {
   Input,
@@ -14,14 +14,25 @@ import axios from 'axios';
 import baseUrl from '../utils/baseUrl';
 import catchErrors from '../utils/catchErrors';
 import cookie from 'js-cookie';
-import ImagesUploader from '../components/Create/ImagesUploader';
+// import ImagesUploader from '../components/Create/ImagesUploader';
+import useImageUploader from '../hooks/useImageUploader';
+import UploadForm from '../components/ImageUploader/UploadForm';
+import ImagePreviews from '../components/ImageUploader/ImagePreviews';
+
 const INITIAL_PRODUCT = {
   name: '',
   price: '',
-  media: [],
   description: '',
 };
 function CreateProduct() {
+  const {
+    handleRemove,
+    onLoad,
+    previews,
+    medias,
+    error: uploadError,
+  } = useImageUploader();
+  const uploaderRef = useRef(null);
   const [product, setProduct] = useState(INITIAL_PRODUCT);
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -30,8 +41,9 @@ function CreateProduct() {
 
   useEffect(() => {
     const isProduct = Object.values(product).every((el) => Boolean(el));
-    isProduct ? setDisabled(false) : setDisabled(true);
-  }, [product]);
+    const isMedias = medias.length > 0;
+    isMedias && isProduct ? setDisabled(false) : setDisabled(true);
+  }, [product, medias]);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -46,7 +58,7 @@ function CreateProduct() {
       const token = cookie.get('token');
       const { name, price, description } = product;
       const formData = new FormData();
-      product.media.forEach((el) => {
+      medias.forEach((el) => {
         formData.append('files', el);
       });
       formData.append('name', name);
@@ -113,13 +125,15 @@ function CreateProduct() {
         </Form.Group>
 
         <Form.Group style={{ display: 'block' }}>
-          <ImagesUploader
+          <UploadForm error={uploadError} onLoad={onLoad} />
+          <ImagePreviews handleRemove={handleRemove} previews={previews} />
+          {/* <ImagesUploader
             state={product.media}
             setState={setProduct}
             setError={setError}
             error={error}
             prop="media"
-          />
+          /> */}
         </Form.Group>
 
         <Form.Group widths="equal">
