@@ -12,7 +12,7 @@ function ProductList({ products }) {
             <Card.Meta className="right floated">
               {formatDateFromNow(product.createdAt)}
             </Card.Meta>
-            <Image src={product.user.profilePictureUrl} avatar ui />
+            <Image src={product.user.profilePicture.url} avatar ui />
             {product.user.name}
           </Card.Content>
           <ImagesSlider imageUrls={product.mediaUrls} />

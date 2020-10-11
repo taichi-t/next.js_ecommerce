@@ -19,7 +19,11 @@ const Profile = ({ seller, product, setOpen }) => {
       <Modal.Content>
         <Card fluid>
           <Card.Content>
-            <Image floated="left" size="small" src={seller.profilePictureUrl} />
+            <Image
+              floated="left"
+              size="small"
+              src={seller.profilePicture.url}
+            />
             <Card.Header>{seller.name}</Card.Header>
             <Card.Meta>
               Joined at {formatDateFromNow(seller.createdAt)}

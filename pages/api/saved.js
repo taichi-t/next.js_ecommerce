@@ -47,7 +47,7 @@ async function handleGetRequest(req, res) {
       populate: {
         path: 'user',
         model: 'User',
-        select: { name: 1, profilePictureUrl: 1 },
+        select: { name: 1, profilePicture: 1 },
       },
     });
     res.status(200).json(save.products);

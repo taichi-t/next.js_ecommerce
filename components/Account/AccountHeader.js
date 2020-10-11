@@ -22,7 +22,7 @@ import Skeleton from 'react-loading-skeleton';
 
 function AccountHeader() {
   const { user, setUser, loading: userLoading } = useContext(UserContext);
-  const { role, email, name, createdAt, profilePictureUrl } = user;
+  const { role, email, name, createdAt, profilePicture } = user;
   const [open, setOpen] = React.useState(false);
   const [media, setMedia] = useState();
   const [success, setSuccess] = useState(false);
@@ -45,7 +45,7 @@ function AccountHeader() {
       const token = cookie.get('token');
       const formData = new FormData();
       formData.append('file', media[0]);
-      formData.append('profilePictureUrl', profilePictureUrl);
+      formData.append('profilePicture', profilePicture);
       const headers = {
         headers: {
           Authorization: token,
@@ -53,14 +53,14 @@ function AccountHeader() {
         },
       };
       const url = `${baseUrl}/api/account`;
-      const { data: newProfilePictureUrl } = await axios.post(
+      const { data: newProfilePicture } = await axios.post(
         url,
         formData,
         headers
       );
 
       setLoading(false);
-      setUser({ ...user, profilePictureUrl: newProfilePictureUrl });
+      setUser({ ...user, profilePicture: newProfilePicture });
       setSuccess(true);
     } catch (error) {
       catchErrors(error, setError);
@@ -129,7 +129,10 @@ function AccountHeader() {
             <Header.Content>
               <div className="profile-container">
                 <Image
-                  src={profilePictureUrl || 'images/anonymous-user.png'}
+                  src={
+                    (profilePicture && profilePicture.url) ||
+                    'images/anonymous-user.png'
+                  }
                   circular
                   wrapped
                   size="small"

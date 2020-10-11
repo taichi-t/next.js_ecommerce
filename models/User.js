@@ -28,9 +28,14 @@ const UserSchema = new mongoose.Schema(
       required: true,
       default: false,
     },
-    profilePictureUrl: {
-      type: String,
-      default: '/images/anonymous-user.png',
+    profilePicture: {
+      url: {
+        type: String,
+        default: '/images/anonymous-user.png',
+      },
+      publicId: {
+        type: String,
+      },
     },
     twitter: {
       type: String,

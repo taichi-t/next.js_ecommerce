@@ -31,7 +31,7 @@ handler.get(async (req, res) => {
       { _id: userId },
       {
         role: 1,
-        profilePictureUrl: 1,
+        profilePicture: 1,
         name: 1,
         createdAt: 1,
         contactEmail: 1,
@@ -61,18 +61,22 @@ handler.post(async (req, res) => {
   }
   try {
     const files = req.files;
-    const { profilePictureUrl } = req.body;
+    const { profilePicture } = req.body;
     const { userId } = jwt.verify(
       req.headers.authorization,
       process.env.JWT_SECRET
     );
-    const { url: newProfilePictureUrl } = await cloudinary.uploader.upload(
+    const {
+      url: newProfilePictureUrl,
+      public_id: newProfilePicturePublicId,
+    } = await cloudinary.uploader.upload(
       files.file.path,
       {
         width: 250,
         height: 250,
         background: 'white',
-        crop: 'fit',
+        crop: 'pad',
+        folder: `${userId}/profile-picture`,
       },
       (error) => {
         if (error) {
@@ -80,21 +84,31 @@ handler.post(async (req, res) => {
         }
       }
     );
-    if (newProfilePictureUrl) {
+
+    if (newProfilePictureUrl && newProfilePicturePublicId) {
       await User.findOneAndUpdate(
         { _id: userId },
-        { profilePictureUrl: newProfilePictureUrl }
+        {
+          profilePicture: {
+            url: newProfilePictureUrl,
+            publicId: newProfilePicturePublicId,
+          },
+        },
+        { upsert: true }
       );
     }
-    if (profilePictureUrl) {
-      const { publicIds } = formatImagePublicIds([profilePictureUrl]);
-      await cloudinary.uploader.destroy(publicIds, (error, result) => {
-        if (error) {
-          console.error(error);
-        }
-      });
-    }
-    res.status(203).json(newProfilePictureUrl);
+    // if (profilePicture) {
+    //   const { publicIds } = formatImagePublicIds([profilePictureUrl]);
+    //   await cloudinary.uploader.destroy(publicIds, (error, result) => {
+    //     if (error) {
+    //       console.error(error);
+    //     }
+    //   });
+    // }
+    res.status(203).json({
+      url: newProfilePictureUrl,
+      publicId: newProfilePicturePublicId,
+    });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }

@@ -10,7 +10,7 @@ const Replies = ({ data, loading }) => {
         ) : data && data.replies ? (
           data.replies.map((reply) => (
             <Comment key={reply._id}>
-              <Comment.Avatar src={reply.user.profilePictureUrl} />
+              <Comment.Avatar src={reply.user.profilePicture.url} />
               <Comment.Content>
                 <Comment.Author as="a">{reply.user.name}</Comment.Author>
                 <Comment.Metadata>

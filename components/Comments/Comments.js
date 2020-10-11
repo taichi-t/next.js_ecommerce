@@ -18,7 +18,7 @@ const Comments = ({ comment }) => {
   return (
     <>
       <Comment>
-        <Comment.Avatar src={comment.user.profilePictureUrl} />
+        <Comment.Avatar src={comment.user.profilePicture.url} />
         <Comment.Content>
           <Comment.Author as="a">{comment.user.name}</Comment.Author>
           <Comment.Metadata>

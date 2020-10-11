@@ -30,7 +30,7 @@ function SavedItem({ product, handleRemoveFromSaved }) {
                 as="a"
                 content={product.user.name}
                 image={{
-                  src: product.user.profilePictureUrl,
+                  src: product.user.profilePicture.url,
                   spaced: 'right',
                   avatar: true,
                 }}

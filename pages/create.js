@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { mutate } from 'swr';
 import {
   Input,
@@ -32,7 +32,6 @@ function CreateProduct() {
     medias,
     error: uploadError,
   } = useImageUploader();
-  const uploaderRef = useRef(null);
   const [product, setProduct] = useState(INITIAL_PRODUCT);
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
