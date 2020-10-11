@@ -71,9 +71,8 @@ handler.post(async (req, res) => {
       {
         width: 250,
         height: 250,
-        radius: 'max',
         background: 'white',
-        crop: 'pad',
+        crop: 'fit',
       },
       (error) => {
         if (error) {
