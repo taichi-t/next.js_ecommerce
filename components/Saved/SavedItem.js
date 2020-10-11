@@ -11,7 +11,7 @@ function SavedItem({ product, handleRemoveFromSaved }) {
   const router = useRouter();
 
   return (
-    <Item key={product._id}>
+    <Item>
       <Item.Image>
         <ImagesSlider imageUrls={product.mediaUrls} />
       </Item.Image>

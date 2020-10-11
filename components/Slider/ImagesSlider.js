@@ -1,4 +1,3 @@
-import Slider from 'react-slick';
 import { Image, Button, Item } from 'semantic-ui-react';
 import { Carousel } from 'react-responsive-carousel';
 

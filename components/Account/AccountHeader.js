@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import {
   Header,
   Icon,
@@ -29,6 +29,7 @@ function AccountHeader() {
   const [loading, setLoading] = useState(false);
   const [disabled, setDisabled] = useState(true);
   const [error, setError] = useState('');
+  const fileInputRef = useRef(null);
 
   function handleChange(e) {
     const { files } = e.target;
@@ -74,19 +75,27 @@ function AccountHeader() {
       <Header>Please choose a image</Header>
       <Modal.Content>
         <Form onSubmit={handleSubmit}>
-          <Form.Group widths="equal">
-            <Form.Field
-              control={Input}
-              name="media"
-              label="Media"
-              type="file"
-              content="Select Image"
-              accept="image/*"
-              onChange={handleChange}
-            />
-          </Form.Group>
+          <input
+            ref={fileInputRef}
+            type="file"
+            name="media"
+            label="Media"
+            accept="image/*"
+            onChange={handleChange}
+            className="uploader"
+          />
+
+          <Button
+            content="Choose File"
+            labelPosition="left"
+            icon="file"
+            form="myForm"
+            onClick={() => fileInputRef.current.click()}
+            style={{ marginBottom: '1em' }}
+          />
+          <span>{media && media[0].name}</span>
           <Modal.Actions>
-            <Button color="black" onClick={() => setOpen(false)}>
+            <Button color="black" onClick={() => setOpen(false)} id="myForm">
               Cancel
             </Button>
             <Form.Field

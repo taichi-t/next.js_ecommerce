@@ -54,6 +54,7 @@ function SavedItemList({ products, handleRemoveFromSaved, loading }) {
     <Item.Group divided>
       {products.map((p) => (
         <SavedItem
+          key={p.product._id}
           product={p.product}
           handleRemoveFromSaved={handleRemoveFromSaved}
         />

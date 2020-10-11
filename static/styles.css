@@ -31,6 +31,10 @@ body {
   font-size: 1.5rem !important;
 }
 
+input[type='file'] {
+  display: none;
+}
+
 @media only screen and (max-width: 767px) {
   .ui.items:not(.unstackable) > .item > .image {
     max-height: 100% !important;

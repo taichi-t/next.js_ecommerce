@@ -14,7 +14,7 @@ import axios from 'axios';
 import baseUrl from '../utils/baseUrl';
 import catchErrors from '../utils/catchErrors';
 import cookie from 'js-cookie';
-import ImagesForm from '../components/Create/ImagesForm';
+import ImagesUploader from '../components/Create/ImagesUploader';
 const INITIAL_PRODUCT = {
   name: '',
   price: '',
@@ -46,9 +46,9 @@ function CreateProduct() {
       const token = cookie.get('token');
       const { name, price, description } = product;
       const formData = new FormData();
-      for (const { file } of product.media) {
-        formData.append('files', file);
-      }
+      product.media.forEach((el) => {
+        formData.append('files', el);
+      });
       formData.append('name', name);
       formData.append('price', price);
       formData.append('description', description);
@@ -112,15 +112,15 @@ function CreateProduct() {
           />
         </Form.Group>
 
-        <Form.Field>
-          <label>Media</label>
-          <ImagesForm
-            state={product}
+        <Form.Group style={{ display: 'block' }}>
+          <ImagesUploader
+            state={product.media}
             setState={setProduct}
-            maxNumber={4}
-            id="images-form"
+            setError={setError}
+            error={error}
+            prop="media"
           />
-        </Form.Field>
+        </Form.Group>
 
         <Form.Group widths="equal">
           <Form.Field
