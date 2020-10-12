@@ -61,7 +61,8 @@ handler.post(async (req, res) => {
   }
   try {
     const files = req.files;
-    const { profilePicture } = req.body;
+    const { profilePicturePublicId } = req.body;
+
     const { userId } = jwt.verify(
       req.headers.authorization,
       process.env.JWT_SECRET
@@ -74,9 +75,9 @@ handler.post(async (req, res) => {
       {
         width: 250,
         height: 250,
-        background: 'white',
+        background: 'auto:predominant',
         crop: 'pad',
-        folder: `${userId}/profile-picture`,
+        folder: `${userId}/profile`,
       },
       (error) => {
         if (error) {
@@ -97,14 +98,16 @@ handler.post(async (req, res) => {
         { upsert: true }
       );
     }
-    // if (profilePicture) {
-    //   const { publicIds } = formatImagePublicIds([profilePictureUrl]);
-    //   await cloudinary.uploader.destroy(publicIds, (error, result) => {
-    //     if (error) {
-    //       console.error(error);
-    //     }
-    //   });
-    // }
+    if (profilePicturePublicId) {
+      await cloudinary.uploader.destroy(
+        profilePicturePublicId,
+        (error, result) => {
+          if (error) {
+            console.error(error);
+          }
+        }
+      );
+    }
     res.status(203).json({
       url: newProfilePictureUrl,
       publicId: newProfilePicturePublicId,

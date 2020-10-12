@@ -21,8 +21,9 @@ const Profile = ({ seller, product, setOpen }) => {
           <Card.Content>
             <Image
               floated="left"
-              size="small"
               src={seller.profilePicture.url}
+              circular
+              size="small"
             />
             <Card.Header>{seller.name}</Card.Header>
             <Card.Meta>

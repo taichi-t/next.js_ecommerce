@@ -45,7 +45,8 @@ function AccountHeader() {
       const token = cookie.get('token');
       const formData = new FormData();
       formData.append('file', media[0]);
-      formData.append('profilePicture', profilePicture);
+      formData.append('profilePicturePublicId', profilePicture.publicId);
+
       const headers = {
         headers: {
           Authorization: token,

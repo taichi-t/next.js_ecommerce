@@ -13,7 +13,7 @@ import Profile from '../Profile/Profile';
 import { UserContext } from '../../utils/UserProvider';
 
 function ProductSummary({ user, product }) {
-  const { name, mediaUrls, _id, price, sku } = product;
+  const { name, medias, _id, price, sku } = product;
   const [loading, setLoading] = React.useState(false);
   const [counter, setCounter] = useState(product.wantCounter);
   const [open, setOpen] = useState(false);
@@ -44,7 +44,7 @@ function ProductSummary({ user, product }) {
     <Item.Group>
       <Item>
         <Item.Image className="maxHeight100">
-          <ImagesSlider imageUrls={mediaUrls} />
+          <ImagesSlider medias={medias} />
         </Item.Image>
         <Item.Content>
           <Item.Header>{name}</Item.Header>

@@ -15,7 +15,7 @@ function ProductList({ products }) {
             <Image src={product.user.profilePicture.url} avatar ui />
             {product.user.name}
           </Card.Content>
-          <ImagesSlider imageUrls={product.mediaUrls} />
+          <ImagesSlider medias={product.medias} />
           <Card.Content>
             <span className="right floated">
               <Icon name="heart" color="red" size="large" />

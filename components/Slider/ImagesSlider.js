@@ -1,7 +1,7 @@
 import { Image, Button, Item } from 'semantic-ui-react';
 import { Carousel } from 'react-responsive-carousel';
 
-function ImagesSlider({ imageUrls }) {
+function ImagesSlider({ medias }) {
   const arrowStyles = {
     position: 'absolute',
     zIndex: 2,
@@ -38,8 +38,8 @@ function ImagesSlider({ imageUrls }) {
         )
       }
     >
-      {imageUrls.map((url) => (
-        <Image src={url} key={url} />
+      {medias.map((media) => (
+        <Image src={media.url} key={media.url} />
       ))}
     </Carousel>
   );

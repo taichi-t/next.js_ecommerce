@@ -13,7 +13,7 @@ function SavedItem({ product, handleRemoveFromSaved }) {
   return (
     <Item>
       <Item.Image>
-        <ImagesSlider imageUrls={product.mediaUrls} />
+        <ImagesSlider medias={product.medias} />
       </Item.Image>
       <Item.Content>
         <Item.Header as="a" onClick={() => router.push(`/${product._id}`)}>

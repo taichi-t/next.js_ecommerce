@@ -25,11 +25,16 @@ const ProductsSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    mediaUrls: {
-      type: [String],
-      required: true,
-      default: [],
-    },
+    medias: [
+      {
+        url: {
+          type: String,
+        },
+        publicId: {
+          type: String,
+        },
+      },
+    ],
     wantCounter: {
       type: Number,
       default: 0,

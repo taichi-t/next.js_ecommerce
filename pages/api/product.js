@@ -54,46 +54,65 @@ handler.post(async (req, res) => {
     if (!name || !price || !description || !files) {
       return res.status(422).send('Product missing one or more fields');
     }
-    let mediaUrls;
+
+    let product = await new Product({
+      user: userId,
+      name,
+      price,
+      description,
+      sku: shortid.generate(),
+    }).save();
+
+    let medias;
     if (files.length) {
       const promises = files.map(
         (file) =>
           new Promise((resolve, reject) => {
             cloudinary.uploader.upload(
               file.path,
-              { height: 350, width: 350, crop: 'pad', background: 'white' },
+              {
+                height: 350,
+                width: 350,
+                crop: 'pad',
+                background: 'auto:predominant',
+                folder: `${userId}/product/${product._id}`,
+              },
               (error, result) => {
                 if (error) {
                   reject(console.error(error));
                 } else {
-                  resolve(result.url);
+                  resolve({ url: result.url, publicId: result.public_id });
                 }
               }
             );
           })
       );
-      mediaUrls = await Promise.all(promises);
+      medias = await Promise.all(promises);
     } else {
       const result = await cloudinary.uploader.upload(
         files.path,
-        { height: 350, width: 350, crop: 'pad', background: 'white' },
+        {
+          height: 350,
+          width: 350,
+          crop: 'pad',
+          background: 'auto:predominant',
+          folder: `${userId}/product/${product._id}`,
+        },
         (error) => {
           if (error) {
             console.error(error);
           }
         }
       );
-      mediaUrls = result.url;
+      medias = { url: result.url, publicId: result.public_id };
     }
 
-    const product = await new Product({
-      user: userId,
-      name,
-      price,
-      description,
-      mediaUrls,
-      sku: shortid.generate(),
-    }).save();
+    product = await Product.findOneAndUpdate(
+      {
+        _id: product._id,
+      },
+      { medias }
+    );
 
     await new Comment({
       product: product._id,
