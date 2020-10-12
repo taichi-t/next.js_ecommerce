@@ -10,8 +10,8 @@ const CommentForm = ({ content, refId, mutate, _data, action, prop }) => {
   const [text, setText] = useState('');
   const router = useRouter();
   const { user } = useContext(UserContext);
-
   const [loading, setLoading] = useState(false);
+
   function handleChange(e) {
     const { value } = e.target;
     setText(value);
@@ -29,14 +29,8 @@ const CommentForm = ({ content, refId, mutate, _data, action, prop }) => {
       };
       const url = `${baseUrl}/api/${action}`;
       const { data } = await axios.post(url, payload, headers);
-      if (!_data[prop]) {
-        mutate(data);
-      } else {
-        mutate({
-          ..._data,
-          [prop]: _data[prop].concat(data[prop].slice(-1)[0]),
-        });
-      }
+      const changedValue = data[prop].slice(-1)[0];
+      mutate({ ..._data, [prop]: _data[prop].concat(changedValue) });
       setText('');
       setLoading(false);
     } catch (error) {

@@ -50,13 +50,28 @@ async function handlePostRequest(req, res) {
 
     const options = { new: true };
 
-    const response = await Reply.findOneAndUpdate(
-      query,
-      { $push: update },
-      options
-    );
-
-    res.status(200).json(response);
+    await Reply.findOneAndUpdate(query, { $push: update }, options)
+      .populate({
+        path: 'replies.user',
+        model: 'User',
+        select: {
+          _id: 0,
+          role: 0,
+          invitationCodeVerified: 0,
+          email: 0,
+          password: 0,
+          updatedAt: 0,
+          createdAt: 0,
+        },
+      })
+      .exec(function (error, result) {
+        if (error) {
+          res.state(403).send('Error in updating user info', error);
+        } else {
+          res.status(200).json(result);
+          res.end();
+        }
+      });
   } catch (error) {
     console.error(error);
     res.status(403).send('Please try again');
@@ -67,52 +82,28 @@ async function handleGetRequest(req, res) {
   const { commentId } = req.query;
 
   try {
-    const response = await Reply.aggregate([
-      { $match: { comment: ObjectId(commentId) } },
-      { $match: { replies: { $exists: true, $ne: null } } },
-      { $unwind: '$replies' },
-      {
-        $lookup: {
-          from: 'users',
-          localField: 'replies.user',
-          foreignField: '_id',
-          as: 'replies.user',
-        },
+    //create Reply documents, if doesn't exist
+    await Reply.updateOne(
+      { comment: ObjectId(commentId) },
+      { $setOnInsert: { replies: [] } },
+      { upsert: true }
+    );
+
+    const response = await Reply.findOne({
+      comment: Object(commentId),
+    }).populate({
+      path: 'replies.user',
+      model: 'User',
+      select: {
+        _id: 0,
+        role: 0,
+        invitationCodeVerified: 0,
+        email: 0,
+        password: 0,
+        updatedAt: 0,
+        createdAt: 0,
       },
-      {
-        $project: {
-          'replies.user': {
-            _id: 0,
-            role: 0,
-            invitationCodeVerified: 0,
-            email: 0,
-            password: 0,
-            updatedAt: 0,
-            createdAt: 0,
-          },
-        },
-      },
-      { $unwind: '$replies.user' },
-      {
-        $group: {
-          _id: '$_id',
-          root: { $mergeObjects: '$$ROOT' },
-          replies: { $push: '$replies' },
-        },
-      },
-      {
-        $replaceRoot: {
-          newRoot: {
-            $mergeObjects: ['$root', '$$ROOT'],
-          },
-        },
-      },
-      {
-        $project: {
-          root: 0,
-        },
-      },
-    ]);
+    });
 
     res.status(200).json(response);
   } catch (error) {
@@ -120,3 +111,9 @@ async function handleGetRequest(req, res) {
     res.status(403).send('Please try again');
   }
 }
+
+export const config = {
+  api: {
+    externalResolver: true,
+  },
+};

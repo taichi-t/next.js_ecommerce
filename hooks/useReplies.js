@@ -6,18 +6,14 @@ export default function useReplies(commentId, openReply) {
   async function getReplies(url, commentId) {
     const payload = { params: { commentId } };
     const response = await axios.get(url, payload);
-    if (!response.data || !response.data.length) {
-      return {};
-    } else {
-      return response.data[0];
-    }
+    return response.data;
   }
   const { data, error, mutate } = useSWR(
     openReply ? [`${baseUrl}/api/reply`, commentId] : null,
     getReplies
   );
 
-  let loading = !data && !error;
+  let loading = !data;
 
   return {
     data,

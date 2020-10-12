@@ -7,7 +7,7 @@ const Replies = ({ data, loading }) => {
       <Comment.Group>
         {loading ? (
           <Loader active inline="centered" />
-        ) : data && data.replies ? (
+        ) : data && data.replies.length > 0 ? (
           data.replies.map((reply) => (
             <Comment key={reply._id}>
               <Comment.Avatar src={reply.user.profilePicture.url} />

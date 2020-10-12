@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import Comment from '../../models/Comment';
 import connectDb from '../../utils/connectDb';
 import mongoose from 'mongoose';
+import Replies from '../../components/Comments/Replies';
 
 const { ObjectId } = mongoose.Types;
 
@@ -32,13 +33,6 @@ async function handlePostRequest(req, res) {
       process.env.JWT_SECRET
     );
 
-    //create Comments documents, if doesn't exist
-    await Comment.updateOne(
-      { product: ObjectId(productId) },
-      { $setOnInsert: { comments: [] } },
-      { upsert: true }
-    );
-
     const query = { product: ObjectId(productId) };
     const update = {
       comments: {
@@ -50,13 +44,28 @@ async function handlePostRequest(req, res) {
 
     const options = { new: true };
 
-    const response = await Comment.findOneAndUpdate(
-      query,
-      { $push: update },
-      options
-    );
-
-    res.status(200).json(response);
+    await Comment.findOneAndUpdate(query, { $push: update }, options)
+      .populate({
+        path: 'comments.user',
+        model: 'User',
+        select: {
+          _id: 0,
+          role: 0,
+          invitationCodeVerified: 0,
+          email: 0,
+          password: 0,
+          updatedAt: 0,
+          createdAt: 0,
+        },
+      })
+      .exec(function (error, result) {
+        if (error) {
+          res.state(403).send('Error in updating user info', error);
+        } else {
+          res.status(200).json(result);
+          res.end();
+        }
+      });
   } catch (error) {
     console.error(error);
     res.status(403).send('Please try again');
@@ -67,52 +76,21 @@ async function handleGetRequest(req, res) {
   const { productId } = req.query;
 
   try {
-    const response = await Comment.aggregate([
-      { $match: { product: ObjectId(productId) } },
-      { $match: { comments: { $exists: true, $ne: null } } },
-      { $unwind: '$comments' },
-      {
-        $lookup: {
-          from: 'users',
-          localField: 'comments.user',
-          foreignField: '_id',
-          as: 'comments.user',
-        },
+    const response = await Comment.findOne({
+      product: Object(productId),
+    }).populate({
+      path: 'comments.user',
+      model: 'User',
+      select: {
+        _id: 0,
+        role: 0,
+        invitationCodeVerified: 0,
+        email: 0,
+        password: 0,
+        updatedAt: 0,
+        createdAt: 0,
       },
-      {
-        $project: {
-          'comments.user': {
-            _id: 0,
-            role: 0,
-            invitationCodeVerified: 0,
-            email: 0,
-            password: 0,
-            updatedAt: 0,
-            createdAt: 0,
-          },
-        },
-      },
-      { $unwind: '$comments.user' },
-      {
-        $group: {
-          _id: '$_id',
-          root: { $mergeObjects: '$$ROOT' },
-          comments: { $push: '$comments' },
-        },
-      },
-      {
-        $replaceRoot: {
-          newRoot: {
-            $mergeObjects: ['$root', '$$ROOT'],
-          },
-        },
-      },
-      {
-        $project: {
-          root: 0,
-        },
-      },
-    ]);
+    });
 
     res.status(200).json(response);
   } catch (error) {
@@ -120,3 +98,9 @@ async function handleGetRequest(req, res) {
     res.status(403).send('Please try again');
   }
 }
+
+export const config = {
+  api: {
+    externalResolver: true,
+  },
+};
