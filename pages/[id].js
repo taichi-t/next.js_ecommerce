@@ -8,6 +8,7 @@ import CommentsContainer from '../components/Comments/CommentsContainer';
 import useSWR from 'swr';
 import baseUrl from '../utils/baseUrl';
 import axios from 'axios';
+import fetch from 'node-fetch';
 
 const url = `${baseUrl}/api/product`;
 
@@ -44,11 +45,12 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params: { id } }) {
   // const { data } = await axios.get(url, { params: { id } });
-  const data = await fetch(`${url}?id=${id}`).then((res) => res.json());
+  const res = await fetch(`${url}?id=${id}`);
+  const json = await res.json();
 
   return {
     props: {
-      product: data,
+      product: json,
       id,
     },
   };
