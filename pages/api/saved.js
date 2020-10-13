@@ -67,37 +67,28 @@ async function handlePutRequest(req, res) {
       req.headers.authorization,
       process.env.JWT_SECRET
     );
-    // Get user cart based on userId
-    let save;
 
-    await Save.updateOne(
-      { user: ObjectId(userId) },
-      { $setOnInsert: { products: [] } },
-      { upsert: true }
-    );
-    save = await Save.findOne({ user: userId });
+    let save = await Save.findOne({ user: ObjectId(userId) });
 
-    // Check if product already exists in cart
-    const productExists = save.products.some((doc) =>
+    const isProduct = save.products.some((doc) =>
       ObjectId(productId).equals(doc.product)
     );
-    // If so, increment quantity (by number provided to request)
-    if (productExists) {
-      return res.status(204).send('The item already added');
+
+    if (isProduct) {
+      console.log;
+      return res.status(204).json({});
     } else {
       // If not, add new product
-      const newProduct = { product: productId };
       await Save.findOneAndUpdate(
-        { _id: save._id },
-        { $addToSet: { products: newProduct } }
+        { user: userId },
+        { $push: { products: { product: productId } } }
       );
       await Product.findOneAndUpdate(
         { _id: productId },
         { $inc: { wantCounter: 1 } }
       );
-
-      res.status(200).send('Saved Items updated');
     }
+    res.status(200).send('Saved Items updated');
   } catch (error) {
     console.error(error);
     res.status(403).send('Please login again');

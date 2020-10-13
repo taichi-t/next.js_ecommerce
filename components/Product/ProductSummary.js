@@ -1,7 +1,6 @@
 // import moduleName from ''
-import { useState, useContext } from 'react';
-import { Item, Label, Image, Button, Icon } from 'semantic-ui-react';
-import AddProductToCart from '../Product/AddProductToCart';
+import { useState } from 'react';
+import { Item, Label, Button, Icon } from 'semantic-ui-react';
 import ImagesSlider from '../Slider/ImagesSlider';
 import { useRouter } from 'next/router';
 import catchErrors from '../../utils/catchErrors';
@@ -10,12 +9,12 @@ import axios from 'axios';
 import cookie from 'js-cookie';
 import ModalForm from '../Modal/ModalForm';
 import Profile from '../Profile/Profile';
-import { UserContext } from '../../utils/UserProvider';
 
 function ProductSummary({ user, product }) {
   const { name, medias, _id, price, sku } = product;
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = useState(false);
   const [counter, setCounter] = useState(product.wantCounter);
+  const [message, setMessage] = useState();
   const [open, setOpen] = useState(false);
   const router = useRouter();
 
@@ -33,6 +32,9 @@ function ProductSummary({ user, product }) {
       const response = await axios.put(url, payload, headers);
       if (response.status == 200) {
         setCounter((prevCounter) => prevCounter + 1);
+        setMessage('The item is successfully added');
+      } else if (response.status == 204) {
+        setMessage('The item is already added.');
       }
     } catch (error) {
       catchErrors(error, window.alert);
@@ -67,6 +69,12 @@ function ProductSummary({ user, product }) {
               </Label>
             </Button>
           </Item.Extra>
+          {message && (
+            <Label basic color="red" pointing size="small">
+              {message}
+            </Label>
+          )}
+
           <Item.Extra>
             <ModalForm
               trigger={
