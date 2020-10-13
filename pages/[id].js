@@ -1,4 +1,4 @@
-import { useContext, useReducer } from 'react';
+import { useContext } from 'react';
 import ProductSummary from '../components/Product/ProductSummary';
 import ProductAttributes from '../components/Product/ProductAttributes';
 import getProductPaths from '../utils/getProductPaths';
@@ -14,9 +14,9 @@ function Product({ product }) {
     <div>Loading</div>
   ) : (
     <>
-      <ProductSummary user={user} product={product[0]} />
-      <ProductAttributes user={user} product={product[0]} />
-      <CommentsContainer productId={product[0]._id} />
+      <ProductSummary user={user} product={product} />
+      <ProductAttributes user={user} product={product} />
+      <CommentsContainer productId={product._id} />
     </>
   );
 }

@@ -2,8 +2,6 @@ import jwt from 'jsonwebtoken';
 import Comment from '../../models/Comment';
 import connectDb from '../../utils/connectDb';
 import mongoose from 'mongoose';
-import Replies from '../../components/Comments/Replies';
-import { resources } from 'stripe';
 
 const { ObjectId } = mongoose.Types;
 

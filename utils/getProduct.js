@@ -8,33 +8,9 @@ connectDb();
 
 export default async function getProduct(id) {
   try {
-    const product = await Product.aggregate([
-      { $match: { _id: ObjectId(id) } },
-      {
-        $lookup: {
-          from: 'users',
-          localField: 'user',
-          foreignField: '_id',
-          as: 'user',
-        },
-      },
-
-      {
-        $project: {
-          user: {
-            role: 0,
-            invitationCodeVerified: 0,
-            email: 0,
-            password: 0,
-            updatedAt: 0,
-            contactEmail: 0,
-            instagram: 0,
-            twitter: 0,
-          },
-        },
-      },
-      { $unwind: '$user' },
-    ]);
+    const product = await Product.findOne({
+      _id: ObjectId(id),
+    }).populate('user', 'profilePicture name _id', 'User');
     return JSON.parse(JSON.stringify(product));
   } catch (error) {
     console.error(error);
