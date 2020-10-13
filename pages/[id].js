@@ -8,27 +8,28 @@ import CommentsContainer from '../components/Comments/CommentsContainer';
 import useSWR from 'swr';
 import baseUrl from '../utils/baseUrl';
 import axios from 'axios';
-import fetch from 'node-fetch';
+import gerProduct from '../utils/getProduct';
 
 const url = `${baseUrl}/api/product`;
 
 const fetcher = async (url, id) => {
-  const { data } = await axios.get(url, { params: { id } });
-  return data;
+  const response = await axios.get(url, { params: { id } });
+  return response.data;
 };
 
-function Product({ product, id }) {
-  // const { data, error, mutate } = useSWR([url, id], fetcher, {
-  //   initialData: product,
-  // });
+function Product({ initialData, id }) {
+  const { user } = useContext(UserContext);
+  const { data: product, error, mutate } = useSWR([url, id], fetcher, {
+    initialData,
+  });
 
   const router = useRouter();
-  const { user } = useContext(UserContext);
+
   return router.isFallback ? (
     <div>Loading</div>
   ) : (
     <>
-      <ProductSummary user={user} product={product} />
+      <ProductSummary user={user} product={product} mutate={mutate} />
       <ProductAttributes user={user} product={product} />
       <CommentsContainer productId={product._id} />
     </>
@@ -44,14 +45,11 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params: { id } }) {
-  // const { data } = await axios.get(url, { params: { id } });
-  // console.log('getStaticProps', data);
-  const res = await fetch(`${url}?id=${id}`);
-  const json = await res.json();
+  const response = await gerProduct(id);
 
   return {
     props: {
-      product: json,
+      initialData: response,
       id,
     },
   };

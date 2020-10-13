@@ -1,4 +1,3 @@
-// import moduleName from ''
 import { useState } from 'react';
 import { Item, Label, Button, Icon } from 'semantic-ui-react';
 import ImagesSlider from '../Slider/ImagesSlider';
@@ -10,11 +9,12 @@ import cookie from 'js-cookie';
 import ModalForm from '../Modal/ModalForm';
 import Profile from '../Profile/Profile';
 
-function ProductSummary({ user, product }) {
+function ProductSummary({ user, product, mutate }) {
   const { name, medias, _id, price, sku } = product;
   const [loading, setLoading] = useState(false);
   const [counter, setCounter] = useState(product.wantCounter);
-  const [message, setMessage] = useState();
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
   const [open, setOpen] = useState(false);
   const router = useRouter();
 
@@ -32,10 +32,12 @@ function ProductSummary({ user, product }) {
       const response = await axios.put(url, payload, headers);
       if (response.status == 200) {
         setCounter((prevCounter) => prevCounter + 1);
-        setMessage('The item is successfully added');
-        // mutate({ ...product, wantCounter: product.wantCounter + 1 });
+        setError(false);
+        setSuccess(true);
+        mutate({ ...product, wantCounter: product.wantCounter + 1 });
       } else if (response.status == 204) {
-        setMessage('The item is already added.');
+        setSuccess(false);
+        setError(true);
       }
     } catch (error) {
       catchErrors(error, window.alert);
@@ -70,9 +72,14 @@ function ProductSummary({ user, product }) {
               </Label>
             </Button>
           </Item.Extra>
-          {message && (
+          {success && (
+            <Label basic color="green" pointing size="small">
+              The Item is succsessfully added.
+            </Label>
+          )}
+          {error && (
             <Label basic color="red" pointing size="small">
-              {message}
+              The Item was already added.
             </Label>
           )}
 
