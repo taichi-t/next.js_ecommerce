@@ -88,9 +88,18 @@ async function handleGetRequest(req, res) {
     //   { upsert: true }
     // );
 
-    const response = await Reply.findOne({
-      comment: Object(commentId),
-    }).populate({
+    const response = await Reply.findOneAndUpdate(
+      {
+        comment: Object(commentId),
+      },
+      {
+        $setOnInsert: { replies: [] },
+      },
+      {
+        new: true,
+        upsert: true,
+      }
+    ).populate({
       path: 'replies.user',
       model: 'User',
       select: {

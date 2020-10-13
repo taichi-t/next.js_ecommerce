@@ -31,10 +31,12 @@ const CommentsContainer = ({ productId }) => {
       };
       const url = `${baseUrl}/api/comment`;
       const response = await axios.post(url, payload, headers);
-      const changedValue = response.comments.slice(-1)[0];
+      console.log(response);
+      const changedValue = response.data.comments.slice(-1)[0];
       mutate({
+        ...result,
         ...result.data,
-        comments: result.comments.concat(changedValue),
+        comments: result.data.comments.concat(changedValue),
       });
       setText('');
       setLoading(false);

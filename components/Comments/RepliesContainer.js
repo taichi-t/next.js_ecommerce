@@ -32,6 +32,7 @@ const RepliesContainer = ({ commentId, openReply, openReplyForm }) => {
       const response = await axios.post(url, payload, headers);
       const changedValue = response.data.replies.slice(-1)[0];
       mutate({
+        ...result,
         ...result.data,
         replies: result.data.replies.concat(changedValue),
       });
@@ -47,7 +48,9 @@ const RepliesContainer = ({ commentId, openReply, openReplyForm }) => {
 
   return (
     <>
-      {openReply && <Replies data={result.data} loading={repliesLoading} />}
+      {openReply && (
+        <Replies data={result && result.data} loading={repliesLoading} />
+      )}
       {openReplyForm && (
         <TextForm
           onSubmit={onSubmit}

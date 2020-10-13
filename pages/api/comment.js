@@ -51,18 +51,8 @@ async function handlePostRequest(req, res) {
       options
     ).populate({
       path: 'comments.user',
-      model: 'User',
-      select: {
-        _id: 0,
-        role: 0,
-        invitationCodeVerified: 0,
-        email: 0,
-        password: 0,
-        updatedAt: 0,
-        createdAt: 0,
-      },
+      select: 'profilePicture name',
     });
-
     res.status(200).json(response);
   } catch (error) {
     console.error(error);
@@ -78,16 +68,7 @@ async function handleGetRequest(req, res) {
       product: Object(productId),
     }).populate({
       path: 'comments.user',
-      model: 'User',
-      select: {
-        _id: 0,
-        role: 0,
-        invitationCodeVerified: 0,
-        email: 0,
-        password: 0,
-        updatedAt: 0,
-        createdAt: 0,
-      },
+      select: 'profilePicture name',
     });
 
     res.status(200).json(response);
