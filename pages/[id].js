@@ -10,15 +10,17 @@ import baseUrl from '../utils/baseUrl';
 import axios from 'axios';
 
 const url = `${baseUrl}/api/product`;
-const getProduct = async (url, id) => {
-  const response = await axios.get(url, { params: { id } });
-  return response.data;
-};
-
 function Product({ product, id }) {
-  const { data, error, mutate } = useSWR([url, id], getProduct, {
-    initialData: product,
-  });
+  const { data, error, mutate } = useSWR(
+    [url, id],
+    async (url, id) => {
+      const { data } = await axios.get(url, { params: { id } });
+      return data;
+    },
+    {
+      initialData: product,
+    }
+  );
 
   const router = useRouter();
   const { user } = useContext(UserContext);
@@ -42,7 +44,8 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params: { id } }) {
-  const data = await getProduct(url, id);
+  const { data } = await axios.get(url, { params: { id } });
+
   return {
     props: {
       product: data,
