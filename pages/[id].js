@@ -18,9 +18,9 @@ const fetcher = async (url, id) => {
 };
 
 function Product({ product, id }) {
-  const { data, error, mutate } = useSWR([url, id], fetcher, {
-    initialData: product,
-  });
+  // const { data, error, mutate } = useSWR([url, id], fetcher, {
+  //   initialData: product,
+  // });
 
   const router = useRouter();
   const { user } = useContext(UserContext);
@@ -28,9 +28,9 @@ function Product({ product, id }) {
     <div>Loading</div>
   ) : (
     <>
-      <ProductSummary user={user} product={data} mutate={mutate} />
-      <ProductAttributes user={user} product={data} />
-      <CommentsContainer productId={data._id} />
+      <ProductSummary user={user} product={product} />
+      <ProductAttributes user={user} product={product} />
+      <CommentsContainer productId={product._id} />
     </>
   );
 }
@@ -44,13 +44,13 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params: { id } }) {
-  // const { data } = await axios.get(url, { params: { id } });
-  const res = await fetch(`${url}?id=${id}`);
-  const json = await res.json();
+  const { data } = await axios.get(url, { params: { id } });
+  // const res = await fetch(`${url}?id=${id}`);
+  // const json = await res.json();
 
   return {
     props: {
-      product: json,
+      product: data,
       id,
     },
   };
