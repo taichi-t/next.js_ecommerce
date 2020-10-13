@@ -31,7 +31,6 @@ const CommentsContainer = ({ productId }) => {
       };
       const url = `${baseUrl}/api/comment`;
       const response = await axios.post(url, payload, headers);
-      console.log(response);
       const changedValue = response.data.comments.slice(-1)[0];
       mutate({
         ...result,
