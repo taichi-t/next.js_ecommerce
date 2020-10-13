@@ -10,6 +10,8 @@ import shortid from 'shortid';
 import Comment from '../../models/Comment';
 import mongoose from 'mongoose';
 
+connectDb();
+
 const { ObjectId } = mongoose.Types;
 
 cloudinary.config({
@@ -21,8 +23,6 @@ cloudinary.config({
 const handler = nextConnect();
 
 handler.use(middleware);
-
-connectDb();
 
 handler.delete(async (req, res) => {
   const { _id } = req.query;

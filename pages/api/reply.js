@@ -81,13 +81,6 @@ async function handleGetRequest(req, res) {
   const { commentId } = req.query;
 
   try {
-    //create Reply documents, if doesn't exist
-    // await Reply.updateOne(
-    //   { comment: ObjectId(commentId) },
-    //   { $setOnInsert: { replies: [] } },
-    //   { upsert: true }
-    // );
-
     const response = await Reply.findOneAndUpdate(
       {
         comment: Object(commentId),

@@ -4,7 +4,8 @@ import connectDb from '../../utils/connectDb';
 import { v2 as cloudinary } from 'cloudinary';
 import middleware from '../../middleware/middleware';
 import nextConnect from 'next-connect';
-import formatImagePublicIds from '../../utils/formatImagePublicIds';
+
+connectDb();
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -15,8 +16,6 @@ cloudinary.config({
 const handler = nextConnect();
 
 handler.use(middleware);
-
-connectDb();
 
 handler.get(async (req, res) => {
   if (!('authorization' in req.headers)) {
