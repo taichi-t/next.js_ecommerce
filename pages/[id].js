@@ -23,7 +23,7 @@ function Product({ product, id }) {
 
   const router = useRouter();
   const { user } = useContext(UserContext);
-  return router.isFallback ? (
+  return !data || router.isFallback ? (
     <div>Loading</div>
   ) : (
     <>
