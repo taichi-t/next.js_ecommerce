@@ -44,14 +44,14 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params: { id } }) {
-  const { data } = await axios.get(url, { params: { id } });
-  console.log('getStaticProps', data);
-  // const res = await fetch(`${url}?id=${id}`);
-  // const json = await res.json();
+  // const { data } = await axios.get(url, { params: { id } });
+  // console.log('getStaticProps', data);
+  const res = await fetch(`${url}?id=${id}`);
+  const json = res.json();
 
   return {
     props: {
-      product: data,
+      product: json,
       id,
     },
   };
