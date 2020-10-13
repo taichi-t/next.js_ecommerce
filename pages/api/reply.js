@@ -25,7 +25,7 @@ async function handlePostRequest(req, res) {
   if (!('authorization' in req.headers)) {
     return res.status(401).send('No authorization token');
   }
-  const { refId: commentId, text } = req.body;
+  const { commentId, text } = req.body;
   try {
     const { userId } = jwt.verify(
       req.headers.authorization,
@@ -33,11 +33,11 @@ async function handlePostRequest(req, res) {
     );
 
     //create Reply documents, if doesn't exist
-    await Reply.updateOne(
-      { comment: ObjectId(commentId) },
-      { $setOnInsert: { replies: [] } },
-      { upsert: true }
-    );
+    // await Reply.updateOne(
+    //   { comment: ObjectId(commentId) },
+    //   { $setOnInsert: { replies: [] } },
+    //   { upsert: true }
+    // );
 
     const query = { comment: ObjectId(commentId) };
     const update = {
@@ -48,7 +48,7 @@ async function handlePostRequest(req, res) {
       },
     };
 
-    const options = { new: true };
+    const options = { upsert: true, new: true };
 
     await Reply.findOneAndUpdate(query, { $push: update }, options)
       .populate({
@@ -69,7 +69,6 @@ async function handlePostRequest(req, res) {
           res.state(403).send('Error in updating user info', error);
         } else {
           res.status(200).json(result);
-          res.end();
         }
       });
   } catch (error) {
@@ -83,11 +82,11 @@ async function handleGetRequest(req, res) {
 
   try {
     //create Reply documents, if doesn't exist
-    await Reply.updateOne(
-      { comment: ObjectId(commentId) },
-      { $setOnInsert: { replies: [] } },
-      { upsert: true }
-    );
+    // await Reply.updateOne(
+    //   { comment: ObjectId(commentId) },
+    //   { $setOnInsert: { replies: [] } },
+    //   { upsert: true }
+    // );
 
     const response = await Reply.findOne({
       comment: Object(commentId),

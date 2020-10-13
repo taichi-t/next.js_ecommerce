@@ -7,7 +7,7 @@ export default function useImageUploader() {
 
   const onLoad = (e) => {
     const { files } = e.target;
-    const maxSize = 5000000; //500k 5m
+    const maxSize = 500000; //500k 5m
     const maxFile = 4;
     const fileObjs = [];
     const fileUrls = [];

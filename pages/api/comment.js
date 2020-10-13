@@ -3,6 +3,7 @@ import Comment from '../../models/Comment';
 import connectDb from '../../utils/connectDb';
 import mongoose from 'mongoose';
 import Replies from '../../components/Comments/Replies';
+import { resources } from 'stripe';
 
 const { ObjectId } = mongoose.Types;
 
@@ -26,7 +27,7 @@ async function handlePostRequest(req, res) {
   if (!('authorization' in req.headers)) {
     return res.status(401).send('No authorization token');
   }
-  const { refId: productId, text } = req.body;
+  const { productId, text } = req.body;
   try {
     const { userId } = jwt.verify(
       req.headers.authorization,
@@ -42,30 +43,33 @@ async function handlePostRequest(req, res) {
       },
     };
 
-    const options = { new: true };
+    const options = { upsert: true, new: true };
 
-    await Comment.findOneAndUpdate(query, { $push: update }, options)
-      .populate({
-        path: 'comments.user',
-        model: 'User',
-        select: {
-          _id: 0,
-          role: 0,
-          invitationCodeVerified: 0,
-          email: 0,
-          password: 0,
-          updatedAt: 0,
-          createdAt: 0,
-        },
-      })
-      .exec(function (error, result) {
-        if (error) {
-          res.state(403).send('Error in updating user info', error);
-        } else {
-          res.status(200).json(result);
-          res.end();
-        }
-      });
+    const response = await Comment.findOneAndUpdate(
+      query,
+      { $push: update },
+      options
+    ).populate({
+      path: 'comments.user',
+      model: 'User',
+      select: {
+        _id: 0,
+        role: 0,
+        invitationCodeVerified: 0,
+        email: 0,
+        password: 0,
+        updatedAt: 0,
+        createdAt: 0,
+      },
+    });
+    // .exec(function (error, result) {
+    //   if (error) {
+    //     res.state(403).send('Error in updating user info', error);
+    //   } else {
+    //     res.status(200).json(result);
+    //   }
+    // });
+    res.status(200).json(response);
   } catch (error) {
     console.error(error);
     res.status(403).send('Please try again');

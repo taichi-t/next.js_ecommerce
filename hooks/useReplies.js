@@ -6,7 +6,7 @@ export default function useReplies(commentId, openReply) {
   async function getReplies(url, commentId) {
     const payload = { params: { commentId } };
     const response = await axios.get(url, payload);
-    return response.data;
+    return response;
   }
   const { data, error, mutate } = useSWR(
     openReply ? [`${baseUrl}/api/reply`, commentId] : null,

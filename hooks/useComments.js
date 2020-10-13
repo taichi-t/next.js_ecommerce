@@ -6,7 +6,7 @@ export default function useComments(productId) {
   async function getComments(url, productId) {
     const payload = { params: { productId } };
     const response = await axios.get(url, payload);
-    return response.data;
+    return response;
   }
   const { data, error, mutate } = useSWR(
     [`${baseUrl}/api/comment`, productId],
