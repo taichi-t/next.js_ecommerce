@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 import Save from '../../models/Save';
 import Product from '../../models/Product';
+import User from '../../models/User';
 import connectDb from '../../utils/connectDb';
 
 connectDb();
@@ -43,10 +44,10 @@ async function handleGetRequest(req, res) {
 
     const save = await Save.findOne({ user: userId }).populate({
       path: 'products.product',
-      model: 'Product',
+      model: Product,
       populate: {
         path: 'user',
-        model: 'User',
+        model: User,
         select: { name: 1, profilePicture: 1 },
       },
     });
@@ -116,7 +117,7 @@ async function handleDeleteRequest(req, res) {
       { new: true }
     ).populate({
       path: 'products.product',
-      model: 'Product',
+      model: Product,
     });
 
     res.status(200).json(save.products);

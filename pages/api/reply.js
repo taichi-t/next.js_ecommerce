@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import Reply from '../../models/Reply';
 import connectDb from '../../utils/connectDb';
 import mongoose from 'mongoose';
+import User from '../../models/User';
 
 const { ObjectId } = mongoose.Types;
 
@@ -53,7 +54,7 @@ async function handlePostRequest(req, res) {
     await Reply.findOneAndUpdate(query, { $push: update }, options)
       .populate({
         path: 'replies.user',
-        model: 'User',
+        model: User,
         select: {
           _id: 0,
           role: 0,
@@ -94,7 +95,7 @@ async function handleGetRequest(req, res) {
       }
     ).populate({
       path: 'replies.user',
-      model: 'User',
+      model: User,
       select: {
         _id: 0,
         role: 0,
