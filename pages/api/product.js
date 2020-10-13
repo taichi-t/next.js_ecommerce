@@ -114,10 +114,10 @@ handler.post(async (req, res) => {
       { medias }
     );
 
-    // await new Comment({
-    //   product: product._id,
-    //   comments: [],
-    // }).save();
+    await new Comment({
+      product: product._id,
+      comments: [],
+    }).save();
 
     res.status(201).json(product);
   } catch (error) {

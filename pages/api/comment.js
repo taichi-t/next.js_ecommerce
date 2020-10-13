@@ -62,13 +62,7 @@ async function handlePostRequest(req, res) {
         createdAt: 0,
       },
     });
-    // .exec(function (error, result) {
-    //   if (error) {
-    //     res.state(403).send('Error in updating user info', error);
-    //   } else {
-    //     res.status(200).json(result);
-    //   }
-    // });
+
     res.status(200).json(response);
   } catch (error) {
     console.error(error);
