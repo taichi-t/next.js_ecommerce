@@ -23,7 +23,7 @@ function Product({ product, id }) {
 
   const router = useRouter();
   const { user } = useContext(UserContext);
-  return !data || router.isFallback ? (
+  return router.isFallback ? (
     <div>Loading</div>
   ) : (
     <>
@@ -43,7 +43,8 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params: { id } }) {
-  const { data } = await axios.get(url, { params: { id } });
+  // const { data } = await axios.get(url, { params: { id } });
+  const data = await fetch(`${url}?id=${id}`).then((res) => res.json());
 
   return {
     props: {

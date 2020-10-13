@@ -135,6 +135,7 @@ handler.get(async (req, res) => {
     const product = await Product.findOne({
       _id: ObjectId(id),
     }).populate('user', 'profilePicture name _id', 'User');
+
     res.status(200).json(product);
   } catch (error) {
     console.error(error);
