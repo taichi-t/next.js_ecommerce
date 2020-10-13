@@ -2,21 +2,33 @@ import { useContext } from 'react';
 import ProductSummary from '../components/Product/ProductSummary';
 import ProductAttributes from '../components/Product/ProductAttributes';
 import getProductPaths from '../utils/getProductPaths';
-import getProduct from '../utils/getProduct';
 import { UserContext } from '../utils/UserProvider';
 import { useRouter } from 'next/router';
 import CommentsContainer from '../components/Comments/CommentsContainer';
+import useSWR from 'swr';
+import baseUrl from '../utils/baseUrl';
+import axios from 'axios';
 
-function Product({ product }) {
+const url = `${baseUrl}/api/product`;
+const getProduct = async (url, id) => {
+  const response = await axios.get(url, { params: { id } });
+  return response.data;
+};
+
+function Product({ product, id }) {
+  const { data, error, mutate } = useSWR([url, id], getProduct, {
+    initialData: product,
+  });
+
   const router = useRouter();
   const { user } = useContext(UserContext);
   return router.isFallback ? (
     <div>Loading</div>
   ) : (
     <>
-      <ProductSummary user={user} product={product} />
-      <ProductAttributes user={user} product={product} />
-      <CommentsContainer productId={product._id} />
+      <ProductSummary user={user} product={data} mutate={mutate} />
+      <ProductAttributes user={user} product={data} />
+      <CommentsContainer productId={data._id} />
     </>
   );
 }
@@ -30,10 +42,11 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params: { id } }) {
-  const product = await getProduct(id);
+  const data = await getProduct(url, id);
   return {
     props: {
-      product,
+      product: data,
+      id,
     },
   };
 }

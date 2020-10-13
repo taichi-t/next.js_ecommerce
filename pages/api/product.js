@@ -8,6 +8,9 @@ import nextConnect from 'next-connect';
 import jwt from 'jsonwebtoken';
 import shortid from 'shortid';
 import Comment from '../../models/Comment';
+import mongoose from 'mongoose';
+
+const { ObjectId } = mongoose.Types;
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -123,6 +126,19 @@ handler.post(async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send('Server error in creating product');
+  }
+});
+
+handler.get(async (req, res) => {
+  const { id } = req.query;
+  try {
+    const product = await Product.findOne({
+      _id: ObjectId(id),
+    }).populate('user', 'profilePicture name _id', 'User');
+    res.status(200).json(product);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error getting product');
   }
 });
 

@@ -75,7 +75,6 @@ async function handlePutRequest(req, res) {
     );
 
     if (isProduct) {
-      console.log;
       return res.status(204).json({});
     } else {
       // If not, add new product

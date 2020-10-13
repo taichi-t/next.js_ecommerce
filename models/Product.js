@@ -1,9 +1,8 @@
 import mongoose from 'mongoose';
-import beautifyUnique from 'mongoose-beautiful-unique-validation';
 
 const { String, Number, ObjectId } = mongoose.Schema.Types;
 
-const ProductsSchema = new mongoose.Schema(
+const ProductSchema = new mongoose.Schema(
   {
     user: {
       type: ObjectId,
@@ -45,7 +44,5 @@ const ProductsSchema = new mongoose.Schema(
   }
 );
 
-ProductsSchema.plugin(beautifyUnique);
-
 export default mongoose.models.Product ||
-  mongoose.model('Product', ProductsSchema);
+  mongoose.model('Product', ProductSchema);

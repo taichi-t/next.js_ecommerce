@@ -10,7 +10,7 @@ import cookie from 'js-cookie';
 import ModalForm from '../Modal/ModalForm';
 import Profile from '../Profile/Profile';
 
-function ProductSummary({ user, product }) {
+function ProductSummary({ user, product, mutate }) {
   const { name, medias, _id, price, sku } = product;
   const [loading, setLoading] = useState(false);
   const [counter, setCounter] = useState(product.wantCounter);
@@ -33,6 +33,7 @@ function ProductSummary({ user, product }) {
       if (response.status == 200) {
         setCounter((prevCounter) => prevCounter + 1);
         setMessage('The item is successfully added');
+        mutate({ ...product, wantCounter: product.wantCounter + 1 });
       } else if (response.status == 204) {
         setMessage('The item is already added.');
       }
