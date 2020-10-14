@@ -3,7 +3,6 @@ import { Menu, Container, Image, Icon } from 'semantic-ui-react';
 import Link from 'next/link';
 import Router, { useRouter } from 'next/router';
 import NProgress from 'nprogress';
-// import { handleLogout } from '../../utils/auth';
 import { UserContext } from '../../utils/UserProvider';
 
 Router.onRouteChangeStart = () => NProgress.start();
@@ -21,6 +20,7 @@ function Header() {
   function isActive(route) {
     return route == pathname;
   }
+
   return (
     <Menu stackable fluid id="menu" inverted>
       <Container text>
