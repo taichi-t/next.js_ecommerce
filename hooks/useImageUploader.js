@@ -7,7 +7,7 @@ export default function useImageUploader() {
 
   const onLoad = (e) => {
     const { files } = e.target;
-    const maxSize = 500000; //500k 5m
+    const maxSize = 3000000; //3MB
     const maxFile = 4;
     const fileObjs = [];
     const fileUrls = [];
@@ -17,7 +17,7 @@ export default function useImageUploader() {
     }
     for (var i = 0; i < files.length; i++) {
       if (files[i].size >= maxSize) {
-        return setError('Each File size is up to 5M');
+        return setError('Each File size is up to 3MB');
       }
       fileObjs.push(files[i]);
       fileUrls.push(URL.createObjectURL(files[i]));

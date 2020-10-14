@@ -1,7 +1,7 @@
-import { Input, Form, Button } from 'semantic-ui-react';
+import { Input, Form, Button, Message } from 'semantic-ui-react';
 import React, { useRef } from 'react';
 
-export default function UploadForm({ error, onLoad }) {
+export default function UploadForm({ onLoad }) {
   const uploaderRef = useRef(null);
   return (
     <>
@@ -10,7 +10,6 @@ export default function UploadForm({ error, onLoad }) {
         label="Media"
         id="image-form"
         style={{ marginButtom: '1em' }}
-        error={Boolean(error)}
       >
         <input
           ref={uploaderRef}

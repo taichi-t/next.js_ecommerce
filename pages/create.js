@@ -47,6 +47,10 @@ function CreateProduct() {
     setProduct((prevState) => ({ ...prevState, [name]: value }));
   }
 
+  useEffect(() => {
+    setError(uploadError);
+  }, [uploadError]);
+
   async function handleSubmit(e) {
     try {
       e.preventDefault();
@@ -122,10 +126,9 @@ function CreateProduct() {
         </Form.Group>
 
         <Form.Group style={{ display: 'block' }}>
-          <UploadForm error={uploadError} onLoad={onLoad} />
+          <UploadForm onLoad={onLoad} />
           <ImagePreviews handleRemove={handleRemove} previews={previews} />
         </Form.Group>
-
         <Form.Group widths="equal">
           <Form.Field
             control={TextArea}
