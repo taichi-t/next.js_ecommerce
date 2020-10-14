@@ -31,7 +31,7 @@ function Header() {
               src="/static/logo.svg"
               style={{ marginRight: '1em 0' }}
             />
-            Garage
+            Moving Sale
           </Menu.Item>
         </Link>
 
