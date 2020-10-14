@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Segment } from 'semantic-ui-react';
+import { Segment, Header, Icon } from 'semantic-ui-react';
 import useSavedProducts from '../hooks/useSavedProducts';
 import SavedItemList from '../components/Saved/SavedItemList';
 import SavedItemsSummary from '../components/Saved/SavedItemsSummary';
@@ -32,14 +32,20 @@ function Saved() {
   }
 
   return (
-    <Segment loading={removing}>
-      <SavedItemList
-        products={products}
-        loading={loading}
-        handleRemoveFromSaved={handleRemoveFromSaved}
-      />
-      <SavedItemsSummary products={products} loading={loading} />
-    </Segment>
+    <>
+      <Header as="h2" color="blue" dividing>
+        <Icon name="heart" />
+        Create New Product
+      </Header>
+      <Segment loading={removing}>
+        <SavedItemList
+          products={products}
+          loading={loading}
+          handleRemoveFromSaved={handleRemoveFromSaved}
+        />
+        <SavedItemsSummary products={products} loading={loading} />
+      </Segment>
+    </>
   );
 }
 

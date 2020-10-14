@@ -86,8 +86,8 @@ function CreateProduct() {
   }
   return (
     <>
-      <Header as="h2" block>
-        <Icon name="add" color="orange" />
+      <Header as="h2" color="blue" dividing>
+        <Icon name="add" />
         Create New Product
       </Header>
       <Form

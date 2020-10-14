@@ -22,16 +22,16 @@ function Header() {
   }
 
   return (
-    <Menu stackable fluid id="menu" inverted>
+    <Menu stackable id="menu" inverted size="mini">
       <Container text>
         <Link href="/">
           <Menu.Item header active={isActive('/')}>
             <Image
               size="mini"
               src="/static/logo.svg"
-              style={{ marginRight: '1em' }}
+              style={{ marginRight: '1em 0' }}
             />
-            ReactReserve
+            Garage
           </Menu.Item>
         </Link>
 
@@ -51,19 +51,22 @@ function Header() {
                 </Menu.Item>
               </Link>
             )}
+
             <Link href="/account">
               <Menu.Item header active={isActive('/account')}>
                 <Icon name="user" size="large" />
                 Account
               </Menu.Item>
             </Link>
-            <Menu.Item onClick={handleLogout} header>
-              <Icon name="sign out" size="large" />
-              Logout
-            </Menu.Item>
+            <Menu.Menu position="right">
+              <Menu.Item onClick={handleLogout} header>
+                <Icon name="sign out" size="large" />
+                Logout
+              </Menu.Item>
+            </Menu.Menu>
           </>
         ) : (
-          <>
+          <Menu.Menu position="right">
             <Link href="/login">
               <Menu.Item header active={isActive('/login')}>
                 <Icon name="sign in" size="large" />
@@ -76,7 +79,7 @@ function Header() {
                 sign up
               </Menu.Item>
             </Link>
-          </>
+          </Menu.Menu>
         )}
       </Container>
     </Menu>

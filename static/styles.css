@@ -1,6 +1,6 @@
 :root {
   --bodyBg: #f0f4f8;
-  --menuBg: #334d68;
+  --menuBg: #a06e56;
   --progressBar: #54d1db;
 }
 
@@ -33,6 +33,10 @@ body {
 
 input[type='file'] {
   display: none;
+}
+
+.ui.menu {
+  border-radius: initial;
 }
 
 @media only screen and (max-width: 767px) {

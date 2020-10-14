@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import Comment from '../../models/Comment';
+import User from '../../models/User';
 import connectDb from '../../utils/connectDb';
 import mongoose from 'mongoose';
 
@@ -50,6 +51,7 @@ async function handlePostRequest(req, res) {
     ).populate({
       path: 'comments.user',
       select: 'profilePicture name',
+      model: User,
     });
     res.status(200).json(response);
   } catch (error) {
@@ -67,6 +69,7 @@ async function handleGetRequest(req, res) {
     }).populate({
       path: 'comments.user',
       select: 'profilePicture name',
+      model: User,
     });
 
     res.status(200).json(response);

@@ -6,7 +6,7 @@ function Layout({ children }) {
   return (
     <>
       <Head>
-        <title>Private garage sale</title>
+        <title>Garage</title>
       </Head>
       <Header />
 
