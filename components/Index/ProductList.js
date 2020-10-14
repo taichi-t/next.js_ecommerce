@@ -1,4 +1,4 @@
-import { Card, Image, Icon, Divider } from 'semantic-ui-react';
+import { Card, Image, Icon } from 'semantic-ui-react';
 import formatDateFromNow from '../../utils/formatDateFromNow';
 import ImagesSlider from '../Slider/ImagesSlider';
 import Link from 'next/link';

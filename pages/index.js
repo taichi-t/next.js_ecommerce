@@ -1,6 +1,5 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import useSWR from 'swr';
-import axios from 'axios';
 import ProductList from '../components/Index/ProductList';
 import ProductPagination from '../components/Index/ProductPagination';
 import baseUrl from '../utils/baseUrl';

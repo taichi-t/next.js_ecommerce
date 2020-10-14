@@ -1,14 +1,12 @@
-import React, { useState, useContext, useRef } from 'react';
+import React, { useState, useContext, useRef, useEffect } from 'react';
 import {
   Header,
   Icon,
   Segment,
-  Loader,
   Label,
   Image,
   Form,
   Button,
-  Input,
   Modal,
 } from 'semantic-ui-react';
 import ModalForm from '../Modal/ModalForm';
@@ -27,7 +25,6 @@ function AccountHeader() {
   const [media, setMedia] = useState();
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [disabled, setDisabled] = useState(true);
   const [error, setError] = useState('');
   const fileInputRef = useRef(null);
 
@@ -35,6 +32,16 @@ function AccountHeader() {
     const { files } = e.target;
     setMedia(files);
   }
+
+  useEffect(() => {
+    let timeout;
+    if (success) {
+      timeout = setTimeout(() => setSuccess(false), 3000);
+    }
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [success]);
 
   async function handleSubmit(e) {
     try {
@@ -117,7 +124,7 @@ function AccountHeader() {
       {userLoading ? (
         <Skeleton height={330} />
       ) : (
-        <Segment secondary inverted color="violet" loading={loading}>
+        <Segment secondary inverted color="violet">
           <Label
             color="teal"
             size="large"
@@ -142,13 +149,32 @@ function AccountHeader() {
 
                 <ModalForm
                   trigger={
-                    <Icon
-                      name="camera"
-                      className="profile-icon"
-                      color="grey"
-                      inverted
-                      circular
-                    />
+                    loading ? (
+                      <Icon
+                        name="spinner"
+                        circular
+                        className="profile-icon"
+                        loading
+                        color="grey"
+                        inverted
+                      />
+                    ) : success ? (
+                      <Icon
+                        name="check"
+                        color="green"
+                        circular
+                        className="profile-icon"
+                        inverted
+                      />
+                    ) : (
+                      <Icon
+                        name="camera"
+                        className="profile-icon"
+                        color="grey"
+                        inverted
+                        circular
+                      />
+                    )
                   }
                   component={modalFormComponent}
                   setOpen={setOpen}
@@ -164,14 +190,6 @@ function AccountHeader() {
       )}
     </>
   );
-}
-
-export async function getStaticProps() {
-  return {
-    props: {
-      cloudinaryUrl: process.env.CLOUDINARY_URL,
-    },
-  };
 }
 
 export default AccountHeader;

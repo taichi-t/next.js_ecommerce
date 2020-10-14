@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import jwt from 'jsonwebtoken';
 import connectDb from '../../utils/connectDb';
 import User from '../../models/User';
 

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Item, Label } from 'semantic-ui-react';
 import { useRouter } from 'next/router';
-
 import ImagesSlider from '../../components/Slider/ImagesSlider';
 import ModalForm from '../Modal/ModalForm';
 import Profile from '../Profile/Profile';

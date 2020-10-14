@@ -1,6 +1,5 @@
 import Product from '../../models/Product';
 import connectDb from '../../utils/connectDb';
-// import Cart from '../../models/Cart';
 import Save from '../../models/Save';
 import { v2 as cloudinary } from 'cloudinary';
 import middleware from '../../middleware/middleware';

@@ -1,12 +1,4 @@
-import {
-  Header,
-  Modal,
-  Button,
-  Segment,
-  Card,
-  Image,
-  Icon,
-} from 'semantic-ui-react';
+import { Modal, Button, Segment, Card, Image, Icon } from 'semantic-ui-react';
 import formatDateFromNow from '../../utils/formatDateFromNow';
 import baseUrl from '../../utils/baseUrl';
 import useProfile from '../../hooks/useProfile';

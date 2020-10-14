@@ -8,13 +8,11 @@ import {
   Header,
   Icon,
   Form,
-  Segment,
 } from 'semantic-ui-react';
 import axios from 'axios';
 import baseUrl from '../utils/baseUrl';
 import catchErrors from '../utils/catchErrors';
 import cookie from 'js-cookie';
-// import ImagesUploader from '../components/Create/ImagesUploader';
 import useImageUploader from '../hooks/useImageUploader';
 import UploadForm from '../components/ImageUploader/UploadForm';
 import ImagePreviews from '../components/ImageUploader/ImagePreviews';

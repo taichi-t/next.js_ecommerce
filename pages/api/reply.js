@@ -33,13 +33,6 @@ async function handlePostRequest(req, res) {
       process.env.JWT_SECRET
     );
 
-    //create Reply documents, if doesn't exist
-    // await Reply.updateOne(
-    //   { comment: ObjectId(commentId) },
-    //   { $setOnInsert: { replies: [] } },
-    //   { upsert: true }
-    // );
-
     const query = { comment: ObjectId(commentId) };
     const update = {
       replies: {

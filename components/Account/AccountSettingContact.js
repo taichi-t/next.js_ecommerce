@@ -7,7 +7,6 @@ import {
   Icon,
   Message,
   Segment,
-  Loader,
 } from 'semantic-ui-react';
 import baseUrl from '../../utils/baseUrl';
 import cookie from 'js-cookie';

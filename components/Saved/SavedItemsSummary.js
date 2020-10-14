@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Segment, Divider } from 'semantic-ui-react';
-// import StripeCheckout from 'react-stripe-checkout';
 import calculateCartTotal from '../../utils/calculateCartTotal';
 import Skeleton from 'react-loading-skeleton';
 

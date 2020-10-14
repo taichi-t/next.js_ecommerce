@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
-import { Header, Checkbox, Table, Icon, Divider } from 'semantic-ui-react';
+import { Header, Checkbox, Table, Icon } from 'semantic-ui-react';
 import baseUrl from '../../utils/baseUrl';
 import cookie from 'js-cookie';
 import formatDate from '../../utils/formatDate';
