@@ -9,7 +9,7 @@ body {
 }
 
 #menu {
-  background: var(--menuBg);
+  /* background: var(--menuBg); */
 }
 
 /* Overrides default styled accordion styles (too much bottom padding) */

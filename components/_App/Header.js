@@ -22,14 +22,14 @@ function Header() {
   }
 
   return (
-    <Menu stackable id="menu" inverted size="mini">
+    <Menu stackable id="menu" inverted color="brown">
       <Container text>
         <Link href="/">
           <Menu.Item header active={isActive('/')}>
             <Image
               size="mini"
-              src="/static/logo.svg"
-              style={{ marginRight: '1em 0' }}
+              src="/static/logo.png"
+              style={{ marginRight: '1em' }}
             />
             Moving Sale
           </Menu.Item>
