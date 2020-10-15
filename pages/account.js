@@ -4,6 +4,7 @@ import AccountInvitationCode from '../components/Account/AccountInvitationCode';
 import AccountSettingContact from '../components/Account/AccountSettingContact';
 import { useContext } from 'react';
 import { UserContext } from '../utils/UserProvider';
+import AccountListing from '../components/Account/AccountListing';
 
 function Account() {
   const { user, loading, setUser } = useContext(UserContext);
@@ -12,6 +13,7 @@ function Account() {
     <>
       <AccountHeader {...user} loading={loading} />
       <AccountSettingContact user={user} loading={loading} setUser={setUser} />
+      <AccountListing userId={user._id} />
       {user.role === 'root' && <AccountPermissions currentUserId={user._id} />}
       {(user.role === 'root' || user.role === 'admin') && (
         <AccountInvitationCode currentUserId={user._id} />

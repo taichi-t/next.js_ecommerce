@@ -29,7 +29,7 @@ function ProductAttributes({ user, product }) {
             content="Delete Product"
             onClick={() => setModal(true)}
           />
-          <Modal open={modal} dimmer="blurring">
+          <Modal open={modal} dimmer="blurring" size="tiny">
             <Modal.Header>Confirm Delete</Modal.Header>
             <Modal.Content>Confirm Delete</Modal.Content>
             <Modal.Actions>
