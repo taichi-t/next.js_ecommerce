@@ -52,7 +52,7 @@ export default async (req, res) => {
     //7) send back token
     res.status(201).json(token);
     //8) delete the invitation code
-    await InvitationCode.remove({ invitationCode: invitationCode });
+    // await InvitationCode.remove({ invitationCode: invitationCode });
     //9)end transaction
     await session.commitTransaction();
     session.endSession();

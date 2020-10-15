@@ -100,6 +100,9 @@ function Signup() {
             value={user.invitationCode}
             onChange={handleChange}
           />
+          <p>
+            <span style={{ color: 'red' }}>InvitationCode:</span> test-user
+          </p>
           <Button
             icon="signup"
             type="submit"
