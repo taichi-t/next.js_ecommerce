@@ -17,7 +17,7 @@ const InvitationSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
-InvitationSchema.index({ createdAt: 1 }, { expireAfterSeconds: 86400 });
+// InvitationSchema.index({ createdAt: 1 }, { expireAfterSeconds: 86400 });
 
 export default mongoose.models.Invitation ||
   mongoose.model('Invitation', InvitationSchema);
