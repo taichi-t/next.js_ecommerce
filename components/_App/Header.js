@@ -1,5 +1,5 @@
-import { useContext } from 'react';
-import { Menu, Container, Image, Icon, Grid } from 'semantic-ui-react';
+import { useContext, useState } from 'react';
+import { Menu, Container, Image, Icon } from 'semantic-ui-react';
 import Link from 'next/link';
 import Router, { useRouter } from 'next/router';
 import NProgress from 'nprogress';
@@ -12,6 +12,7 @@ Router.onRouteError = () => NProgress.done();
 function Header() {
   const { user, handleLogout } = useContext(UserContext);
   const { pathname } = useRouter();
+  const [open, setOpen] = useState(false);
 
   const isRoot = user && user.role === 'root';
   const isAdmin = user && user.role === 'admin';
@@ -22,135 +23,148 @@ function Header() {
   }
 
   return (
-    <Grid>
-      <Grid.Row only="computer">
-        <Menu id="menu" borderless fluid>
-          <Container text>
-            <Link href="/">
-              <Menu.Item>
-                <img src="/static/logo.png" />
-              </Menu.Item>
-            </Link>
+    <>
+      <Menu id="desktop-menu" borderless>
+        <Container text>
+          <Link href="/">
+            <Menu.Item>
+              <img src="/static/logo.png" />
+            </Menu.Item>
+          </Link>
 
-            {Object.keys(user).length ? (
-              <>
-                <Link href="/saved">
-                  <Menu.Item header active={isActive('/saved')}>
-                    <Icon name="heart" size="large" color="pink" />
-                    Saved
+          {Object.keys(user).length ? (
+            <>
+              <Link href="/saved" passHref>
+                <Menu.Item active={isActive('/saved')} as="a">
+                  <Icon name="heart" size="large" color="pink" />
+                  Saved
+                </Menu.Item>
+              </Link>
+              {isRoorOrAdmin && (
+                <Link href="/create" passHref>
+                  <Menu.Item active={isActive('/create')} as="a">
+                    <Icon name="add square" size="large" color="teal" />
+                    Create
                   </Menu.Item>
                 </Link>
-                {isRoorOrAdmin && (
-                  <Link href="/create">
-                    <Menu.Item header active={isActive('/create')}>
-                      <Icon name="add square" size="large" color="teal" />
-                      Create
-                    </Menu.Item>
-                  </Link>
-                )}
+              )}
 
-                <Menu.Menu position="right">
-                  <Link href="/account">
-                    <Menu.Item header active={isActive('/account')}>
-                      <Image
-                        src={
-                          user.profilePicture.url ||
-                          'static/images/anonymous-user.pmg'
-                        }
-                        avatar
-                      />
-                      {/* Account */}
-                    </Menu.Item>
-                  </Link>
-                  <Menu.Item onClick={handleLogout} header>
-                    <Icon name="sign out" size="large" />
-                    Logout
-                  </Menu.Item>
-                </Menu.Menu>
-              </>
-            ) : (
               <Menu.Menu position="right">
-                <Link href="/login">
-                  <Menu.Item header active={isActive('/login')}>
-                    <Icon name="sign in" size="large" />
-                    Login
+                <Link href="/account" passHref>
+                  <Menu.Item active={isActive('/account')} as="a">
+                    <Image
+                      src={
+                        user.profilePicture.url ||
+                        'static/images/anonymous-user.pmg'
+                      }
+                      avatar
+                    />
                   </Menu.Item>
                 </Link>
-                <Link href="/signup">
-                  <Menu.Item header active={isActive('/signup')}>
-                    <Icon name="signup" size="large" />
-                    sign up
-                  </Menu.Item>
-                </Link>
+                <Menu.Item onClick={handleLogout}>
+                  <Icon name="sign out" size="large" />
+                  Logout
+                </Menu.Item>
               </Menu.Menu>
-            )}
-          </Container>
-        </Menu>
-      </Grid.Row>
-      <Grid.Row only="mobile" centered>
-        <Menu compact id="menu">
-          <Container text>
-            <Link href="/">
-              <Menu.Item header active={isActive('/')}>
-                <Image
-                  size="mini"
-                  src="/static/logo.png"
-                  style={{ marginRight: '1em' }}
-                />
-                Moving Sale
+            </>
+          ) : (
+            <Menu.Menu position="right">
+              <Link href="/login" passHref>
+                <Menu.Item active={isActive('/login')} as="a">
+                  <Icon name="sign in" size="large" />
+                  Login
+                </Menu.Item>
+              </Link>
+              <Link href="/signup" passHref>
+                <Menu.Item active={isActive('/signup')} as="a">
+                  <Icon name="signup" size="large" />
+                  sign up
+                </Menu.Item>
+              </Link>
+            </Menu.Menu>
+          )}
+        </Container>
+      </Menu>
+
+      <Menu id="mobile-menu" borderless fluid>
+        <Container text>
+          <Link href="/" passHref>
+            <Menu.Item active={isActive('/')} as="a">
+              <Image
+                src="/static/logo.png"
+                size="mini"
+                style={{ margin: '0 1em' }}
+              />
+            </Menu.Item>
+          </Link>
+
+          <Menu.Menu position="right">
+            <Menu.Item>
+              <Icon name="bars" onClick={() => setOpen(!open)} />
+            </Menu.Item>
+          </Menu.Menu>
+        </Container>
+      </Menu>
+
+      {open && (
+        <Menu id="mobile-menu-items" size="small">
+          {Object.keys(user).length ? (
+            <>
+              <Link href="/saved" passHref>
+                <Menu.Item active={isActive('/saved')} as="a">
+                  <Icon name="heart" size="large" color="pink" />
+                  Saved Item
+                </Menu.Item>
+              </Link>
+
+              {isRoorOrAdmin && (
+                <Link href="/create" passHref>
+                  <Menu.Item active={isActive('/create')} as="a">
+                    <Icon name="add square" size="large" color="teal" />
+                    Create
+                  </Menu.Item>
+                </Link>
+              )}
+
+              <Link href="/account" passHref>
+                <Menu.Item active={isActive('/account')} as="a">
+                  <Image
+                    src={
+                      user.profilePicture.url ||
+                      'static/images/anonymous-user.pmg'
+                    }
+                    avatar
+                    style={{ marginRight: '0.5em' }}
+                  />
+                  Account
+                </Menu.Item>
+              </Link>
+
+              <Menu.Item onClick={handleLogout}>
+                <Icon name="sign out" size="large" />
+                Logout
               </Menu.Item>
-            </Link>
+            </>
+          ) : (
+            <>
+              <Link href="/login" passHref>
+                <Menu.Item active={isActive('/login')} as="a">
+                  <Icon name="sign in" size="large" />
+                  Login
+                </Menu.Item>
+              </Link>
 
-            {Object.keys(user).length ? (
-              <>
-                <Link href="/saved">
-                  <Menu.Item header active={isActive('/saved')}>
-                    <Icon name="heart" size="large" />
-                    Saved
-                  </Menu.Item>
-                </Link>
-                {isRoorOrAdmin && (
-                  <Link href="/create">
-                    <Menu.Item header active={isActive('/create')}>
-                      <Icon name="add square" size="large" />
-                      Create
-                    </Menu.Item>
-                  </Link>
-                )}
-
-                <Link href="/account">
-                  <Menu.Item header active={isActive('/account')}>
-                    <Icon name="user" size="large" />
-                    Account
-                  </Menu.Item>
-                </Link>
-                <Menu.Menu position="right">
-                  <Menu.Item onClick={handleLogout} header>
-                    <Icon name="sign out" size="large" />
-                    Logout
-                  </Menu.Item>
-                </Menu.Menu>
-              </>
-            ) : (
-              <Menu.Menu position="right">
-                <Link href="/login">
-                  <Menu.Item header active={isActive('/login')}>
-                    <Icon name="sign in" size="large" />
-                    Login
-                  </Menu.Item>
-                </Link>
-                <Link href="/signup">
-                  <Menu.Item header active={isActive('/signup')}>
-                    <Icon name="signup" size="large" />
-                    sign up
-                  </Menu.Item>
-                </Link>
-              </Menu.Menu>
-            )}
-          </Container>
+              <Link href="/signup" passHref>
+                <Menu.Item active={isActive('/signup')} as="a">
+                  <Icon name="signup" size="large" />
+                  sign up
+                </Menu.Item>
+              </Link>
+            </>
+          )}
         </Menu>
-      </Grid.Row>
-    </Grid>
+      )}
+    </>
   );
 }
 

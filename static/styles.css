@@ -34,3 +34,26 @@ input[type='file'] {
     max-height: 100% !important;
   }
 }
+
+#mobile-menu {
+  display: none;
+}
+
+#mobile-menu-items {
+  display: none;
+}
+
+@media screen and (max-width: 767px) {
+  #mobile-menu {
+    display: block;
+  }
+  #mobile-menu-items {
+    display: block;
+  }
+  #desktop-menu {
+    display: none;
+  }
+  .ui.menu {
+    margin: 0;
+  }
+}
