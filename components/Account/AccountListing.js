@@ -107,7 +107,7 @@ const AccountItem = ({
         </Item.Meta>
         <Item.Description>
           <span style={{ marginRight: '1em' }}>
-            <Icon name="heart" color="red" size="large" />
+            <Icon name="heart" color="pink" size="large" />
             {wantCounter}
           </span>
           <span>

@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { Button, Item, Label } from 'semantic-ui-react';
-import { useRouter } from 'next/router';
 import ImagesSlider from '../../components/Slider/ImagesSlider';
 import ModalForm from '../Modal/ModalForm';
 import Profile from '../Profile/Profile';
+import Link from 'next/link';
 
 function SavedItem({ product, handleRemoveFromSaved }) {
   const [open, setOpen] = useState(false);
-  const router = useRouter();
 
   return (
     <Item>
@@ -15,9 +14,12 @@ function SavedItem({ product, handleRemoveFromSaved }) {
         <ImagesSlider medias={product.medias} />
       </Item.Image>
       <Item.Content>
-        <Item.Header as="a" onClick={() => router.push(`/${product._id}`)}>
-          {product.name}
+        <Item.Header>
+          <Link href={`/[id]`} as={`/${product._id}`}>
+            <a>{product.name}</a>
+          </Link>
         </Item.Header>
+
         <Item.Meta>
           <span className="price">${product.price}</span>
         </Item.Meta>

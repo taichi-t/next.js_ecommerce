@@ -60,7 +60,7 @@ function ProductSummary({ user, product, mutate }) {
           <Item.Extra>
             <Button as="div" labelPosition="right">
               <Button
-                color="red"
+                color="pink"
                 onClick={handleAddProductToSavedItems}
                 loading={loading}
               >

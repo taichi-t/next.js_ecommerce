@@ -33,9 +33,9 @@ function Saved() {
 
   return (
     <>
-      <Header as="h2" color="blue" dividing>
+      <Header as="h2" color="pink" dividing>
         <Icon name="heart" />
-        Create New Product
+        Saved Item List
       </Header>
       <Segment loading={removing}>
         <SavedItemList

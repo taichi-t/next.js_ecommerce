@@ -10,7 +10,7 @@ function Layout({ children }) {
       </Head>
       <Header />
 
-      <Container text style={{ padding: '1em 0' }}>
+      <Container text style={{ padding: '2em 0' }}>
         {children}
       </Container>
     </>

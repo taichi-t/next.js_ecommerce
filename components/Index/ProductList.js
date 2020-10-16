@@ -18,7 +18,7 @@ function ProductList({ products }) {
           <ImagesSlider medias={product.medias} />
           <Card.Content>
             <span className="right floated">
-              <Icon name="heart" color="red" size="large" />
+              <Icon name="heart" color="pink" size="large" />
               {product.wantCounter} wants
             </span>
             <span>

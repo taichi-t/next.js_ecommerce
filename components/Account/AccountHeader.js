@@ -124,7 +124,7 @@ function AccountHeader() {
       {userLoading ? (
         <Skeleton height={330} />
       ) : (
-        <Segment secondary inverted color="brown">
+        <Segment secondary inverted color="blue">
           <Label
             color="blue"
             size="large"

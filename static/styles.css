@@ -1,15 +1,5 @@
 :root {
-  --bodyBg: #f0f4f8;
-  --menuBg: #a06e56;
   --progressBar: #54d1db;
-}
-
-body {
-  background: var(--bodyBg);
-}
-
-#menu {
-  /* background: var(--menuBg); */
 }
 
 /* Overrides default styled accordion styles (too much bottom padding) */
