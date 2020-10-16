@@ -24,17 +24,37 @@ const handler = nextConnect();
 handler.use(middleware);
 
 handler.delete(async (req, res) => {
-  const { _id } = req.query;
+  if (!('authorization' in req.headers)) {
+    return res.status(401).send('No authorization token');
+  }
+  const { productId } = req.query;
+
   try {
+    const { userId } = jwt.verify(
+      req.headers.authorization,
+      process.env.JWT_SECRET
+    );
+
+    const isUsersProduct = await Product.findOne({
+      _id: ObjectId(productId),
+      user: ObjectId(userId),
+    });
+
+    if (!isUsersProduct) {
+      res.status(422).send('Not found the product');
+    }
+
     //1) Delete product by id
-    await Product.findOneAndDelete({ _id });
+    await Product.findOneAndDelete({ _id: productId });
+
     //2) Remove product from all saved items, referenced as "product"
     await Save.updateMany(
-      { 'products.product': _id },
-      { $pull: { products: { product: _id } } }
+      { 'products.product': productId },
+      { $pull: { products: { product: productId } } }
     );
     //3) Remove comments with product id
-    await Comment.findOneAndDelete({ product: _id });
+    await Comment.findOneAndDelete({ product: productId });
+
     res.status(204).json({});
   } catch (error) {
     console.error(error);

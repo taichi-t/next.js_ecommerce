@@ -3,8 +3,10 @@ import { useState } from 'react';
 import axios from 'axios';
 import baseUrl from '../../utils/baseUrl';
 import { useRouter } from 'next/router';
+import cookie from 'js-cookie';
 function ProductAttributes({ user, product }) {
   const { description, _id } = product;
+  const [loading, setLoading] = useState(false);
   const [modal, setModal] = useState(false);
   const router = useRouter();
   const isRoot = user && user.role === 'root';
@@ -12,10 +14,25 @@ function ProductAttributes({ user, product }) {
   const isRoorOrAdmin = isRoot || isAdmin;
 
   async function handleDelete() {
-    const url = `${baseUrl}/api/product`;
-    const payload = { params: { _id } };
-    await axios.delete(url, payload);
-    router.push('/');
+    try {
+      setLoading(true);
+      const url = `${baseUrl}/api/product`;
+      const token = cookie.get('token');
+      await axios.delete(url, {
+        headers: {
+          Authorization: token,
+        },
+        params: { productId: _id },
+      });
+      setLoading(false);
+      setModal(false);
+      router.push('/');
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+      setLoading(false);
+    }
   }
   return (
     <>
@@ -40,6 +57,7 @@ function ProductAttributes({ user, product }) {
                 content="Delete"
                 labelPosition="right"
                 onClick={handleDelete}
+                loading={loading}
               />
             </Modal.Actions>
           </Modal>

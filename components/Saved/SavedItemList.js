@@ -4,29 +4,14 @@ import { useRouter } from 'next/router';
 import { UserContext } from '../../utils/UserProvider';
 import SavedItem from '../Saved/SavedItem';
 import Skeleton from 'react-loading-skeleton';
+import CardSkeleton from '../Skeleton/CardSkeleton';
 
 function SavedItemList({ products, handleRemoveFromSaved, loading }) {
   const { user } = useContext(UserContext);
   const router = useRouter();
 
   if (loading) {
-    return (
-      <div style={{ display: 'flex' }}>
-        <div>
-          <Skeleton height={150} width={150} />
-        </div>
-        <div
-          style={{
-            fontSize: 20,
-            lineHeight: 2,
-            width: '100%',
-            marginLeft: '1em',
-          }}
-        >
-          <Skeleton count={4} />
-        </div>
-      </div>
-    );
+    return <CardSkeleton count={2} />;
   }
 
   if (!products || products.length === 0) {

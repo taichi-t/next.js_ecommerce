@@ -5,9 +5,13 @@ import ImagesSlider from '../Slider/ImagesSlider';
 import formatDateFromNow from '../../utils/formatDateFromNow';
 import Link from 'next/link';
 import ModalForm from '../Modal/ModalForm';
+import cookie from 'js-cookie';
+import baseUrl from '../../utils/baseUrl';
+import axios from 'axios';
+import CartSkeleton from '../Skeleton/CardSkeleton';
 
 export default function AccountListing() {
-  const { data: products, loading } = useListing();
+  const { data: products, loading, mutate } = useListing();
 
   return (
     <>
@@ -15,9 +19,16 @@ export default function AccountListing() {
         <Icon name="box" />
         Listing
       </Header>
-      <Item.Group divided>
-        {products && products.data.map((p) => <AccountItem {...p} />)}
-      </Item.Group>
+      {loading ? (
+        <CartSkeleton count={2} />
+      ) : (
+        <Item.Group divided>
+          {products &&
+            products.data.map((p) => (
+              <AccountItem {...p} key={p._id} mutate={mutate} />
+            ))}
+        </Item.Group>
+      )}
     </>
   );
 }
@@ -29,19 +40,51 @@ const AccountItem = ({
   wantCounter,
   medias,
   createdAt,
+  mutate,
 }) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  async function handleDelete() {
+    try {
+      setLoading(true);
+      const url = `${baseUrl}/api/product`;
+      const token = cookie.get('token');
+      await axios.delete(url, {
+        headers: {
+          Authorization: token,
+        },
+        params: { productId: _id },
+      });
+      mutate();
+      setOpen(false);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setOpen(false);
+      setLoading(false);
+    }
+  }
   const confirm = (
     <>
       <Modal.Header>Confirm Delete</Modal.Header>
       <Modal.Content>
-        Are you sure you want to delte <strong>"{name}"</strong>
+        Are you sure you want to delete <strong>"{name}"</strong>
       </Modal.Content>
       <Modal.Actions>
-        <Button content="Cancel" onClick={() => setOpen(false)} />
-        <Button icon="trash" negative content="Delete" labelPosition="right" />
+        <Button
+          content="Cancel"
+          onClick={() => setOpen(false)}
+          disabled={loading}
+        />
+        <Button
+          icon="trash"
+          negative
+          content="Delete"
+          labelPosition="right"
+          loading={loading}
+          onClick={handleDelete}
+        />
       </Modal.Actions>
     </>
   );
@@ -51,9 +94,9 @@ const AccountItem = ({
         <ImagesSlider medias={medias} />
       </Item.Image>
       <Item.Content>
-        <Item.Header as="a">
+        <Item.Header>
           <Link href={`/[id]`} as={`/${_id}`}>
-            {name}
+            <a>{name}</a>
           </Link>
         </Item.Header>
 
