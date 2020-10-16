@@ -7,7 +7,7 @@ export default function ModalForm({ trigger, component, setOpen, open }) {
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
       open={open}
-      size="small"
+      size="tiny"
       dimmer="inverted"
     >
       {component}

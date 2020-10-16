@@ -4,10 +4,12 @@ import axios from 'axios';
 import baseUrl from '../../utils/baseUrl';
 import { useRouter } from 'next/router';
 import cookie from 'js-cookie';
+import ModalForm from '../Modal/ModalForm';
+
 function ProductAttributes({ user, product }) {
   const { description, _id } = product;
   const [loading, setLoading] = useState(false);
-  const [modal, setModal] = useState(false);
+  const [open, setOpen] = useState(false);
   const router = useRouter();
   const isRoot = user && user.role === 'root';
   const isAdmin = user && user.role === 'admin';
@@ -34,36 +36,49 @@ function ProductAttributes({ user, product }) {
       setLoading(false);
     }
   }
+
+  const confirm = (
+    <>
+      <Modal.Header>Confirm Delete</Modal.Header>
+      <Modal.Content>
+        Are you sure you want to delete <strong>"{product.name}"</strong>
+      </Modal.Content>
+      <Modal.Actions>
+        <Button
+          content="Cancel"
+          onClick={() => setOpen(false)}
+          disabled={loading}
+        />
+        <Button
+          icon="trash"
+          negative
+          content="Delete"
+          labelPosition="right"
+          loading={loading}
+          onClick={handleDelete}
+        />
+      </Modal.Actions>
+    </>
+  );
+
   return (
     <>
-      <Header as="h3">about this product</Header>
+      <Header as="h3">About this product</Header>
       <p>{description}</p>
       {isRoorOrAdmin && (
-        <>
-          <Button
-            icon="trash alternate outline"
-            color="red"
-            content="Delete Product"
-            onClick={() => setModal(true)}
-          />
-          <Modal open={modal} dimmer="blurring" size="tiny">
-            <Modal.Header>Confirm Delete</Modal.Header>
-            <Modal.Content>Confirm Delete</Modal.Content>
-            <Modal.Actions>
-              <Button content="Cancel" onClick={() => setModal(false)} />
-              {user._id === product.user._id && (
-                <Button
-                  icon="trash"
-                  negative
-                  content="Delete"
-                  labelPosition="right"
-                  onClick={handleDelete}
-                  loading={loading}
-                />
-              )}
-            </Modal.Actions>
-          </Modal>
-        </>
+        <ModalForm
+          trigger={
+            <Button
+              icon="trash alternate outline"
+              color="red"
+              content="Delete Product"
+              onClick={() => setOpen(true)}
+            />
+          }
+          open={open}
+          setOpen={setOpen}
+          component={confirm}
+        />
       )}
     </>
   );
