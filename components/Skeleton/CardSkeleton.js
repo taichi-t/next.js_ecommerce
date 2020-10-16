@@ -2,8 +2,8 @@ import Skeleton from 'react-loading-skeleton';
 
 export default function CardSkeleton({ count }) {
   const arr = Array.from({ length: count });
-  return arr.map(() => (
-    <div style={{ display: 'flex', paddingBottom: '1em' }}>
+  return arr.map((_, i) => (
+    <div style={{ display: 'flex', paddingBottom: '1em' }} key={i}>
       <div>
         <Skeleton height={150} width={150} />
       </div>

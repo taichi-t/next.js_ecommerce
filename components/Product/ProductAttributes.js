@@ -51,14 +51,16 @@ function ProductAttributes({ user, product }) {
             <Modal.Content>Confirm Delete</Modal.Content>
             <Modal.Actions>
               <Button content="Cancel" onClick={() => setModal(false)} />
-              <Button
-                icon="trash"
-                negative
-                content="Delete"
-                labelPosition="right"
-                onClick={handleDelete}
-                loading={loading}
-              />
+              {user._id === product.user._id && (
+                <Button
+                  icon="trash"
+                  negative
+                  content="Delete"
+                  labelPosition="right"
+                  onClick={handleDelete}
+                  loading={loading}
+                />
+              )}
             </Modal.Actions>
           </Modal>
         </>
