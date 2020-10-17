@@ -67,7 +67,7 @@ handler.post(async (req, res) => {
       process.env.JWT_SECRET
     );
     const {
-      url: newProfilePictureUrl,
+      secure_url: newProfilePictureUrl,
       public_id: newProfilePicturePublicId,
     } = await cloudinary.uploader.upload(
       files.file.path,
@@ -108,7 +108,7 @@ handler.post(async (req, res) => {
       );
     }
     return res.status(203).json({
-      url: newProfilePictureUrl,
+      secure_url: newProfilePictureUrl,
       publicId: newProfilePicturePublicId,
     });
   } catch (err) {

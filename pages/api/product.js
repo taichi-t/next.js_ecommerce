@@ -103,7 +103,10 @@ handler.post(async (req, res) => {
                 if (error) {
                   reject(console.error(error));
                 } else {
-                  resolve({ url: result.url, publicId: result.public_id });
+                  resolve({
+                    url: result.secure_url,
+                    publicId: result.public_id,
+                  });
                 }
               }
             );
@@ -126,7 +129,7 @@ handler.post(async (req, res) => {
           }
         }
       );
-      medias = { url: result.url, publicId: result.public_id };
+      medias = { url: result.secure_url, publicId: result.public_id };
     }
 
     product = await Product.findOneAndUpdate(
