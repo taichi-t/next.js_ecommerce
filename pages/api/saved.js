@@ -51,10 +51,10 @@ async function handleGetRequest(req, res) {
         select: { name: 1, profilePicture: 1 },
       },
     });
-    res.status(200).json(save.products);
+    return res.status(200).json(save.products);
   } catch (error) {
     console.error(error);
-    res.status(403).send('Please login again');
+    return res.status(403).send('Please login again');
   }
 }
 
@@ -88,10 +88,10 @@ async function handlePutRequest(req, res) {
         { $inc: { wantCounter: 1 } }
       );
     }
-    res.status(200).send('Saved Items updated');
+    return res.status(200).send('Saved Items updated');
   } catch (error) {
     console.error(error);
-    res.status(403).send('Please login again');
+    return res.status(403).send('Please login again');
   }
 }
 
@@ -120,9 +120,9 @@ async function handleDeleteRequest(req, res) {
       model: Product,
     });
 
-    res.status(200).json(save.products);
+    return res.status(200).json(save.products);
   } catch (error) {
     console.error(error);
-    res.status(403).send('Please login again');
+    return res.status(403).send('Please login again');
   }
 }

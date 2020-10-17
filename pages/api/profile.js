@@ -28,9 +28,9 @@ async function handleGetRequest(req, res) {
       { twitter: 1, instagram: 1, contactEmail: 1 }
     );
 
-    res.status(200).json(sellerProfile);
+    return res.status(200).json(sellerProfile);
   } catch (error) {
     console.error(error);
-    res.status(403).send('Please login again');
+    return res.status(403).send('Please login again');
   }
 }

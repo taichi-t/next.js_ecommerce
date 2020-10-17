@@ -46,9 +46,9 @@ async function handleGetRequest(req, res) {
     }).save();
     //4) send the code to the client
     const { invitationCode } = newInvitation;
-    res.status(201).json(invitationCode);
+    return res.status(201).json(invitationCode);
   } catch (error) {
     console.error(error);
-    res.status(403).send('Please login again');
+    return res.status(403).send('Please login again');
   }
 }

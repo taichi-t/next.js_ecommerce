@@ -41,7 +41,7 @@ handler.delete(async (req, res) => {
     });
 
     if (!isUsersProduct) {
-      res.status(422).send('Not found the product');
+      return res.status(422).send('Not found the product');
     }
 
     //1) Delete product by id
@@ -55,10 +55,10 @@ handler.delete(async (req, res) => {
     //3) Remove comments with product id
     await Comment.findOneAndDelete({ product: productId });
 
-    res.status(204).json({});
+    return res.status(204).json({});
   } catch (error) {
     console.error(error);
-    res.status(500).send('Error deleting product');
+    return res.status(500).send('Error deleting product');
   }
 });
 
@@ -141,10 +141,10 @@ handler.post(async (req, res) => {
       comments: [],
     }).save();
 
-    res.status(201).json(product);
+    return res.status(201).json(product);
   } catch (error) {
     console.error(error);
-    res.status(500).send('Server error in creating product');
+    return res.status(500).send('Server error in creating product');
   }
 });
 
@@ -155,10 +155,10 @@ handler.get(async (req, res) => {
       _id: ObjectId(id),
     }).populate('user', 'profilePicture name _id', 'User');
 
-    res.status(200).json(product);
+    return res.status(200).json(product);
   } catch (error) {
     console.error(error);
-    res.status(500).send('Error getting product');
+    return res.status(500).send('Error getting product');
   }
 });
 

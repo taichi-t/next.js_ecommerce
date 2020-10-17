@@ -21,13 +21,13 @@ export default async (req, res) => {
       const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
         expiresIn: '7d',
       });
-      res.status(200).json(token);
+      return res.status(200).json(token);
     } else {
-      res.status(401).send('Passwords do not match');
+      return res.status(401).send('Passwords do not match');
     }
     //5) send that token to the client
   } catch (error) {
     console.error(error);
-    res.status(500).send('Error logging in user');
+    return res.status(500).send('Error logging in user');
   }
 };

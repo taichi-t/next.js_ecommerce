@@ -21,13 +21,15 @@ export default function AccountListing() {
       </Header>
       {loading ? (
         <CartSkeleton count={2} />
-      ) : (
+      ) : products.data.length ? (
         <Item.Group divided>
           {products &&
             products.data.map((p) => (
               <AccountItem {...p} key={p._id} mutate={mutate} />
             ))}
         </Item.Group>
+      ) : (
+        <p>There is no items you posted yet.</p>
       )}
     </>
   );

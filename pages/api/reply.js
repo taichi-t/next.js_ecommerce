@@ -60,14 +60,14 @@ async function handlePostRequest(req, res) {
       })
       .exec(function (error, result) {
         if (error) {
-          res.state(403).send('Error in updating user info', error);
+          return res.state(403).send('Error in updating user info', error);
         } else {
-          res.status(200).json(result);
+          return res.status(200).json(result);
         }
       });
   } catch (error) {
     console.error(error);
-    res.status(403).send('Please try again');
+    return res.status(403).send('Please try again');
   }
 }
 
@@ -100,10 +100,10 @@ async function handleGetRequest(req, res) {
       },
     });
 
-    res.status(200).json(response);
+    return res.status(200).json(response);
   } catch (error) {
     console.error(error);
-    res.status(403).send('Please try again');
+    return res.status(403).send('Please try again');
   }
 }
 

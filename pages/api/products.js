@@ -12,6 +12,7 @@ export default async (req, res) => {
   const totalDocs = await Product.countDocuments();
   const totalPages = Math.ceil(totalDocs / pageSize);
   const query = [
+    { $sort: { createdAt: -1 } },
     {
       $lookup: {
         from: 'users',
@@ -56,5 +57,5 @@ export default async (req, res) => {
     const skips = pageSize * (pageNum - 1);
     products = await Product.aggregate(query).skip(skips).limit(pageSize);
   }
-  res.status(200).json({ products, totalPages });
+  return res.status(200).json({ products, totalPages });
 };

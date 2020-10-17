@@ -14,6 +14,7 @@ function ProductAttributes({ user, product }) {
   const isRoot = user && user.role === 'root';
   const isAdmin = user && user.role === 'admin';
   const isRoorOrAdmin = isRoot || isAdmin;
+  const isUsersProduct = user._id === product.user._id;
 
   async function handleDelete() {
     try {
@@ -68,12 +69,14 @@ function ProductAttributes({ user, product }) {
       {isRoorOrAdmin && (
         <ModalForm
           trigger={
-            <Button
-              icon="trash alternate outline"
-              color="red"
-              content="Delete Product"
-              onClick={() => setOpen(true)}
-            />
+            isUsersProduct && (
+              <Button
+                icon="trash alternate outline"
+                color="red"
+                content="Delete Product"
+                onClick={() => setOpen(true)}
+              />
+            )
           }
           open={open}
           setOpen={setOpen}

@@ -39,19 +39,19 @@ handler.get(async (req, res) => {
       }
     );
     if (user) {
-      res.status(200).json(user);
+      return res.status(200).json(user);
     } else {
-      res.status(404).send('User not found');
+      return res.status(404).send('User not found');
     }
   } catch (error) {
-    res.status(403).send('Invalid token');
+    return res.status(403).send('Invalid token');
   }
 });
 
 handler.put(async (req, res) => {
   const { _id, role } = req.body;
   await User.findOneAndUpdate({ _id }, { role });
-  res.status(203).send('User updated');
+  return res.status(203).send('User updated');
 });
 
 handler.post(async (req, res) => {
@@ -107,12 +107,12 @@ handler.post(async (req, res) => {
         }
       );
     }
-    res.status(203).json({
+    return res.status(203).json({
       url: newProfilePictureUrl,
       publicId: newProfilePicturePublicId,
     });
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    return res.status(400).json({ error: err.message });
   }
 });
 

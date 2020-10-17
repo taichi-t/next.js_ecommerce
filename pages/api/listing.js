@@ -18,6 +18,7 @@ export default async (req, res) => {
 
   const query = [
     { $match: { user: ObjectId(userId) } },
+    { $sort: { createdAt: -1 } },
     {
       $lookup: {
         from: 'comments',
@@ -36,5 +37,5 @@ export default async (req, res) => {
 
   const products = await Product.aggregate(query);
 
-  res.status(200).json(products);
+  return res.status(200).json(products);
 };

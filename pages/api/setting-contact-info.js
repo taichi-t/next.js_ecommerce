@@ -60,9 +60,9 @@ async function handlePostRequest(req, res) {
       },
       { upsert: true, new: true }
     );
-    res.status(200).json(response);
+    return res.status(200).json(response);
   } catch (error) {
     console.error(error);
-    res.status(403).send('Please try again');
+    return res.status(403).send('Please try again');
   }
 }

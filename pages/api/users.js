@@ -15,9 +15,9 @@ export default async (req, res) => {
     }).sort({
       role: 'asc',
     });
-    res.status(200).json(users);
+    return res.status(200).json(users);
   } catch (error) {
     console.error(error);
-    res.status(403).send('Please login again');
+    return res.status(403).send('Please login again');
   }
 };
