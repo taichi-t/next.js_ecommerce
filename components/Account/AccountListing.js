@@ -92,7 +92,7 @@ const AccountItem = ({
   );
   return (
     <Item>
-      <Item.Image className="maxHeight100">
+      <Item.Image>
         <ImagesSlider medias={medias} />
       </Item.Image>
       <Item.Content>

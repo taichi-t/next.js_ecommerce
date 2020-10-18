@@ -17,6 +17,7 @@ function ProductSummary({ user, product, mutate }) {
   const [error, setError] = useState(false);
   const [open, setOpen] = useState(false);
   const router = useRouter();
+  const isUsersProduct = user._id === product.user._id;
 
   const handleAddProductToSavedItems = async () => {
     const isUser = Object.keys(user).length;
@@ -48,7 +49,7 @@ function ProductSummary({ user, product, mutate }) {
   return (
     <Item.Group>
       <Item>
-        <Item.Image className="maxHeight100">
+        <Item.Image>
           <ImagesSlider medias={medias} />
         </Item.Image>
         <Item.Content>
@@ -57,21 +58,24 @@ function ProductSummary({ user, product, mutate }) {
             <p>${price}</p>
           </Item.Description>
 
-          <Item.Extra>
-            <Button as="div" labelPosition="right">
-              <Button
-                color="pink"
-                onClick={handleAddProductToSavedItems}
-                loading={loading}
-              >
-                <Icon name="heart" />
-                want
+          {!isUsersProduct && (
+            <Item.Extra>
+              <Button as="div" labelPosition="right">
+                <Button
+                  color="pink"
+                  onClick={handleAddProductToSavedItems}
+                  loading={loading}
+                >
+                  <Icon name="heart" />
+                  want
+                </Button>
+                <Label as="a" basic color="red" pointing="left">
+                  {counter}
+                </Label>
               </Button>
-              <Label as="a" basic color="red" pointing="left">
-                {counter}
-              </Label>
-            </Button>
-          </Item.Extra>
+            </Item.Extra>
+          )}
+
           {success && (
             <Label basic color="green" pointing size="small">
               The Item is succsessfully added.

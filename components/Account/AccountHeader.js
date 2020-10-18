@@ -44,8 +44,8 @@ function AccountHeader() {
   }, [success]);
 
   async function handleSubmit(e) {
+    e.preventDefault();
     try {
-      e.preventDefault();
       setLoading(true);
       setError('');
       setOpen(false);
@@ -106,13 +106,11 @@ function AccountHeader() {
             <Button color="black" onClick={() => setOpen(false)} id="myForm">
               Cancel
             </Button>
-            <Form.Field
-              control={Button}
+            <Button
               color="blue"
               icon="cloud upload"
               content="Upload"
               type="submit"
-              as="span"
             />
           </Modal.Actions>
         </Form>
