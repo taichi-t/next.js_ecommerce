@@ -108,7 +108,7 @@ handler.post(async (req, res) => {
       );
     }
     return res.status(203).json({
-      secure_url: newProfilePictureUrl,
+      url: newProfilePictureUrl,
       publicId: newProfilePicturePublicId,
     });
   } catch (err) {
