@@ -18,7 +18,7 @@ function Home({ products, totalPages, page }) {
   return (
     <>
       <Image
-        src="images/hero.jpg"
+        src="images/hero.png"
         centered
         style={{ height: '200px', marginBottom: '1em', objectFit: 'contain' }}
       />
