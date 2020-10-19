@@ -57,3 +57,9 @@ input[type='file'] {
     margin: 0;
   }
 }
+
+.title_wrap {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

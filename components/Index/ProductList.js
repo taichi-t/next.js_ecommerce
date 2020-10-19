@@ -27,7 +27,7 @@ function ProductList({ products }) {
             </span>
           </Card.Content>
           <Card.Content>
-            <Card.Header>
+            <Card.Header className="title_wrap">
               <Link href={`/[id]`} as={`/${product._id}`}>
                 <a>{product.name}</a>
               </Link>

@@ -26,7 +26,7 @@ const Profile = ({ seller, product, setOpen }) => {
               <Icon name="spinner" loading />
             ) : (
               data &&
-              data.twitter !== '' && (
+              data.twitter && (
                 <a
                   href={data.twitter}
                   target="_blank"
@@ -41,7 +41,7 @@ const Profile = ({ seller, product, setOpen }) => {
               <Icon name="spinner" loading />
             ) : (
               data &&
-              data.instagram !== '' && (
+              data.instagram && (
                 <a
                   href={data.instagram}
                   target="_blank"
@@ -56,7 +56,7 @@ const Profile = ({ seller, product, setOpen }) => {
               <Icon name="spinner" loading />
             ) : (
               data &&
-              data.contactEmail !== '' && (
+              data.contactEmail && (
                 <a
                   href={`mailto:${data.contactEmail}?subject=About ${
                     product.name
