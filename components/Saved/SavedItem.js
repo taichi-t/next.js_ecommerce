@@ -16,14 +16,16 @@ function SavedItem({ product, handleRemoveFromSaved }) {
       <Item.Content>
         <Item.Header>
           <Link href={`/[id]`} as={`/${product._id}`}>
-            <a>{product.name}</a>
+            <a className="title_wrap">{product.name}</a>
           </Link>
         </Item.Header>
 
         <Item.Meta>
           <span className="price">${product.price}</span>
         </Item.Meta>
-        <Item.Description>{product.description}</Item.Description>
+        <Item.Description className="description-wrap">
+          {product.description}
+        </Item.Description>
         <Item.Extra>
           <ModalForm
             trigger={

@@ -92,9 +92,9 @@ const AccountItem = ({
   );
   return (
     <Item>
-      <Item.Image>
+      {/* <Item.Image>
         <ImagesSlider medias={medias} />
-      </Item.Image>
+      </Item.Image> */}
       <Item.Content>
         <Item.Header>
           <Link href={`/[id]`} as={`/${_id}`}>
