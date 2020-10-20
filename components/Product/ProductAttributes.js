@@ -5,6 +5,7 @@ import baseUrl from '../../utils/baseUrl';
 import { useRouter } from 'next/router';
 import cookie from 'js-cookie';
 import ModalForm from '../Modal/ModalForm';
+import { mutate } from 'swr';
 
 function ProductAttributes({ user, product }) {
   const { description, _id } = product;
@@ -28,13 +29,13 @@ function ProductAttributes({ user, product }) {
         params: { productId: _id },
       });
       setLoading(false);
-      setModal(false);
+      setOpen(false);
       router.push('/');
     } catch (error) {
       console.error(error);
     } finally {
       setLoading(false);
-      setLoading(false);
+      setOpen(false);
     }
   }
 

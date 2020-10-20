@@ -100,14 +100,14 @@ function Header() {
 
           <Menu.Menu position="right">
             <Menu.Item>
-              <Icon name="bars" onClick={() => setOpen(!open)} />
+              <Icon name="bars" size="large" onClick={() => setOpen(!open)} />
             </Menu.Item>
           </Menu.Menu>
         </Container>
       </Menu>
 
       {open && (
-        <Menu id="mobile-menu-items" size="small">
+        <Menu id="mobile-menu-items" size="large">
           {Object.keys(user).length ? (
             <>
               <Link href="/saved" passHref>

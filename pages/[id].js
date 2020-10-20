@@ -9,6 +9,7 @@ import useSWR from 'swr';
 import baseUrl from '../utils/baseUrl';
 import axios from 'axios';
 import gerProduct from '../utils/getProduct';
+import { Container } from 'semantic-ui-react';
 
 const url = `${baseUrl}/api/product`;
 
@@ -26,13 +27,15 @@ function Product({ initialData, id }) {
   const router = useRouter();
 
   return router.isFallback ? (
-    <div>Loading</div>
+    <Container text>
+      <p>Loading</p>
+    </Container>
   ) : (
-    <>
+    <Container text>
       <ProductSummary user={user} product={product} mutate={mutate} />
       <ProductAttributes user={user} product={product} />
       <CommentsContainer productId={product._id} />
-    </>
+    </Container>
   );
 }
 

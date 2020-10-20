@@ -8,6 +8,7 @@ import {
   Header,
   Icon,
   Form,
+  Container,
 } from 'semantic-ui-react';
 import axios from 'axios';
 import baseUrl from '../utils/baseUrl';
@@ -85,7 +86,7 @@ function CreateProduct() {
     }
   }
   return (
-    <>
+    <Container text>
       <Header as="h2" color="teal" dividing>
         <Icon name="add" />
         Create New Product
@@ -148,7 +149,7 @@ function CreateProduct() {
           type="submit"
         />
       </Form>
-    </>
+    </Container>
   );
 }
 

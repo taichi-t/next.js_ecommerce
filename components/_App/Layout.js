@@ -1,5 +1,6 @@
 import Head from 'next/head';
-import { Container } from 'semantic-ui-react';
+
+import { Container, Grid } from 'semantic-ui-react';
 import Header from './Header';
 
 function Layout({ children }) {
@@ -10,9 +11,7 @@ function Layout({ children }) {
       </Head>
       <Header />
 
-      <Container text style={{ marginTop: '1em' }}>
-        {children}
-      </Container>
+      <div style={{ margin: '2em 0' }}>{children}</div>
     </>
   );
 }

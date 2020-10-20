@@ -1,5 +1,12 @@
-import React, { useState, useEffect, useContext, useCallback } from 'react';
-import { Button, Form, Icon, Message, Segment } from 'semantic-ui-react';
+import React, { useState, useEffect, useContext } from 'react';
+import {
+  Button,
+  Form,
+  Icon,
+  Message,
+  Segment,
+  Container,
+} from 'semantic-ui-react';
 import Link from 'next/link';
 import catchErrors from '../utils/catchErrors';
 import axios from 'axios';
@@ -46,7 +53,7 @@ function Signup() {
     }
   }
   return (
-    <>
+    <Container text>
       <Message
         attached
         icon="settings"
@@ -120,7 +127,7 @@ function Signup() {
         </Link>{' '}
         instead.
       </Message>
-    </>
+    </Container>
   );
 }
 
