@@ -3,6 +3,7 @@ import Comment from '../../models/Comment';
 import User from '../../models/User';
 import connectDb from '../../utils/connectDb';
 import mongoose from 'mongoose';
+import isLength from 'validator/lib/isLength';
 
 const { ObjectId } = mongoose.Types;
 
@@ -27,6 +28,10 @@ async function handlePostRequest(req, res) {
     return res.status(401).send('No authorization token');
   }
   const { productId, text } = req.body;
+  if (!isLength(text, { min: 1, max: 200 })) {
+    return res.status(422).send('Text must be 1-200 characters long');
+  }
+
   try {
     const { userId } = jwt.verify(
       req.headers.authorization,

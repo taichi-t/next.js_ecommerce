@@ -17,6 +17,7 @@ export default function CommentForm({
           onChange={onChange}
           style={{ height: '3em' }}
           value={text}
+          placeholder="(1 ~ 200 characters)"
         />
         {Object.keys(user).length ? (
           <Button

@@ -109,7 +109,7 @@ function CreateProduct() {
             control={Input}
             name="name"
             label="Name"
-            placeholder="Name"
+            placeholder="Name (1 ~ 50 characters)"
             onChange={handleChange}
             value={product.name}
           />
@@ -135,7 +135,7 @@ function CreateProduct() {
             control={TextArea}
             name="description"
             label="Description"
-            placeholder="Description"
+            placeholder="Description (1 ~ 500 characters)"
             onChange={handleChange}
             value={product.description}
           />

@@ -8,6 +8,7 @@ import jwt from 'jsonwebtoken';
 import shortid from 'shortid';
 import Comment from '../../models/Comment';
 import mongoose from 'mongoose';
+import isLength from 'validator/lib/isLength';
 
 connectDb();
 
@@ -75,6 +76,12 @@ handler.post(async (req, res) => {
     const { name, price, description } = req.body;
     if (!name || !price || !description || !files) {
       return res.status(422).send('Product missing one or more fields');
+    }
+    if (!isLength(name, { min: 1, max: 50 })) {
+      return res.status(422).send('Name must be 1-50 characters long');
+    }
+    if (!isLength(description, { min: 1, max: 500 })) {
+      return res.status(422).send('description must be 1-500 characters long');
     }
 
     let product = await new Product({

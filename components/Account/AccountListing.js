@@ -21,7 +21,7 @@ export default function AccountListing() {
       </Header>
       {loading ? (
         <CartSkeleton count={2} />
-      ) : products.data.length ? (
+      ) : products && products.data && products.data.length ? (
         <Item.Group divided>
           {products &&
             products.data.map((p) => (
@@ -57,7 +57,7 @@ const AccountItem = ({
         },
         params: { productId: _id },
       });
-      mutate();
+      mutate(`${baseUrl}/api/product/products`);
       setOpen(false);
       setLoading(false);
     } catch (error) {
