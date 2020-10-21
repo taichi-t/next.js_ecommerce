@@ -31,7 +31,7 @@ function Product({ initialData, id }) {
       <p>Loading</p>
     </Container>
   ) : (
-    <Container text>
+    <Container text style={{ paddingTop: '1em' }}>
       <ProductSummary user={user} product={product} mutate={mutate} />
       <ProductAttributes user={user} product={product} />
       <CommentsContainer productId={product._id} />

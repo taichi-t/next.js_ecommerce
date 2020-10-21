@@ -86,7 +86,7 @@ function CreateProduct() {
     }
   }
   return (
-    <Container text>
+    <Container text style={{ paddingTop: '1em' }}>
       <Header as="h2" color="teal" dividing>
         <Icon name="add" />
         Create New Product

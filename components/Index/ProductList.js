@@ -1,4 +1,4 @@
-import { Card, Image, Icon } from 'semantic-ui-react';
+import { Card, Image, Icon, Header, Grid, Container } from 'semantic-ui-react';
 import formatDateFromNow from '../../utils/formatDateFromNow';
 import ImagesSlider from '../Slider/ImagesSlider';
 import Link from 'next/link';
@@ -39,7 +39,7 @@ function ProductList({ products }) {
     });
   }
   return (
-    <Card.Group itemsPerRow="3" stackable centered>
+    <Card.Group itemsPerRow="3" stackable style={{ padding: '1em 0' }}>
       {mapProductsToItems(products)}
     </Card.Group>
   );

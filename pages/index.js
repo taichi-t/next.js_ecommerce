@@ -4,7 +4,7 @@ import ProductList from '../components/Index/ProductList';
 import ProductPagination from '../components/Index/ProductPagination';
 import baseUrl from '../utils/baseUrl';
 import getProducts from '../utils/getProducts';
-import { Image, Grid } from 'semantic-ui-react';
+import { Image, Grid, Container } from 'semantic-ui-react';
 
 const size = 9;
 const url = `${baseUrl}/api/products`;
@@ -17,17 +17,17 @@ function Home({ products, totalPages, page }) {
 
   return (
     <>
-      <Grid container>
+      <Container>
         <Image
           src="images/hero.png"
-          centered
-          style={{ height: '200px', marginBottom: '1em', objectFit: 'contain' }}
+          style={{
+            width: '90vw',
+            padding: '1em 0',
+          }}
         />
-
         <ProductList products={_products} />
-
         <ProductPagination totalPages={_totalPages} />
-      </Grid>
+      </Container>
     </>
   );
 }

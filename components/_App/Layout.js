@@ -11,7 +11,7 @@ function Layout({ children }) {
       </Head>
       <Header />
 
-      <div style={{ margin: '2em 0' }}>{children}</div>
+      <div>{children}</div>
     </>
   );
 }

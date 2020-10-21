@@ -32,7 +32,7 @@ function Saved() {
   }
 
   return (
-    <Container text>
+    <Container text style={{ paddingTop: '1em' }}>
       <Header as="h2" color="pink" dividing>
         <Icon name="heart" />
         Saved Item List

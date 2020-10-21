@@ -52,7 +52,7 @@ function Signup() {
     }
   }
   return (
-    <Container text>
+    <Container text style={{ paddingTop: '1em' }}>
       <Message
         attached
         icon="privacy"

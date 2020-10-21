@@ -28,6 +28,7 @@ function ProductAttributes({ user, product }) {
         },
         params: { productId: _id },
       });
+      mutate(`${baseUrl}/api/products`);
       setLoading(false);
       setOpen(false);
       router.push('/');

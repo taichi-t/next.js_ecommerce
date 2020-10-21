@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 function ProductPagination({ totalPages }) {
   const router = useRouter();
   return (
-    <Container textAlign="center" style={{ margin: '2em' }}>
+    <Container textAlign="center" style={{ margin: '2em 0' }}>
       <Pagination
         defaultActivePage={1}
         totalPages={totalPages}

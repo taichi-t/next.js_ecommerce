@@ -11,7 +11,7 @@ function Account() {
   const { user, loading, setUser } = useContext(UserContext);
 
   return (
-    <Container text>
+    <Container text style={{ paddingTop: '1em' }}>
       <AccountHeader {...user} loading={loading} />
       <AccountSettingContact user={user} loading={loading} setUser={setUser} />
       <AccountListing userId={user._id} />
