@@ -1,6 +1,4 @@
 import Head from 'next/head';
-
-import { Container, Grid } from 'semantic-ui-react';
 import Footer from './Footer';
 import Header from './Header';
 

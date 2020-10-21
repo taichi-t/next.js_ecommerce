@@ -8,11 +8,12 @@ body {
 }
 
 /* Overrides default styled accordion styles (too much bottom padding) */
-.ui.styled.accordion .content {
-  margin: 0;
-  padding: 0.5em 1em 0.75em !important;
-}
 
+.ui.menu {
+  background: none;
+  box-shadow: none;
+  border: none;
+}
 .profile-container {
   position: relative;
   display: inline-block;
@@ -74,4 +75,33 @@ input[type='file'] {
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+#hero-text {
+  padding: 3em 0;
+}
+
+#hero-text h1 {
+  font-size: 3em;
+}
+#hero-text h2 {
+  font-size: 1.5em;
+}
+
+@media only screen and (max-width: 767px) and (min-width: 320px) {
+  #hero-text {
+    padding: 0 !important;
+  }
+  #hero-container {
+    margin: 2em 0;
+  }
+  #hero-text h1 {
+    font-size: 2em;
+  }
+  #hero-text h2 {
+    font-size: 1em;
+  }
+  #hero-image {
+    padding-top: 1.5em;
+  }
 }

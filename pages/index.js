@@ -5,6 +5,7 @@ import ProductPagination from '../components/Index/ProductPagination';
 import baseUrl from '../utils/baseUrl';
 import getProducts from '../utils/getProducts';
 import { Image, Grid, Container } from 'semantic-ui-react';
+import Hero from '../components/Index/Hero';
 
 const size = 9;
 const url = `${baseUrl}/api/products`;
@@ -18,13 +19,7 @@ function Home({ products, totalPages, page }) {
   return (
     <>
       <Container>
-        <Image
-          src="images/hero.png"
-          style={{
-            width: '90vw',
-            padding: '1em 0',
-          }}
-        />
+        <Hero />
         <ProductList products={_products} />
         <ProductPagination totalPages={_totalPages} />
       </Container>
