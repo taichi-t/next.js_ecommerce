@@ -8,7 +8,7 @@ function Hero() {
         <Grid.Column computer={5} tablet={6} mobile={16} id="hero-text">
           <Header as="h1">
             Sell and buy <br />
-            old stuff.
+            pre-owned.
           </Header>
           <Header as="h2" color="grey">
             The best platform <br />
