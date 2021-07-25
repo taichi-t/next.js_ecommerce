@@ -21,3 +21,6 @@ A platform that enables people to sell and/or buy their stuff.
 
 ## Architecture
 ![architecture_moving_sale](https://user-images.githubusercontent.com/54035518/126897803-88a97638-d6a9-451c-9325-399eb3b11537.png)
+
+## Link
+- https://moving-sale.vercel.app/
