@@ -18,3 +18,6 @@ A platform that enables people to sell and/or buy their stuff.
 - Leave comments to products
 - Save products to your favorites
 - Contact sellers via SNS services
+
+## Architecture
+![architecture_moving_sale](https://user-images.githubusercontent.com/54035518/126897803-88a97638-d6a9-451c-9325-399eb3b11537.png)
