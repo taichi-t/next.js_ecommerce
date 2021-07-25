@@ -1,7 +1,7 @@
 {
   "name": "private-garage-sale",
   "version": "1.0.0",
-  "description": "Project for MERN Stack - The Complete Guide",
+  "description": "moving-sale",
   "main": "index.js",
   "scripts": {
     "dev": "next",
